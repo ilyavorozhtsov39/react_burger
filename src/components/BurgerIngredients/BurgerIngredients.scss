@@ -1,5 +1,6 @@
 .burger-ingredients {
     width: 600px;
+    max-height: 912px;
 }
 
 .burger-ingredients__tabs {
@@ -14,7 +15,7 @@
     align-items: center;
     width: 272px;
     height: 208px;
-    border: 1px solid white;
+    // border: 1px solid white;
     box-sizing: border-box;
     // margin-top: 32px;
 }
@@ -31,10 +32,15 @@
 }
 
 .burger-ingredients__content {
+    max-height: 756px;
     padding-left: 16px;
     padding-right: 16px;
-    border: 1px solid white;
+    // border: 1px solid white;
+    overflow-y: scroll;
+    scrollbar-color: #8585AD #2F2F37;
+    scrollbar-width: thin;
 }
+
 
 .items {
     display: flex;

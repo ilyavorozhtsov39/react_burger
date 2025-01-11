@@ -1,3 +1,38 @@
 .burger-constructor {
     width: 600px;
+    box-sizing: border-box;
+    max-height: 912px;
+    box-sizing: border-box;
+}
+
+.burger-constructor__items {
+    max-height: 656px;
+    overflow-y: scroll;
+    scrollbar-color: #8585AD #2F2F37;
+    scrollbar-width: thin;
+}
+
+.constructor-element__container {
+    display: flex;
+    flex-direction: row;
+}
+
+.constructor-element__icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    width: 32px;
+}
+
+.burger-constructor__result {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.burger-constructor__result-price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
