@@ -1,6 +1,12 @@
 .app {
-    // width: 1240px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.app__main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 1240px;
 }
