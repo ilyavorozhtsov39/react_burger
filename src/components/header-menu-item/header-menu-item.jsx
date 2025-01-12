@@ -1,5 +1,6 @@
 import React from 'react';
 import './header-menu-item.scss';
+import PropTypes from 'prop-types';
 
 function HeaderMenuItem({text, classModifier = "", children}) {
     return (
@@ -8,6 +9,12 @@ function HeaderMenuItem({text, classModifier = "", children}) {
             <p className="text text_type_main-small ml-2">{text}</p>
         </div>
     );
+}
+
+HeaderMenuItem.propTypes = {
+    text: PropTypes.string.isRequired,
+    classModifier: PropTypes.string,
+    children: PropTypes.node.isRequired
 }
 
 export default HeaderMenuItem;

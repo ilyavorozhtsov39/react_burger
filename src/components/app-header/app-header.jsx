@@ -9,7 +9,7 @@ function AppHeader() {
     return (
         <header className="app-header">
             <div className="app-header__content">
-                <div className="app-header__items">
+                <nav className="app-header__items">
                     <HeaderMenuItem
                         text="Конструктор"
                         classModifier="mr-1"
@@ -22,7 +22,7 @@ function AppHeader() {
                     >
                         <ListIcon type="secondary" />
                     </HeaderMenuItem>
-                </div>
+                </nav>
                 <Logo />
                 <div className="app-header__profile-container">
                     <HeaderMenuItem
