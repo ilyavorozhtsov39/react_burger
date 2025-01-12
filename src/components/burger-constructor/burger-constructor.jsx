@@ -1,5 +1,5 @@
 import React from "react"
-import "./BurgerConstructor.scss"
+import "./burger-constructor.scss"
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import data from '../../data.js'
@@ -43,10 +43,3 @@ function BurgerConstructor() {
 }
 
 export default BurgerConstructor;
-
-{/* <ConstructorElement
-  text={item.name}
-  price={item.price}
-  thumbnail={item.image_mobile}
-  key={index}
-/> */}

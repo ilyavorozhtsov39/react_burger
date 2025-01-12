@@ -1,7 +1,8 @@
 import React, { useState } from "react"
-import "./BurgerIngredients.scss"
-import { Tab, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import "./burger-ingredients.scss"
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import data from '../../data.js'
+import Ingredient from "../ingredient/ingredient.jsx";
 
 
 const buns = data.filter(item => item.type === "bun")
@@ -22,7 +23,7 @@ function BurgerIngredients() {
       </div>
       <div className="burger-ingredients__content">
           <h2 className="text text_type_main-medium mt-10">Булки</h2>
-          <div className="burger-ingredients__buns items">
+          <div className="burger-ingredients__buns burger-ingredients__items">
             {buns.map((item, index) => 
               <Ingredient 
                 id={index + 1}
@@ -33,7 +34,7 @@ function BurgerIngredients() {
             />)}
           </div>
           <h2 className="text text_type_main-medium mt-10">Соусы</h2>
-          <div className="burger-ingredients__buns items">
+          <div className="burger-ingredients__buns burger-ingredients__items">
             {sauce.map((item, index) => 
               <Ingredient 
                 id={index + 1}
@@ -44,7 +45,7 @@ function BurgerIngredients() {
             />)}
           </div>
           <h2 className="text text_type_main-medium mt-10">Начинки</h2>
-          <div className="burger-ingredients__buns items">
+          <div className="burger-ingredients__buns burger-ingredients__items">
             {main.map((item, index) => 
               <Ingredient 
                 id={index + 1}
@@ -55,20 +56,6 @@ function BurgerIngredients() {
             />)}
           </div>
       </div>
-    </div>
-  )
-}
-
-function Ingredient({ id, name, image, price, }) {
-  console.log(id)
-  return (
-    <div className="ingredient mt-8" style={(id === 1 || id === 2) ? {marginTop: "24px"} : {}}>
-      <img src={image} alt="" className="ingredient__image" />
-      <p className="ingredient__price-data">
-        <p className="text text_type_digits-default mr-2 mt-1 mb-1">{price}</p>
-        <CurrencyIcon />
-      </p>
-      <h2 className="text text_type_main-default">{name}</h2>
     </div>
   )
 }

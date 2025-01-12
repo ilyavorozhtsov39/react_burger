@@ -1,7 +1,7 @@
 import React from 'react';
-import './AppHeader.scss';
+import './app-header.scss';
 import { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
-import HeaderMenuItem from '../HeaderMenuItem/HeaderMenuItem.jsx';
+import HeaderMenuItem from '../header-menu-item/header-menu-item.jsx';
 
 
 

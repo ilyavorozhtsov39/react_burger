@@ -9,40 +9,16 @@
     flex-wrap: nowrap;
 }
 
-.ingredient {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 272px;
-    height: 208px;
-    // border: 1px solid white;
-    box-sizing: border-box;
-    // margin-top: 32px;
-}
-
-.ingredient__image {
-    width: 240px;
-    height: 120px;
-}
-
-.ingredient__price-data {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
 .burger-ingredients__content {
     max-height: 756px;
     padding-left: 16px;
     padding-right: 16px;
-    // border: 1px solid white;
     overflow-y: scroll;
     scrollbar-color: #8585AD #2F2F37;
     scrollbar-width: thin;
 }
 
-
-.items {
+.burger-ingredients__items {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

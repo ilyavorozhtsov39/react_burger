@@ -1,5 +1,5 @@
 import React from 'react';
-import './HeaderMenuItem.scss';
+import './header-menu-item.scss';
 
 function HeaderMenuItem({text, classModifier = "", children}) {
     return (
