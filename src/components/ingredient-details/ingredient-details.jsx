@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './ingredient-details.module.scss';
+import PropTypes from 'prop-types';
 
 function IngredientDetails({ image, name, fat, calories, carbohydrates, proteins }) {
     return (
@@ -24,6 +25,20 @@ function InfoBlock({ text, number }) {
             <p className={styles.digits}>{number}</p>
         </div>
     )
+}
+
+IngredientDetails.propTypes = {
+    image: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    fat: PropTypes.number.isRequired,
+    calories: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    proteins: PropTypes.number.isRequired,
+}
+
+InfoBlock.propTypes = {
+    text: PropTypes.string.isRequired,
+    number: PropTypes.number.isRequired,
 }
 
 export default IngredientDetails;
