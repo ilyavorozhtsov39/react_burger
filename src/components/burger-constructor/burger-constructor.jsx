@@ -1,5 +1,5 @@
 import React from "react"
-import "./burger-constructor.scss"
+import styles from "./burger-constructor.module.scss"
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import PropTypes from "prop-types"
 
@@ -17,8 +17,8 @@ constructorData.push(data[8])
 
 function BurgerConstructor() {
   return (
-    <section className="burger-constructor ml-5 pt-25" >
-      <div className="burger-constructor__top ml-8">
+    <section className={styles.constructor} >
+      <div className={styles.top}>
         <ConstructorElement
             text={bun.name + "\n (верх)"}
             price={bun.price}
@@ -28,7 +28,7 @@ function BurgerConstructor() {
             type="top"
           />
       </div>
-      <ul className="burger-constructor__items">
+      <ul className={styles.items}>
         {
           constructorData.map((item, index) => 
             <ConstructorItem
@@ -41,7 +41,7 @@ function BurgerConstructor() {
           )
         }
       </ul>
-      <div className="burger-constructor__bottom ml-8">
+      <div className={styles.bottom}>
         <ConstructorElement
             text={bun.name + "\n (низ)"}
             price={bun.price}
@@ -51,9 +51,9 @@ function BurgerConstructor() {
             type="bottom"
           />
       </div>
-      <div className="burger-constructor__result mt-10">
-        <div className="burger-constructor__result-price mr-10">
-          <p className="text text_type_digits-medium mr-2">610</p>
+      <div className={styles.result}>
+        <div className={styles.price}>
+          <p className={styles.priceCount}>610</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button 
@@ -71,8 +71,8 @@ function BurgerConstructor() {
 function ConstructorItem({ index, text, price, thumbnail }) {
   const isFinal = index === constructorData.length - 1
   return (
-    <li className="constructor-element__container">
-      <div className="constructor-element__icon">
+    <li className={styles.container}>
+      <div className={styles.icon}>
         <DragIcon />
       </div>
       <ConstructorElement

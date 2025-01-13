@@ -1,4 +1,5 @@
-.burger-constructor {
+.constructor {
+    composes: ml-4 pt-25 from global;
     position: relative;
     width: 600px;
     box-sizing: border-box;
@@ -6,19 +7,27 @@
     box-sizing: border-box;
 }
 
-.burger-constructor__items {
+.top {
+    composes: ml-8 from global;
+}
+
+.bottom {
+    composes: ml-8 from global;
+}
+
+.items {
     max-height: 464px;
     overflow-y: scroll;
     scrollbar-color: #8585AD #2F2F37;
     scrollbar-width: thin;
 }
 
-.constructor-element__container {
+.container {
     display: flex;
     flex-direction: row;
 }
 
-.constructor-element__icon {
+.icon {
     display: flex;
     flex-direction: row;
     justify-content: start;
@@ -26,14 +35,20 @@
     width: 32px;
 }
 
-.burger-constructor__result {
+.result {
+    composes: mt-10 from global;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
 }
 
-.burger-constructor__result-price {
+.price {
+    composes: mr-10 from global;
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.priceCount {
+    composes: text text_type_digits-medium mr-2 from global;
 }

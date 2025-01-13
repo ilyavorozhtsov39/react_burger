@@ -3,13 +3,13 @@ import { Box } from "@ya.praktikum/react-developer-burger-ui-components"
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import "./app.scss";
+import styles from "./app.module.scss";
 
 function App() {
   return (
-    <div className="app">
+    <div className={styles.app}>
       <AppHeader />
-      <main className="app__main">
+      <main className={styles.main}>
         <BurgerIngredients />
         <BurgerConstructor />
       </main>

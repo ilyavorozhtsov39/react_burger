@@ -1,15 +1,16 @@
 import React from 'react';
-import './header-menu-item.scss';
+import styles from './header-menu-item.module.scss';
 import PropTypes from 'prop-types';
 
-function HeaderMenuItem({text, classModifier = "", children}) {
+function HeaderMenuItem({text, stylesModifier = {}, children}) {
     return (
-        <div className={`header-menu-item pt-4 pb-4 pl-5 pr-5 ${classModifier}`}>
+        <div className={styles.item} style={stylesModifier}>
             {children}
-            <p className="text text_type_main-small ml-2">{text}</p>
+            <p className={styles.text}>{text}</p>
         </div>
     );
 }
+
 
 HeaderMenuItem.propTypes = {
     text: PropTypes.string.isRequired,
