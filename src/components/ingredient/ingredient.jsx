@@ -3,10 +3,14 @@ import styles from "./ingredient.module.scss"
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
-function Ingredient({ id, name, image, price, }) {
+function Ingredient({ id, dataId, name, image, price, showModal }) {
   const counter = <Counter count={1} size="default" extraClass={styles.counter} />
   return (
-    <div className={styles.ingredient} style={(id === 1 || id === 2) ? {marginTop: "24px"} : {}}>
+    <div 
+      className={styles.ingredient} 
+      style={(id === 1 || id === 2) ? {marginTop: "24px"} : {}}
+      onClick={() => showModal(dataId)}
+    >
       {}
       {id === 1 && counter}
       <img src={image} alt="Изображение ингредиента" className={styles.image} />
@@ -21,9 +25,11 @@ function Ingredient({ id, name, image, price, }) {
 
 Ingredient.propTypes = {
   id: PropTypes.number.isRequired,
+  dataId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  showModal: PropTypes.func.isRequired
 }
 
 export default Ingredient;

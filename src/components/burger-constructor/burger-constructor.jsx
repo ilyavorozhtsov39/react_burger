@@ -3,23 +3,27 @@ import styles from "./burger-constructor.module.scss"
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import PropTypes from "prop-types"
 
-import data from '../../data.js'
+// import data from '../../data.js'
 
 // Временная реализация данных конструктора1
-const bun = data[0]
-const constructorData = []
-constructorData.push(data[5])
-constructorData.push(data[4])
-constructorData.push(data[4])
-constructorData.push(data[7])
-constructorData.push(data[8])
-constructorData.push(data[8])
+// const bun = data[0]
+// const constructorData = []
+// constructorData.push(data[5])
+// constructorData.push(data[4])
+// constructorData.push(data[4])
+// constructorData.push(data[7])
+// constructorData.push(data[8])
+// constructorData.push(data[8])
 
-function BurgerConstructor() {
+function BurgerConstructor({ data }) {
+  // console.log(data)
+  const bun = data[0]
   return (
     <section className={styles.constructor} >
       <div className={styles.top}>
-        <ConstructorElement
+        {
+          bun &&
+          <ConstructorElement
             text={bun.name + "\n (верх)"}
             price={bun.price}
             thumbnail={bun.image_mobile}
@@ -27,22 +31,26 @@ function BurgerConstructor() {
             isLocked={true}
             type="top"
           />
+        }
       </div>
       <ul className={styles.items}>
         {
-          constructorData.map((item, index) => 
+          data && data.map((item, index) => 
             <ConstructorItem
               index={index}
               text={item.name}
               price={item.price}
               thumbnail={item.image_mobile}
+              length={data.length}
               key={item._id}
             />
           )
         }
       </ul>
       <div className={styles.bottom}>
-        <ConstructorElement
+        {
+          bun &&
+          <ConstructorElement
             text={bun.name + "\n (низ)"}
             price={bun.price}
             thumbnail={bun.image_mobile}
@@ -50,6 +58,7 @@ function BurgerConstructor() {
             extraClass="mt-4"
             type="bottom"
           />
+        }
       </div>
       <div className={styles.result}>
         <div className={styles.price}>
@@ -68,8 +77,8 @@ function BurgerConstructor() {
   )
 }
 
-function ConstructorItem({ index, text, price, thumbnail }) {
-  const isFinal = index === constructorData.length - 1
+function ConstructorItem({ index, text, price, thumbnail, length }) {
+  const isFinal = index === length - 1
   return (
     <li className={styles.container}>
       <div className={styles.icon}>
