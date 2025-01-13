@@ -10,6 +10,7 @@ const bun = data[0]
 const constructorData = []
 constructorData.push(data[5])
 constructorData.push(data[4])
+constructorData.push(data[4])
 constructorData.push(data[7])
 constructorData.push(data[8])
 constructorData.push(data[8])
@@ -19,10 +20,11 @@ function BurgerConstructor() {
     <section className="burger-constructor ml-5 pt-25" >
       <div className="burger-constructor__top ml-8">
         <ConstructorElement
-            text={bun.name}
+            text={bun.name + "\n (верх)"}
             price={bun.price}
             thumbnail={bun.image_mobile}
             extraClass="mb-4"
+            isLocked={true}
             type="top"
           />
       </div>
@@ -41,9 +43,11 @@ function BurgerConstructor() {
       </ul>
       <div className="burger-constructor__bottom ml-8">
         <ConstructorElement
-            text={bun.name}
+            text={bun.name + "\n (низ)"}
             price={bun.price}
             thumbnail={bun.image_mobile}
+            isLocked={true}
+            extraClass="mt-4"
             type="bottom"
           />
       </div>
@@ -65,6 +69,7 @@ function BurgerConstructor() {
 }
 
 function ConstructorItem({ index, text, price, thumbnail }) {
+  const isFinal = index === constructorData.length - 1
   return (
     <li className="constructor-element__container">
       <div className="constructor-element__icon">
@@ -75,7 +80,7 @@ function ConstructorItem({ index, text, price, thumbnail }) {
         price={price}
         thumbnail={thumbnail}
         key={index}
-        extraClass={"mb-4"}
+        extraClass={!isFinal ? "mb-4" : ""}
       />
     </li>
   )
