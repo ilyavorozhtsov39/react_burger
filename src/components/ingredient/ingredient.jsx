@@ -9,7 +9,7 @@ function Ingredient({ id, name, image, price, }) {
     <div className={styles.ingredient} style={(id === 1 || id === 2) ? {marginTop: "24px"} : {}}>
       {}
       {id === 1 && counter}
-      <img src={image} alt="" className={styles.image} />
+      <img src={image} alt="Изображение ингредиента" className={styles.image} />
       <div className={styles.priceData}>
         <p className={styles.text}>{price}</p>
         <CurrencyIcon />

@@ -36,7 +36,7 @@ function BurgerConstructor() {
               text={item.name}
               price={item.price}
               thumbnail={item.image_mobile}
-              key={index}
+              key={item._id}
             />
           )
         }

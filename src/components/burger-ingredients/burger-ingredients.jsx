@@ -30,7 +30,7 @@ function BurgerIngredients() {
                 name={item.name}
                 image={item.image}
                 price={item.price}
-                key={index}
+                key={item._id}
             />)}
           </div>
           <h2 className={styles.subheader}>Соусы</h2>
@@ -41,7 +41,7 @@ function BurgerIngredients() {
                 name={item.name}
                 image={item.image}
                 price={item.price}
-                key={index}
+                key={item._id}
             />)}
           </div>
           <h2 className={styles.subheader}>Начинки</h2>
@@ -52,7 +52,7 @@ function BurgerIngredients() {
                 name={item.name}
                 image={item.image}
                 price={item.price}
-                key={index}
+                key={item._id}
             />)}
           </div>
       </div>
