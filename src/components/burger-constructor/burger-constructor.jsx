@@ -5,12 +5,30 @@ import PropTypes from "prop-types"
 
 import data from '../../data.js'
 
+// Временная реализация данных конструктора1
+const bun = data[0]
+const constructorData = []
+constructorData.push(data[5])
+constructorData.push(data[4])
+constructorData.push(data[7])
+constructorData.push(data[8])
+constructorData.push(data[8])
+
 function BurgerConstructor() {
   return (
     <section className="burger-constructor ml-5 pt-25" >
-      <ul className="burger-constructor__items pl-4 pr-4">
+      <div className="burger-constructor__top ml-8">
+        <ConstructorElement
+            text={bun.name}
+            price={bun.price}
+            thumbnail={bun.image_mobile}
+            extraClass="mb-4"
+            type="top"
+          />
+      </div>
+      <ul className="burger-constructor__items">
         {
-          data.map((item, index) => 
+          constructorData.map((item, index) => 
             <ConstructorItem
               index={index}
               text={item.name}
@@ -21,6 +39,14 @@ function BurgerConstructor() {
           )
         }
       </ul>
+      <div className="burger-constructor__bottom ml-8">
+        <ConstructorElement
+            text={bun.name}
+            price={bun.price}
+            thumbnail={bun.image_mobile}
+            type="bottom"
+          />
+      </div>
       <div className="burger-constructor__result mt-10">
         <div className="burger-constructor__result-price mr-10">
           <p className="text text_type_digits-medium mr-2">610</p>
@@ -49,8 +75,7 @@ function ConstructorItem({ index, text, price, thumbnail }) {
         price={price}
         thumbnail={thumbnail}
         key={index}
-        extraClass={index !== data.length - 1 ? "mb-4" : ""}
-        type={index === 0 ? "top" : index === data.length - 1 ? "bottom" : undefined}
+        extraClass={"mb-4"}
       />
     </li>
   )
