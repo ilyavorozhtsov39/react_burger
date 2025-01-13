@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './modal-ingredient.module.scss';
+import styles from './ingredient-details.module.scss';
 
-function ModalIngredient({ image, name, fat, calories, carbohydrates, proteins }) {
+function IngredientDetails({ image, name, fat, calories, carbohydrates, proteins }) {
     return (
         <div className={styles.ingredient}>
             <h2 className={styles.header}>Детали ингредиента</h2>
@@ -26,4 +26,4 @@ function InfoBlock({ text, number }) {
     )
 }
 
-export default ModalIngredient;
+export default IngredientDetails;

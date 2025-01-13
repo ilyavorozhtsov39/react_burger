@@ -1,25 +1,37 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styles from "./burger-constructor.module.scss"
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import PropTypes from "prop-types"
+import Modal from "../modal/modal.jsx"
+import OrderDetails from "../order-details/order-details.jsx"
 
-// import data from '../../data.js'
-
-// Временная реализация данных конструктора1
-// const bun = data[0]
-// const constructorData = []
-// constructorData.push(data[5])
-// constructorData.push(data[4])
-// constructorData.push(data[4])
-// constructorData.push(data[7])
-// constructorData.push(data[8])
-// constructorData.push(data[8])
+const tempOrderId = "034536";
 
 function BurgerConstructor({ data }) {
-  // console.log(data)
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  function showModal(e) {
+    e.stopPropagation()
+    setModalVisible(true)
+  }
+
+  function closeModal() {
+    setModalVisible(false)
+  }
+
+  // Временная реализация
   const bun = data[0]
+  const constructorData = data.filter(el => el.type !== "bun").slice(0, 6)
+
   return (
     <section className={styles.constructor} >
+      {
+        modalVisible &&
+        <Modal closeModal={closeModal}>
+          <OrderDetails orderId={tempOrderId} />
+        </Modal>
+      }
       <div className={styles.top}>
         {
           bun &&
@@ -35,13 +47,13 @@ function BurgerConstructor({ data }) {
       </div>
       <ul className={styles.items}>
         {
-          data && data.map((item, index) => 
+          constructorData && constructorData.map((item, index) => 
             <ConstructorItem
               index={index}
               text={item.name}
               price={item.price}
               thumbnail={item.image_mobile}
-              length={data.length}
+              length={constructorData.length}
               key={item._id}
             />
           )
@@ -69,6 +81,7 @@ function BurgerConstructor({ data }) {
           type="primary"
           size="large"
           htmlType="button"
+          onClick={showModal}
         >
           Оформить заказ
         </Button>  

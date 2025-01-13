@@ -3,7 +3,7 @@ import styles from "./burger-ingredients.module.scss"
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from "../ingredient/ingredient.jsx";
 import Modal from "../modal/modal.jsx";
-import ModalIngredient from "../modal-ingredient/modal-ingredient.jsx"
+import IngredientDetails from "../ingredient-details/ingredient-details.jsx"
 
 
 function BurgerIngredients({ data }) {
@@ -39,7 +39,7 @@ function BurgerIngredients({ data }) {
     <div className={styles.ingredients}>
       {modalVisible && 
       <Modal closeModal={closeModal}>
-        {clicked && <ModalIngredient {...clicked} />}
+        {clicked && <IngredientDetails {...clicked} />}
       </Modal>
       }
       <h1 className={styles.header}>Соберите бургер</h1>

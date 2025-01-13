@@ -1,6 +1,8 @@
+import { BASE_URL } from "../constants.js"
+
 async function getData() {
     try {
-        const response = await fetch('https://norma.nomoreparties.space/api/ingredients');
+        const response = await fetch(BASE_URL);
         if (!response.ok) {
             throw new Error(`Ошибка: ${response.status}`);
         }
