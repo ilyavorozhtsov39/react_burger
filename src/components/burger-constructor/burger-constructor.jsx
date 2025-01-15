@@ -4,6 +4,7 @@ import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktiku
 import PropTypes from "prop-types"
 import Modal from "../modal/modal.jsx"
 import OrderDetails from "../order-details/order-details.jsx"
+import { IngredientType } from "../../utils/types.js"
 
 const tempOrderId = "034536";
 
@@ -108,22 +109,9 @@ function ConstructorItem({ index, text, price, thumbnail, length }) {
   )
 }
 
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    type: PropTypes.string,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    price: PropTypes.number,
-    image: PropTypes.string,
-    image_mobile: PropTypes.string,
-    image_large: PropTypes.string,
-    __v: PropTypes.number,
-  }))
-}
+
+
+BurgerConstructor.propTypes = IngredientType
 
 ConstructorItem.propTypes = {
   index: PropTypes.number.isRequired,

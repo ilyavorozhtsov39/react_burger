@@ -5,6 +5,7 @@ import Ingredient from "../ingredient/ingredient.jsx";
 import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx"
 import PropTypes from "prop-types";
+import { IngredientType } from "../../utils/types.js"
 
 
 function BurgerIngredients({ data }) {
@@ -94,21 +95,5 @@ function BurgerIngredients({ data }) {
   )
 }
 
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    type: PropTypes.string,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    price: PropTypes.number,
-    image: PropTypes.string,
-    image_mobile: PropTypes.string,
-    image_large: PropTypes.string,
-    __v: PropTypes.number,
-  }))
-}
-
+BurgerIngredients.propTypes = IngredientType
 export default BurgerIngredients;

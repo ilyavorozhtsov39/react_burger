@@ -1,4 +1,4 @@
-import { BASE_URL } from "../constants.js"
+import { BASE_URL } from "../utils/constants.js"
 
 async function getData() {
     try {

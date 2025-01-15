@@ -6,7 +6,7 @@ function IngredientDetails({ image, name, fat, calories, carbohydrates, proteins
     return (
         <div className={styles.ingredient}>
             <h2 className={styles.header}>Детали ингредиента</h2>
-            <img className={styles.image} src={image} alt="Изображение ингредиента" />
+            <img className={styles.image} src={image} alt={name} />
             <h3 className={styles.subheader}>{name}</h3>
             <div className={styles.consist}>
                 <InfoBlock text="Калории,ккал" number={calories} />

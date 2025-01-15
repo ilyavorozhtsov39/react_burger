@@ -16,19 +16,16 @@ function Modal({ closeModal, children }) {
     }
 
     useEffect(() => {
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") {
-            closeModal()
-          }
-        })
-        return () => {
-          document.removeEventListener("keydown", (e) => {
+        function closeByEscape(e) {
             if (e.key === "Escape") {
                 closeModal()
             }
-          })
         }
-      }, [])
+        document.addEventListener("keydown", closeByEscape)
+        return function() {
+            document.removeEventListener("keydown", closeByEscape)
+        }
+    }, [])
 
     return ReactDom.createPortal(
         (

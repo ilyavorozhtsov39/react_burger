@@ -13,7 +13,7 @@ function Ingredient({ id, dataId, name, image, price, showModal }) {
     >
       {}
       {id === 1 && counter}
-      <img src={image} alt="Изображение ингредиента" className={styles.image} />
+      <img src={image} alt={name} className={styles.image} />
       <div className={styles.priceData}>
         <p className={styles.text}>{price}</p>
         <CurrencyIcon />

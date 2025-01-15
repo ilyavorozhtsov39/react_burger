@@ -11,12 +11,16 @@ function App() {
   const [ingredients, setIngredients] = useState([]);
 
   useEffect(() => {
-    async function saveIngredients() {
-      const result = await getData();
-      setIngredients(result)
+    async function getIngredients() {
+      try {
+        const result = await getData();
+        setIngredients(result)
+      } catch (error) {
+        console.log(error)
+      }
     }
 
-    saveIngredients()
+    getIngredients()
   }, [])
 
   return (
