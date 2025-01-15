@@ -24,19 +24,6 @@
     scrollbar-width: thin;
 }
 
-.container {
-    display: flex;
-    flex-direction: row;
-}
-
-.icon {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-    width: 32px;
-}
-
 .result {
     composes: mt-10 from global;
     display: flex;

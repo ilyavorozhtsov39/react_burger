@@ -8,6 +8,7 @@ import { IngredientType } from "../../utils/types.js"
 import { useDrop } from "react-dnd";
 import { useSelector, useDispatch } from 'react-redux';
 import { addIngredient, removeIngredient } from "../../services/burger.js"
+import ConstructorItem from "../constructor-item/constructor-item.jsx"
 
 const tempOrderId = "034536";
 
@@ -109,34 +110,12 @@ function BurgerConstructor({ data }) {
   )
 }
 
-function ConstructorItem({ index, dataId, text, price, thumbnail, length, handleClose }) {
-  const isFinal = index === length - 1
-  return (
-    <li className={styles.container}>
-      <div className={styles.icon}>
-        <DragIcon />
-      </div>
-      <ConstructorElement
-        text={text}
-        price={price}
-        thumbnail={thumbnail}
-        key={index}
-        extraClass={!isFinal ? "mb-4" : ""}
-        handleClose={() => handleClose(index)}
-      />
-    </li>
-  )
-}
+
 
 
 
 BurgerConstructor.propTypes = IngredientType
 
-ConstructorItem.propTypes = {
-  index: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  thumbnail: PropTypes.string.isRequired
-}
+
 
 export default BurgerConstructor;
