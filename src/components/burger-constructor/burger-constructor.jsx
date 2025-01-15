@@ -5,10 +5,26 @@ import PropTypes from "prop-types"
 import Modal from "../modal/modal.jsx"
 import OrderDetails from "../order-details/order-details.jsx"
 import { IngredientType } from "../../utils/types.js"
+import { useDrop } from "react-dnd";
+import { useSelector, useDispatch } from 'react-redux';
+import { addIngredient, removeIngredient } from "../../services/burger.js"
 
 const tempOrderId = "034536";
 
 function BurgerConstructor({ data }) {
+
+  const { burgerList, bun, bunSelected } = useSelector(state => state.burger)
+
+  const dispatch = useDispatch()
+
+  const [ , dropTarget ] = useDrop({
+      accept: "ingredient",
+      drop(item) {
+        const itemToStore = data.find(element => element._id === item.dataId)
+        console.log(itemToStore)
+        dispatch(addIngredient(itemToStore));
+      },
+  })
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -22,7 +38,7 @@ function BurgerConstructor({ data }) {
   }
 
   // Временная реализация
-  const bun = data[0]
+  // const bun = data[0]
   const constructorData = data.filter(el => el.type !== "bun").slice(0, 6)
 
   return (
@@ -35,7 +51,7 @@ function BurgerConstructor({ data }) {
       }
       <div className={styles.top}>
         {
-          bun &&
+          bunSelected &&
           <ConstructorElement
             text={bun.name + "\n (верх)"}
             price={bun.price}
@@ -46,9 +62,9 @@ function BurgerConstructor({ data }) {
           />
         }
       </div>
-      <ul className={styles.items}>
+      <ul className={styles.items} ref={dropTarget}>
         {
-          constructorData && constructorData.map((item, index) => 
+          burgerList && burgerList.map((item, index) => 
             <ConstructorItem
               index={index}
               text={item.name}
@@ -62,7 +78,7 @@ function BurgerConstructor({ data }) {
       </ul>
       <div className={styles.bottom}>
         {
-          bun &&
+          bunSelected &&
           <ConstructorElement
             text={bun.name + "\n (низ)"}
             price={bun.price}

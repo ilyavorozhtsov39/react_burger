@@ -8,6 +8,8 @@ import { configureStore } from '@reduxjs/toolkit'
 import { Provider, useSelector, useDispatch } from "react-redux"
 import { getIngredients } from "../../services/ingredients.js"
 import { rootReducer } from '../../services/index.js';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
 
@@ -22,13 +24,15 @@ function App() {
 
 
   return (
-    <div className={styles.app}>
-      <AppHeader />
-        <main className={styles.main}>
-          <BurgerIngredients data={ingredientsList} />
-          <BurgerConstructor data={burgerList} />
-        </main>
-    </div>
+    <DndProvider backend={HTML5Backend}>
+      <div className={styles.app}>
+        <AppHeader />
+          <main className={styles.main}>
+            <BurgerIngredients data={ingredientsList} />
+            <BurgerConstructor data={ingredientsList} />
+          </main>
+      </div>
+    </DndProvider>
   );
 }
 
