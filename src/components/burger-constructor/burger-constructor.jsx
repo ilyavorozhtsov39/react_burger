@@ -21,10 +21,14 @@ function BurgerConstructor({ data }) {
       accept: "ingredient",
       drop(item) {
         const itemToStore = data.find(element => element._id === item.dataId)
-        console.log(itemToStore)
         dispatch(addIngredient(itemToStore));
       },
   })
+
+  function removeElement(index) {
+    dispatch(removeIngredient({ index }));
+    // console.log('remove', e)
+  }
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -37,12 +41,8 @@ function BurgerConstructor({ data }) {
     setModalVisible(false)
   }
 
-  // Временная реализация
-  // const bun = data[0]
-  const constructorData = data.filter(el => el.type !== "bun").slice(0, 6)
-
   return (
-    <section className={styles.constructor} >
+    <section className={styles.constructor} ref={dropTarget}>
       {
         modalVisible &&
         <Modal closeModal={closeModal}>
@@ -62,16 +62,18 @@ function BurgerConstructor({ data }) {
           />
         }
       </div>
-      <ul className={styles.items} ref={dropTarget}>
+      <ul className={styles.items}>
         {
           burgerList && burgerList.map((item, index) => 
             <ConstructorItem
               index={index}
+              dataId={item._id}
               text={item.name}
               price={item.price}
               thumbnail={item.image_mobile}
-              length={constructorData.length}
-              key={item._id}
+              length={burgerList.length}
+              handleClose={removeElement}
+              key={index}
             />
           )
         }
@@ -107,7 +109,7 @@ function BurgerConstructor({ data }) {
   )
 }
 
-function ConstructorItem({ index, text, price, thumbnail, length }) {
+function ConstructorItem({ index, dataId, text, price, thumbnail, length, handleClose }) {
   const isFinal = index === length - 1
   return (
     <li className={styles.container}>
@@ -120,6 +122,7 @@ function ConstructorItem({ index, text, price, thumbnail, length }) {
         thumbnail={thumbnail}
         key={index}
         extraClass={!isFinal ? "mb-4" : ""}
+        handleClose={() => handleClose(index)}
       />
     </li>
   )

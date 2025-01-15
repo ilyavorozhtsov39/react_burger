@@ -9,14 +9,16 @@
 
 .top {
     composes: ml-8 from global;
+    height: 96px;
 }
 
 .bottom {
     composes: ml-8 from global;
+    height: 96px;
 }
 
 .items {
-    height: 464px;
+    max-height: 464px;
     overflow-y: scroll;
     scrollbar-color: #8585AD #2F2F37;
     scrollbar-width: thin;
@@ -40,6 +42,9 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    position: absolute;
+    bottom: 60px;
+    right: 0;
 }
 
 .price {
