@@ -19,14 +19,5 @@ const ingredientsSlice = createSlice({
     }
 })
 
-// const ingredientsSlice = createSlice({
-//     name: 'ingredients',
-//     initialState: [],
-//     reducers: {
-//         changeIngredients: (state, action) => {
-//             state.ingredients = action.payload;
-//         }
-//     },
-// })
 
 export { getIngredients, ingredientsSlice }

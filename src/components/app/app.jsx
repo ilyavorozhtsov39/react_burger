@@ -11,20 +11,22 @@ import { rootReducer } from '../../services/index.js';
 
 function App() {
 
-  const {ingredientsList} = useSelector(state => state.ingredients)
+  const { ingredientsList } = useSelector(state => state.ingredients)
+  const { burgerList } = useSelector(state => state.burger)
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getIngredients())
-  }, [ingredientsList])
+  }, [])
+
 
   return (
     <div className={styles.app}>
       <AppHeader />
         <main className={styles.main}>
           <BurgerIngredients data={ingredientsList} />
-          <BurgerConstructor data={ingredientsList} />
+          <BurgerConstructor data={burgerList} />
         </main>
     </div>
   );
