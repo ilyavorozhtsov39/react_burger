@@ -52,7 +52,7 @@ function BurgerConstructor({ data }) {
       <div className={styles.top}>
         {
           bunSelected &&
-          <ConstructorElement
+          <Bun
             text={bun.name + "\n (верх)"}
             price={bun.price}
             thumbnail={bun.image_mobile}
@@ -81,7 +81,7 @@ function BurgerConstructor({ data }) {
       <div className={styles.bottom}>
         {
           bunSelected &&
-          <ConstructorElement
+          <Bun
             text={bun.name + "\n (низ)"}
             price={bun.price}
             thumbnail={bun.image_mobile}
@@ -106,6 +106,20 @@ function BurgerConstructor({ data }) {
         </Button>  
       </div>
     </section>
+  )
+}
+
+function Bun({ type, ...props }) {
+
+  const [ , dropTarget ] = useDrop({
+    accept: "inside",
+    drop: item => ({ data: type })
+  })
+
+  return (
+    <div ref={dropTarget}>
+      <ConstructorElement type={type} {...props} />
+    </div>
   )
 }
 

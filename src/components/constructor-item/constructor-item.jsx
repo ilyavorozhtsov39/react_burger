@@ -19,15 +19,22 @@ function ConstructorItem({ index, dataId, text, price, thumbnail, length, handle
           }),
           end: (item, monitor) => {
             const dropResult = monitor.getDropResult();
-            
-            if (dropResult) {
-                const position = handleDrop(source, dropResult.offsetData, index)
-                dispatch(sortIngredients({ position, index }))
-            } else {
+
+            if (!dropResult) {
               dispatch(removeIngredient(index))
+            } else if (typeof dropResult.data === "string") {
+              handleOverBun(dropResult.data, index)
+            } else {
+              const position = handleDrop(source, dropResult.data, index)
+              dispatch(sortIngredients({ position, index }))
             }
         }
     });
+
+    function handleOverBun(type, index) {
+      const position = type === "top" ? 0 : length ;
+      dispatch(sortIngredients({ position, index }))
+    }
 
 
     function handleDrop(source, target, index) {
@@ -46,7 +53,7 @@ function ConstructorItem({ index, dataId, text, price, thumbnail, length, handle
           offsetData.x = currentOffset.x
           offsetData.y = currentOffset.y
         },
-        drop: item => ({ offsetData })
+        drop: item => ({ data: offsetData, index })
     })
 
     const isFinal = index === length - 1
