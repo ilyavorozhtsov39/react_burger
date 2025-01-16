@@ -28,7 +28,6 @@ function BurgerConstructor({ data }) {
 
   function removeElement(index) {
     dispatch(removeIngredient({ index }));
-    // console.log('remove', e)
   }
 
   const [modalVisible, setModalVisible] = useState(false);

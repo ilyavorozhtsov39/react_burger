@@ -15,22 +15,17 @@ const burgerSlice = createSlice({
             }
         },
         removeIngredient: (state, action) => {
-            state.burgerList.splice(action.payload.index, 1)
+            const copy = [ ...state.burgerList ]
+            copy.splice(action.payload, 1)
+            state.burgerList = copy
         },
         sortIngredients: (state, action) => {
-            const { position, dropIndex, index } = action.payload;
+            const { position, index } = action.payload;
             const copy = [ ...state.burgerList ]
             const element = copy.splice(index, 1, "placeholder")[0]
-
-            if (dropIndex === index) {
-                copy.splice(index, 0, element)
-            } else if (position === "bottom") {
-                copy.splice((dropIndex + 1), 0, element)
-            } else if (position === "top") {
-                copy.splice(dropIndex, 0, element)
-            }
-
+            copy.splice(position, 0, element)
             const filtered = copy.filter(item => item !== "placeholder")
+            console.log(filtered)
             state.burgerList = filtered
         }
     },
