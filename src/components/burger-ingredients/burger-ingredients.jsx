@@ -95,5 +95,7 @@ function BurgerIngredients({ data }) {
   )
 }
 
-BurgerIngredients.propTypes = IngredientType
+BurgerIngredients.propTypes = {
+  data: PropTypes.arrayOf(IngredientType)
+}
 export default BurgerIngredients;

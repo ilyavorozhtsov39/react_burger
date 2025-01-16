@@ -111,7 +111,9 @@ function ConstructorItem({ index, text, price, thumbnail, length }) {
 
 
 
-BurgerConstructor.propTypes = IngredientType
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(IngredientType)
+}
 
 ConstructorItem.propTypes = {
   index: PropTypes.number.isRequired,
