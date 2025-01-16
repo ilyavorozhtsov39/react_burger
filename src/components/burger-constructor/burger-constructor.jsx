@@ -9,12 +9,15 @@ import { useDrop } from "react-dnd";
 import { useSelector, useDispatch } from 'react-redux';
 import { addIngredient, removeIngredient } from "../../services/burger.js"
 import ConstructorItem from "../constructor-item/constructor-item.jsx"
+import { updatePrice } from "../../services/order-info.js" 
 
 const tempOrderId = "034536";
 
 function BurgerConstructor({ data }) {
 
+  const [modalVisible, setModalVisible] = useState(false);
   const { burgerList, bun, bunSelected } = useSelector(state => state.burger)
+  const { price } = useSelector(state => state.order)
 
   const dispatch = useDispatch()
 
@@ -30,8 +33,6 @@ function BurgerConstructor({ data }) {
     dispatch(removeIngredient({ index }));
   }
 
-  const [modalVisible, setModalVisible] = useState(false);
-
   function showModal(e) {
     e.stopPropagation()
     setModalVisible(true)
@@ -40,6 +41,20 @@ function BurgerConstructor({ data }) {
   function closeModal() {
     setModalVisible(false)
   }
+
+  useEffect(() => {
+    let newPrice = 0;
+
+    if (Object.keys(bun).length !== 0) {
+      newPrice += bun.price
+    }
+
+    burgerList.forEach(element => {
+      newPrice += element.price
+    })
+    
+    dispatch(updatePrice(newPrice))
+  }, [burgerList, bun])
 
   return (
     <section className={styles.constructor} ref={dropTarget}>
@@ -93,7 +108,7 @@ function BurgerConstructor({ data }) {
       </div>
       <div className={styles.result}>
         <div className={styles.price}>
-          <p className={styles.priceCount}>610</p>
+          <p className={styles.priceCount}>{price}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button 
