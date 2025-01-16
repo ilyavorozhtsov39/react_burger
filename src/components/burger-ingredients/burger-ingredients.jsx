@@ -6,6 +6,8 @@ import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx"
 import PropTypes from "prop-types";
 import { IngredientType } from "../../utils/types.js"
+import { addIngredientInfo, removeIngredientInfo } from "../../services/ingredient-info.js"
+import { useSelector, useDispatch } from "react-redux";
 
 
 function BurgerIngredients({ data }) {
@@ -15,9 +17,13 @@ function BurgerIngredients({ data }) {
   const [modalVisible, setModalVisible] = useState(false)
   const [clicked, setClicked] = useState(null)
 
+  const { ingredientInfo, infoStored } = useSelector(state => state.ingredient)
+  const dispatch = useDispatch()
+
   function showModal(dataId) {
     const item = data.find(el => el._id === dataId)
-    setClicked(item)
+    // setClicked(item)
+    dispatch(addIngredientInfo(item))
     setModalVisible(true)
   }
 
@@ -41,7 +47,7 @@ function BurgerIngredients({ data }) {
     <div className={styles.ingredients}>
       {modalVisible && 
       <Modal closeModal={closeModal}>
-        {clicked && <IngredientDetails {...clicked} />}
+        {infoStored && <IngredientDetails {...ingredientInfo} />}
       </Modal>
       }
       <h1 className={styles.header}>Соберите бургер</h1>
