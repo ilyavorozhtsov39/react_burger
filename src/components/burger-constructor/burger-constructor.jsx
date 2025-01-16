@@ -9,7 +9,7 @@ import { useDrop } from "react-dnd";
 import { useSelector, useDispatch } from 'react-redux';
 import { addIngredient, removeIngredient } from "../../services/burger.js"
 import ConstructorItem from "../constructor-item/constructor-item.jsx"
-import { updatePrice } from "../../services/order-info.js" 
+import { updatePrice, updateIdList, sendOrgerInfo } from "../../services/order-info.js" 
 
 const tempOrderId = "034536";
 
@@ -17,7 +17,7 @@ function BurgerConstructor({ data }) {
 
   const [modalVisible, setModalVisible] = useState(false);
   const { burgerList, bun, bunSelected } = useSelector(state => state.burger)
-  const { price } = useSelector(state => state.order)
+  const { price, idList, orderInfo } = useSelector(state => state.order)
 
   const dispatch = useDispatch()
 
@@ -33,35 +33,46 @@ function BurgerConstructor({ data }) {
     dispatch(removeIngredient({ index }));
   }
 
-  function showModal(e) {
-    e.stopPropagation()
-    setModalVisible(true)
-  }
-
   function closeModal() {
     setModalVisible(false)
   }
 
-  useEffect(() => {
-    let newPrice = 0;
+  function createOrder(e) {
+    e.stopPropagation()
+    setModalVisible(true)
+    dispatch(sendOrgerInfo({ ingredients: idList }))
+  }
 
-    if (Object.keys(bun).length !== 0) {
-      newPrice += bun.price
+  useEffect(() => {
+    function updateOrderInfo() {
+      let newPrice = 0;
+      const idList = []
+      if (Object.keys(bun).length !== 0) {
+        newPrice += bun.price
+        idList.push(bun._id)
+      }
+
+      // console.log(idList)
+  
+      burgerList.forEach(element => {
+        newPrice += element.price
+        idList.push(element._id)
+      })
+  
+      dispatch(updatePrice(newPrice))
+      dispatch(updateIdList(idList))
     }
 
-    burgerList.forEach(element => {
-      newPrice += element.price
-    })
-    
-    dispatch(updatePrice(newPrice))
-  }, [burgerList, bun])
+    updateOrderInfo()
+  }, [burgerList, bun ])
+
 
   return (
     <section className={styles.constructor} ref={dropTarget}>
       {
-        modalVisible &&
+        modalVisible && orderInfo.success &&
         <Modal closeModal={closeModal}>
-          <OrderDetails orderId={tempOrderId} />
+          <OrderDetails orderId={orderInfo.order.number} />
         </Modal>
       }
       <div className={styles.top}>
@@ -115,7 +126,7 @@ function BurgerConstructor({ data }) {
           type="primary"
           size="large"
           htmlType="button"
-          onClick={showModal}
+          onClick={createOrder}
         >
           Оформить заказ
         </Button>  
