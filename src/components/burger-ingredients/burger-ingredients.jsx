@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import styles from "./burger-ingredients.module.scss"
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from "../ingredient/ingredient.jsx";
@@ -12,10 +12,11 @@ import { useSelector, useDispatch } from "react-redux";
 
 function BurgerIngredients({ data }) {
 
-  const [current, setCurrent] = useState("buns");
   const [ingredients, setIngredients] = useState({buns: [], sauce: [], main: []})
   const [modalVisible, setModalVisible] = useState(false)
   const [clicked, setClicked] = useState(null)
+
+  const [activeSection, setActiveSection] = useState(0)
 
   const { ingredientInfo, infoStored } = useSelector(state => state.ingredient)
   const dispatch = useDispatch()
@@ -31,6 +32,35 @@ function BurgerIngredients({ data }) {
     setModalVisible(false)
     setClicked(null)
   }
+
+  const containerRef = useRef()
+
+  function handleScroll() {
+    const container = containerRef.current;
+    const sections = container.querySelectorAll('.section');
+    let index = 0;
+
+    sections.forEach((section, i) => {
+        const { top } = section.getBoundingClientRect();
+        console.log(top, i)
+        if (top <= 300) {
+            index = i;
+        }
+    });
+    setActiveSection(index);
+  }
+
+  useEffect(() => {
+    const container = containerRef.current;
+    container.addEventListener('scroll', handleScroll);
+      return () => container.removeEventListener('scroll', handleScroll);
+  }, [])
+
+
+
+
+
+
 
   useEffect(() => {
     function saveIngredients() {
@@ -52,11 +82,12 @@ function BurgerIngredients({ data }) {
       }
       <h1 className={styles.header}>Соберите бургер</h1>
       <div className={styles.tabs}>
-        <Tab value="buns" active={current === "buns"} onClick={setCurrent}>Булки</Tab>
-        <Tab value="sauce" active={current === "sauce"} onClick={setCurrent}>Соусы</Tab>
-        <Tab value="main" active={current === "main"} onClick={setCurrent}>Начинки</Tab>
+        <Tab value="buns" active={activeSection === 0}>Булки</Tab>
+        <Tab value="sauce" active={activeSection === 1}>Соусы</Tab>
+        <Tab value="main" active={activeSection === 2}>Начинки</Tab>
       </div>
-      <div className={styles.content}>
+      <div className={styles.content} ref={containerRef}>
+        <section className="section">
           <h2 className={styles.subheader}>Булки</h2>
           <div className={styles.items}>
             {ingredients.buns.length > 0 && ingredients.buns.map((item, index) => 
@@ -70,6 +101,8 @@ function BurgerIngredients({ data }) {
                 key={item._id}
             />)}
           </div>
+        </section>
+        <section className="section">
           <h2 className={styles.subheader}>Соусы</h2>
           <div className={styles.items}>
             {ingredients.sauce.length > 0 && ingredients.sauce.map((item, index) => 
@@ -83,6 +116,8 @@ function BurgerIngredients({ data }) {
                 key={item._id}
             />)}
           </div>
+        </section>
+        <section className="section">
           <h2 className={styles.subheader}>Начинки</h2>
           <div className={styles.items}>
             {ingredients.main.length > 0 && ingredients.main.map((item, index) => 
@@ -96,6 +131,7 @@ function BurgerIngredients({ data }) {
                 key={item._id}
             />)}
           </div>
+        </section>
       </div>
     </div>
   )
