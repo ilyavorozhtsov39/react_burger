@@ -4,7 +4,7 @@ import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-c
 import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
 
-function Ingredient({ id, dataId, name, image, price, showModal }) {
+function Ingredient({ id, counter, dataId, name, image, price, showModal }) {
 
   const [{isDrag}, dragRef] = useDrag({
       type: "ingredient",
@@ -14,8 +14,6 @@ function Ingredient({ id, dataId, name, image, price, showModal }) {
       })
   });
 
-
-  const counter = <Counter count={1} size="default" extraClass={styles.counter} />
   return (
     <div 
       className={styles.ingredient} 
@@ -23,8 +21,7 @@ function Ingredient({ id, dataId, name, image, price, showModal }) {
       onClick={() => showModal(dataId)}
       ref={dragRef}
     >
-      {}
-      {id === 1 && counter}
+      {counter > 0 ? <Counter count={counter} size="default" extraClass={styles.counter} /> : null}
       <img src={image} alt={name} className={styles.image} />
       <div className={styles.priceData}>
         <p className={styles.text}>{price}</p>
@@ -37,6 +34,7 @@ function Ingredient({ id, dataId, name, image, price, showModal }) {
 
 Ingredient.propTypes = {
   id: PropTypes.number.isRequired,
+  counter: PropTypes.number.isRequired,
   dataId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,

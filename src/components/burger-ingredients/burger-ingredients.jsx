@@ -14,23 +14,21 @@ function BurgerIngredients({ data }) {
 
   const [ingredients, setIngredients] = useState({buns: [], sauce: [], main: []})
   const [modalVisible, setModalVisible] = useState(false)
-  const [clicked, setClicked] = useState(null)
-
+  const [dataCopy, setDataCopy] = useState(data)
   const [activeSection, setActiveSection] = useState(0)
 
   const { ingredientInfo, infoStored } = useSelector(state => state.ingredient)
+  const { burgerList, bun } = useSelector(state => state.burger)
   const dispatch = useDispatch()
 
   function showModal(dataId) {
     const item = data.find(el => el._id === dataId)
-    // setClicked(item)
     dispatch(addIngredientInfo(item))
     setModalVisible(true)
   }
 
   function closeModal() {
     setModalVisible(false)
-    setClicked(null)
   }
 
   const containerRef = useRef()
@@ -42,7 +40,6 @@ function BurgerIngredients({ data }) {
 
     sections.forEach((section, i) => {
         const { top } = section.getBoundingClientRect();
-        // console.log(top, i)
         if (top <= 300) {
             index = i;
         }
@@ -56,17 +53,41 @@ function BurgerIngredients({ data }) {
       return () => container.removeEventListener('scroll', handleScroll);
   }, [])
 
+  useEffect(() => {
+    const allIngredients = [ ...burgerList, bun ]
+
+    const modded = dataCopy.map(item => {
+      item.counter = 0;
+      allIngredients.forEach(added => {
+        if (added._id === item._id) {
+          item.counter += 1
+        }
+      })
+      return item;
+    })
+    setDataCopy(modded)
+  }, [burgerList, bun])
+
+  useEffect(() => {
+    const copy = data.map(item => {
+      return {
+        ...item,
+        counter: 0
+      }
+    })
+    setDataCopy(copy)
+  }, [data])
 
   useEffect(() => {
     function saveIngredients() {
       const sorted = {}
-      sorted.buns = data.filter(item => item.type === "bun")
-      sorted.sauce = data.filter(item => item.type === "sauce")
-      sorted.main = data.filter(item => item.type === "main")
+      sorted.buns = dataCopy.filter(item => item.type === "bun")
+      sorted.sauce = dataCopy.filter(item => item.type === "sauce")
+      sorted.main = dataCopy.filter(item => item.type === "main")
       setIngredients(sorted)
     }
-    data.length > 0 && saveIngredients()
-  }, [data])
+    dataCopy.length > 0 && saveIngredients()
+  }, [dataCopy])
 
   return (
     <div className={styles.ingredients}>
@@ -88,6 +109,7 @@ function BurgerIngredients({ data }) {
             {ingredients.buns.length > 0 && ingredients.buns.map((item, index) => 
               <Ingredient 
                 id={index + 1}
+                counter={item.counter}
                 dataId={item._id}
                 name={item.name}
                 image={item.image}
@@ -103,6 +125,7 @@ function BurgerIngredients({ data }) {
             {ingredients.sauce.length > 0 && ingredients.sauce.map((item, index) => 
               <Ingredient 
                 id={index + 1}
+                counter={item.counter}
                 dataId={item._id}
                 name={item.name}
                 image={item.image}
@@ -118,6 +141,7 @@ function BurgerIngredients({ data }) {
             {ingredients.main.length > 0 && ingredients.main.map((item, index) => 
               <Ingredient 
                 id={index + 1}
+                counter={item.counter}
                 dataId={item._id}
                 name={item.name}
                 image={item.image}
@@ -137,3 +161,20 @@ BurgerIngredients.propTypes = {
 }
 
 export default BurgerIngredients;
+
+
+// const allIngredients = [ ...burgerList, bun ]
+//     allIngredients.forEach(itemAdded => {
+//       dataCopy.forEach(item => {
+//         itemAdded._id === item._id &&
+//         setDataCopy(prev => {
+//           return {
+//             ...prev,
+//             item: {
+//               ...item,
+//               counter: item.counter ? item.counter + 1 : 1
+//             }
+//           }
+//         })
+//       })
+//     })
