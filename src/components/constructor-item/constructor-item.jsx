@@ -20,11 +20,9 @@ function ConstructorItem({ index, text, price, thumbnail, length, handleClose })
           end: (item, monitor) => {
             const dropResult = monitor.getDropResult();
 
-            if (!dropResult) {
-              dispatch(removeIngredient(index))
-            } else if (typeof dropResult.data === "string") {
+            if (dropResult && typeof dropResult.data === "string") {
               handleOverBun(dropResult.data, index)
-            } else {
+            } else if (dropResult) {
               const position = handleDrop(source, dropResult.data, index)
               dispatch(sortIngredients({ position, index }))
             }
