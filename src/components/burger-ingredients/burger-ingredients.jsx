@@ -6,7 +6,7 @@ import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx"
 import PropTypes from "prop-types";
 import { IngredientType } from "../../utils/types.js"
-import { addIngredientInfo, removeIngredientInfo } from "../../services/ingredient-info.js"
+import { addIngredientInfo, removeIngredientInfo } from "../../services/ingredient-info-slice.js"
 import { useSelector, useDispatch } from "react-redux";
 
 

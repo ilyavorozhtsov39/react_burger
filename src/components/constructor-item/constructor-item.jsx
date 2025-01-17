@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import styles from "./constructor-item.module.scss"
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { useDrag, useDrop } from "react-dnd";
-import { sortIngredients, removeIngredient } from "../../services/burger.js"
+import { sortIngredients, removeIngredient } from "../../services/burger-slice.js"
 import { useDispatch } from 'react-redux';
 
 function ConstructorItem({ index, text, price, thumbnail, length, handleClose }) {

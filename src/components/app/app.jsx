@@ -6,7 +6,7 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import styles from "./app.module.scss";
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider, useSelector, useDispatch } from "react-redux"
-import { getIngredients } from "../../services/ingredients.js"
+import { getIngredients } from "../../services/ingredients-slice.js"
 import { rootReducer } from '../../services/index.js';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";

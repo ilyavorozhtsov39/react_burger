@@ -7,9 +7,9 @@ import OrderDetails from "../order-details/order-details.jsx"
 import { IngredientType } from "../../utils/types.js"
 import { useDrop } from "react-dnd";
 import { useSelector, useDispatch } from 'react-redux';
-import { addIngredient, removeIngredient } from "../../services/burger.js"
+import { addIngredient, removeIngredient } from "../../services/burger-slice.js"
 import ConstructorItem from "../constructor-item/constructor-item.jsx"
-import { updatePrice, updateIdList, sendOrgerInfo } from "../../services/order-info.js" 
+import { updatePrice, updateIdList, sendOrgerInfo } from "../../services/order-info-slice.js" 
 
 const tempOrderId = "034536";
 
