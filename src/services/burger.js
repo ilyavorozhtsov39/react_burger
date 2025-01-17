@@ -25,7 +25,6 @@ const burgerSlice = createSlice({
             const element = copy.splice(index, 1, "placeholder")[0]
             copy.splice(position, 0, element)
             const filtered = copy.filter(item => item !== "placeholder")
-            console.log(filtered)
             state.burgerList = filtered
         }
     },

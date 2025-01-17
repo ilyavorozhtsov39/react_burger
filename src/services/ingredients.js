@@ -4,8 +4,12 @@ import { getData } from "../api/get-data.js"
 const getIngredients = createAsyncThunk(
     "ingredients/getIngredients", 
     async () => {
-        const data = await getData();
-        return data;
+        try {
+            const data = await getData();
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
     }
 )
 

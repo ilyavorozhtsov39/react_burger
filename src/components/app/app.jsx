@@ -14,7 +14,6 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 function App() {
 
   const { ingredientsList } = useSelector(state => state.ingredients)
-  const { burgerList } = useSelector(state => state.burger)
 
   const dispatch = useDispatch();
 
@@ -41,7 +40,8 @@ function App() {
 function AppWrapper() {
 
   const store = configureStore({
-    reducer: rootReducer
+    reducer: rootReducer,
+    devTools: true
   })
 
   return (

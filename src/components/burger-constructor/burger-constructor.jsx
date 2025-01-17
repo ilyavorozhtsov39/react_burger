@@ -52,7 +52,6 @@ function BurgerConstructor({ data }) {
         idList.push(bun._id)
       }
 
-      // console.log(idList)
   
       burgerList.forEach(element => {
         newPrice += element.price
@@ -93,7 +92,6 @@ function BurgerConstructor({ data }) {
           burgerList && burgerList.map((item, index) => 
             <ConstructorItem
               index={index}
-              dataId={item._id}
               text={item.name}
               price={item.price}
               thumbnail={item.image_mobile}
@@ -153,7 +151,18 @@ function Bun({ type, ...props }) {
 
 
 
-BurgerConstructor.propTypes = IngredientType
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(IngredientType)
+}
+
+Bun.propTypes = {
+  type: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  text: PropTypes.string.isRequired,
+  thumbnail: PropTypes.string.isRequired,
+  extraClass: PropTypes.string,
+  isLocked: PropTypes.bool.isRequired
+}
 
 
 

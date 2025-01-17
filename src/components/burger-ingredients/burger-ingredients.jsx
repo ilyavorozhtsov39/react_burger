@@ -42,7 +42,7 @@ function BurgerIngredients({ data }) {
 
     sections.forEach((section, i) => {
         const { top } = section.getBoundingClientRect();
-        console.log(top, i)
+        // console.log(top, i)
         if (top <= 300) {
             index = i;
         }
@@ -55,11 +55,6 @@ function BurgerIngredients({ data }) {
     container.addEventListener('scroll', handleScroll);
       return () => container.removeEventListener('scroll', handleScroll);
   }, [])
-
-
-
-
-
 
 
   useEffect(() => {
@@ -137,5 +132,8 @@ function BurgerIngredients({ data }) {
   )
 }
 
-BurgerIngredients.propTypes = IngredientType
+BurgerIngredients.propTypes = {
+  data: PropTypes.arrayOf(IngredientType)
+}
+
 export default BurgerIngredients;

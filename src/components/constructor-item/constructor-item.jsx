@@ -4,10 +4,10 @@ import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burg
 import { useDrag, useDrop } from "react-dnd";
 import { sortIngredients, removeIngredient } from "../../services/burger.js"
 import { useDispatch } from 'react-redux';
-import { useState } from "react"
 
-function ConstructorItem({ index, dataId, text, price, thumbnail, length, handleClose }) {
+function ConstructorItem({ index, text, price, thumbnail, length, handleClose }) {
 
+    const conditionalPadding = 16
     const dispatch = useDispatch()
 
     const [ {isDrag, source}, dragRef ] = useDrag({
@@ -38,10 +38,12 @@ function ConstructorItem({ index, dataId, text, price, thumbnail, length, handle
 
 
     function handleDrop(source, target, index) {
+      const element = document.querySelector(".constructor-list-item:nth-child(" + (index + 1) + ")");
+      const elementHeight = element.offsetHeight + conditionalPadding;
       const result = { x: Math.round(target.x - source.x), y: Math.round(target.y - source.y) }
       const offsetY = result.y;
-      const listHeight = (index + 1) * 96;
-      const newPosition = Math.trunc((listHeight + offsetY) / 96)
+      const listHeight = (index + 1) * elementHeight;
+      const newPosition = Math.trunc((listHeight + offsetY) / elementHeight)
       return newPosition;
     }
 
@@ -56,9 +58,9 @@ function ConstructorItem({ index, dataId, text, price, thumbnail, length, handle
         drop: item => ({ data: offsetData, index })
     })
 
-    const isFinal = index === length - 1
+    const isFinal = index === length - 1;
     return (
-      <li className={styles.container} style={ !isFinal ? {paddingBottom: "16px"} : {}} ref={dropTarget}>
+      <li className={styles.container + " constructor-list-item"} style={ !isFinal ? {paddingBottom: `${conditionalPadding}px`} : {}} ref={dropTarget}>
         <div className={styles.content} ref={dragRef}>
           <div className={styles.icon}>
             <DragIcon />
@@ -81,7 +83,9 @@ ConstructorItem.propTypes = {
     index: PropTypes.number.isRequired,
     text: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
-    thumbnail: PropTypes.string.isRequired
+    thumbnail: PropTypes.string.isRequired,
+    length: PropTypes.number.isRequired,
+    handleClose: PropTypes.func.isRequired
 }
 
 export default ConstructorItem;

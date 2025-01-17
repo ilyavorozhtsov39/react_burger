@@ -4,8 +4,12 @@ import { sendOrder } from "../api/get-data.js"
 const sendOrgerInfo = createAsyncThunk(
     "order/sendOrgerInfo", 
     async (data) => {
-        const result = await sendOrder(data);
-        return result;
+        try {
+            const result = await sendOrder(data);
+            return result;
+        } catch (error) {
+            console.log(error)
+        }
     }
 )
 
