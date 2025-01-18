@@ -136,7 +136,7 @@ function Section({ section, title, showModal }) {
             image={item.image}
             price={item.price}
             showModal={showModal}
-            key={item._id}
+            key={item.key}
         />)}
       </div>
     </section>
