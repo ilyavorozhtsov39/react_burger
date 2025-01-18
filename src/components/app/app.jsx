@@ -23,15 +23,15 @@ function App() {
 
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div className={styles.app}>
-        <AppHeader />
-          <main className={styles.main}>
-            <BurgerIngredients data={ingredientsList} />
-            <BurgerConstructor data={ingredientsList} />
-          </main>
-      </div>
-    </DndProvider>
+    <div className={styles.app}>
+      <AppHeader />
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.main}>
+          <BurgerIngredients data={ingredientsList} />
+          <BurgerConstructor data={ingredientsList} />
+        </main>
+      </DndProvider>
+    </div>
   );
 }
 

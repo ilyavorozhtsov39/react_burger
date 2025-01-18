@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useMemo } from "react"
 import styles from "./burger-ingredients.module.scss"
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from "../ingredient/ingredient.jsx";
@@ -12,7 +12,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 function BurgerIngredients({ data }) {
 
-  const [ingredients, setIngredients] = useState({buns: [], sauce: [], main: []})
   const [modalVisible, setModalVisible] = useState(false)
   const [dataCopy, setDataCopy] = useState(data)
   const [activeSection, setActiveSection] = useState(0)
@@ -78,16 +77,16 @@ function BurgerIngredients({ data }) {
     setDataCopy(copy)
   }, [data])
 
-  useEffect(() => {
-    function saveIngredients() {
-      const sorted = {}
-      sorted.buns = dataCopy.filter(item => item.type === "bun")
-      sorted.sauce = dataCopy.filter(item => item.type === "sauce")
-      sorted.main = dataCopy.filter(item => item.type === "main")
-      setIngredients(sorted)
-    }
-    dataCopy.length > 0 && saveIngredients()
-  }, [dataCopy])
+  function saveIngredients() {
+    const sorted = {}
+    sorted.buns = dataCopy.filter(item => item.type === "bun")
+    sorted.sauce = dataCopy.filter(item => item.type === "sauce")
+    sorted.main = dataCopy.filter(item => item.type === "main")
+    return sorted;
+  }
+
+  let ingredients = {buns: [], sauce: [], main: []}
+  ingredients = useMemo(saveIngredients, [dataCopy])
 
   return (
     <div className={styles.ingredients}>
@@ -103,56 +102,44 @@ function BurgerIngredients({ data }) {
         <Tab value="main" active={activeSection === 2}>Начинки</Tab>
       </div>
       <div className={styles.content} ref={containerRef}>
-        <section className="section">
-          <h2 className={styles.subheader}>Булки</h2>
-          <div className={styles.items}>
-            {ingredients.buns.length > 0 && ingredients.buns.map((item, index) => 
-              <Ingredient 
-                id={index + 1}
-                counter={item.counter}
-                dataId={item._id}
-                name={item.name}
-                image={item.image}
-                price={item.price}
-                showModal={showModal}
-                key={item._id}
-            />)}
-          </div>
-        </section>
-        <section className="section">
-          <h2 className={styles.subheader}>Соусы</h2>
-          <div className={styles.items}>
-            {ingredients.sauce.length > 0 && ingredients.sauce.map((item, index) => 
-              <Ingredient 
-                id={index + 1}
-                counter={item.counter}
-                dataId={item._id}
-                name={item.name}
-                image={item.image}
-                price={item.price}
-                showModal={showModal}
-                key={item._id}
-            />)}
-          </div>
-        </section>
-        <section className="section">
-          <h2 className={styles.subheader}>Начинки</h2>
-          <div className={styles.items}>
-            {ingredients.main.length > 0 && ingredients.main.map((item, index) => 
-              <Ingredient 
-                id={index + 1}
-                counter={item.counter}
-                dataId={item._id}
-                name={item.name}
-                image={item.image}
-                price={item.price}
-                showModal={showModal}
-                key={item._id}
-            />)}
-          </div>
-        </section>
+        <Section
+          section={ingredients.buns}
+          title="Булки"
+          showModal={showModal}
+        />
+        <Section
+          section={ingredients.sauce}
+          title="Соусы"
+          showModal={showModal}
+        />
+        <Section
+          section={ingredients.main}
+          title="Начинки"
+          showModal={showModal}
+        />
       </div>
     </div>
+  )
+}
+
+function Section({ section, title, showModal }) {
+  return ( 
+    <section className="section">
+      <h2 className={styles.subheader}>{title}</h2>
+      <div className={styles.items}>
+        {section.length > 0 && section.map((item, index) => 
+          <Ingredient 
+            id={index + 1}
+            counter={item.counter}
+            dataId={item._id}
+            name={item.name}
+            image={item.image}
+            price={item.price}
+            showModal={showModal}
+            key={item._id}
+        />)}
+      </div>
+    </section>
   )
 }
 
@@ -161,20 +148,3 @@ BurgerIngredients.propTypes = {
 }
 
 export default BurgerIngredients;
-
-
-// const allIngredients = [ ...burgerList, bun ]
-//     allIngredients.forEach(itemAdded => {
-//       dataCopy.forEach(item => {
-//         itemAdded._id === item._id &&
-//         setDataCopy(prev => {
-//           return {
-//             ...prev,
-//             item: {
-//               ...item,
-//               counter: item.counter ? item.counter + 1 : 1
-//             }
-//           }
-//         })
-//       })
-//     })

@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addIngredient, removeIngredient } from "../../services/burger-slice.js"
 import ConstructorItem from "../constructor-item/constructor-item.jsx"
 import { updatePrice, updateIdList, sendOrgerInfo } from "../../services/order-info-slice.js" 
+import { v4 as uuidv4 } from 'uuid';
 
 const tempOrderId = "034536";
 
@@ -25,7 +26,8 @@ function BurgerConstructor({ data }) {
       accept: "ingredient",
       drop(item) {
         const itemToStore = data.find(element => element._id === item.dataId)
-        dispatch(addIngredient(itemToStore));
+        const updatedItem = { ...itemToStore, key: uuidv4() }
+        dispatch(addIngredient(updatedItem));
       },
   })
 
@@ -97,7 +99,7 @@ function BurgerConstructor({ data }) {
               thumbnail={item.image_mobile}
               length={burgerList.length}
               handleClose={removeElement}
-              key={index}
+              key={item.key}
             />
           )
         }
