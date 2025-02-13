@@ -1,40 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import Main from '../../pages/main/main.jsx';
+import Login from '../../pages/login/login.jsx';
+import Register from '../../pages/register/register.jsx';
 import { Box } from "@ya.praktikum/react-developer-burger-ui-components"
 import AppHeader from '../app-header/app-header';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import styles from "./app.module.scss";
 import { configureStore } from '@reduxjs/toolkit'
-import { Provider, useSelector, useDispatch } from "react-redux"
-import { getIngredients } from "../../services/ingredients-slice.js"
 import { rootReducer } from '../../services/index.js';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { Provider } from "react-redux"
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 
 function App() {
-
-  const { ingredientsList } = useSelector(state => state.ingredients)
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredients())
-  }, [])
-
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <DndProvider backend={HTML5Backend}>
-        <main className={styles.main}>
-          <BurgerIngredients data={ingredientsList} />
-          <BurgerConstructor data={ingredientsList} />
-        </main>
-      </DndProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
-
 
 
 function AppWrapper() {
