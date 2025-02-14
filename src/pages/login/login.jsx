@@ -15,10 +15,14 @@ function Login() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    function sumbitForm(e) {
+    async function sumbitForm(e) {
         e.preventDefault();
-        dispatch(loginUser(form));
-        // console.log("submit")
+        const result = await dispatch(loginUser(form));
+        if (result.payload.success) {
+            // переход на главную страницу
+        } else {
+          console.log("Error: ", result)
+        }
     }
 
   return (

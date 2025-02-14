@@ -24,4 +24,16 @@ async function login(data) {
     return result;
 }
 
-export { register, login }
+async function getUserInfo(token) {
+    const response = await fetch(`${BASE_URL}/auth/user`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`
+        }
+    })
+    const result = await response.json();
+    return result;
+}
+
+export { register, login, getUserInfo }
