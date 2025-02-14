@@ -3,10 +3,13 @@ import { Input, EmailInput, PasswordInput, Button } from "@ya.praktikum/react-de
 import { Link } from "react-router-dom";
 import styles from "./register.module.scss";
 import { useState } from "react";
+import { useDispatch } from "react-redux"
+import { registerUser } from "../../services/user-slice.js"
 
 function Register() {
 
     const [form, setForm] = useState({  name: "", email: "", password: "" });
+    const dispatch = useDispatch();
 
     function handleChange(e) {
         setForm({ ...form, [e.target.name]: e.target.value }); 
@@ -14,7 +17,8 @@ function Register() {
 
     function sumbitForm(e) {
         e.preventDefault();
-        console.log("submit")
+        dispatch(registerUser(form));
+        // console.log("submit")
     }
 
     return (
