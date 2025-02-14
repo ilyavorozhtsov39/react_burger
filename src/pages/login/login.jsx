@@ -12,7 +12,7 @@ function Login() {
             Войти
         </Button>
         <p className={styles.text}>Вы - новый пользователь? <Link to="/register">Зарегистрироваться</Link></p>
-        <p className={styles.text}>Забыли пароль? Восстановить пароль</p>
+        <p className={styles.text}>Забыли пароль? <Link to="/forgot-password">Восстановить пароль</Link></p>
     </AuthWrapper>
   );
 }
