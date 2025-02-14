@@ -2,6 +2,7 @@ import Main from '../../pages/main/main.jsx';
 import Login from '../../pages/login/login.jsx';
 import Register from '../../pages/register/register.jsx';
 import ForgotPassword from '../../pages/forgot-password/forgot-password.jsx';
+import ResetPassword from '../../pages/reset-password/reset-paassword.jsx';
 import Profile from '../../pages/profile/profile.jsx';
 import Ingredient from '../../pages/ingredient/ingredient.jsx';
 import { Box } from "@ya.praktikum/react-developer-burger-ui-components"
@@ -18,13 +19,14 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <AppHeader />
       <Router>
+        <AppHeader />
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/ingredients/:id" element={<Ingredient />} />
         </Routes>

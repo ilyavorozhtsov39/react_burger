@@ -2,9 +2,14 @@ import React from 'react';
 import styles from './app-header.module.scss';
 import { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import HeaderMenuItem from '../header-menu-item/header-menu-item.jsx';
+import { useNavigate } from 'react-router-dom';
 
 
 function AppHeader() {
+    const navigate = useNavigate();
+    function switchPage() {
+        navigate("/profile");
+    }
     return (
         <header className={styles.header}>
             <div className={styles.content}>
@@ -23,7 +28,7 @@ function AppHeader() {
                     </HeaderMenuItem>
                 </nav>
                 <Logo />
-                <div className={styles.container}>
+                <div className={styles.container} onClick={switchPage}>
                     <HeaderMenuItem
                         text="Личный кабинет"
                     >
@@ -34,5 +39,8 @@ function AppHeader() {
         </header>
     );
 }
+
+{/* <Link to="/profile">
+</Link> */}
 
 export default AppHeader;

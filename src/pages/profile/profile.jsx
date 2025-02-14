@@ -1,7 +1,21 @@
+import React, { useEffect } from 'react';
 import styles from './profile.module.scss';
-import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatch } from "react-redux"
+import { getUser } from "../../services/user-slice.js"
 
 function Profile() {
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        async function getProfile() {
+            const result = await dispatch(getUser())
+            console.log(result)
+        }
+        getProfile()
+    }, [])
+
     return (
         <main className={styles.main}>
             <div className={styles.container}>

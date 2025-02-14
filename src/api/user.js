@@ -36,4 +36,40 @@ async function getUserInfo(token) {
     return result;
 }
 
-export { register, login, getUserInfo }
+async function refreshToken(token) {
+    const response = await fetch(`${BASE_URL}/auth/token`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ token: `${token}` })
+    })
+    const result = await response.json();
+    return result;
+}
+
+async function resetPassword(data) {
+    const response = await fetch(`${BASE_URL}/password-reset`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    const result = await response.json();
+    return result;
+}
+
+async function setNewPassword(data) {
+    const response = await fetch(`${BASE_URL}/password-reset/reset`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    const result = await response.json();
+    return result;
+}
+
+export { register, login, getUserInfo, refreshToken, resetPassword, setNewPassword }
