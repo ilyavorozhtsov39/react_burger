@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "./login.module.scss";
 import { useState } from "react";
 import { useDispatch } from "react-redux"
-import { loginUser } from "../../services/user-slice.js"
+import { loginUser, setUser } from "../../services/user-slice.js"
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -22,6 +22,7 @@ function Login() {
         const result = await dispatch(loginUser(form));
         if (result.payload.success) {
             navigate("/");
+            dispatch(setUser())
         } else {
           console.log("Error: ", result)
         }

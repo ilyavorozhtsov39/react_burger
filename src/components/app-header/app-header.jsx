@@ -1,15 +1,28 @@
-import React from 'react';
+// import React, { useState } from 'react';
 import styles from './app-header.module.scss';
 import { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import HeaderMenuItem from '../header-menu-item/header-menu-item.jsx';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux"
+import { setUser } from "../../services/user-slice.js"
 
 
 function AppHeader() {
+
     const navigate = useNavigate();
-    function switchPage() {
+    const dispatch = useDispatch();
+
+    async function goToProfile() {
         navigate("/profile");
+        // const result = await dispatch(setUser())
+        // console.log("Get profile result: ", result)
+        // if (result.payload.success) {
+        //     navigate("/profile");
+        // } else {
+        //     navigate("/login");
+        // }
     }
+
     return (
         <header className={styles.header}>
             <div className={styles.content}>
@@ -28,7 +41,7 @@ function AppHeader() {
                     </HeaderMenuItem>
                 </nav>
                 <Logo />
-                <div className={styles.container} onClick={switchPage}>
+                <div className={styles.container} onClick={goToProfile}>
                     <HeaderMenuItem
                         text="Личный кабинет"
                     >

@@ -36,6 +36,19 @@ async function getUserInfo(token) {
     return result;
 }
 
+async function changeUserInfo(data, token) {
+    const response = await fetch(`${BASE_URL}/auth/user`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`
+        },
+        body: JSON.stringify(data)
+    })
+    const result = await response.json();
+    return result;
+}
+
 async function refreshToken(token) {
     const response = await fetch(`${BASE_URL}/auth/token`, {
         method: "POST",
@@ -84,4 +97,4 @@ async function logout(token) {
     return result;
 }
 
-export { register, login, logout, getUserInfo, refreshToken, resetPassword, setNewPassword }
+export { register, login, logout, getUserInfo, refreshToken, resetPassword, setNewPassword, changeUserInfo }

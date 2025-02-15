@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { login, logout, register, getUserInfo, refreshToken } from "../api/user.js"
+import { login, logout, register, getUserInfo, refreshToken, changeUserInfo } from "../api/user.js"
 import { setCookie, getCookie, deleteCookie } from './cookies.js';
+
 
 const loginUser = createAsyncThunk(
     "user/loginUser", 
@@ -26,13 +27,12 @@ const registerUser = createAsyncThunk(
     }
 )
 
-const getUser = createAsyncThunk(
-    "user/getUser", 
+const setUser = createAsyncThunk(
+    "user/setUser", 
     async () => {
         let token = getCookie("accessToken");
         if (!token) {
             const refreshTokenValue = getCookie("refreshToken");
-            // console.log("REF: ", refreshTokenValue)
             const result = await refreshToken(refreshTokenValue);
             if (result.success) {
                 token = result.accessToken;
@@ -42,6 +42,27 @@ const getUser = createAsyncThunk(
         // console.log(token)
         try {
             const result = await getUserInfo(token);
+            return result;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
+
+const modifyUser = createAsyncThunk(
+    "user/modifyUser",
+    async (data) => {
+        try {
+            const token = getCookie("accessToken");
+            if (!token) {
+                const refreshTokenValue = getCookie("refreshToken");
+                const result = await refreshToken(refreshTokenValue);
+                if (result.success) {
+                    token = result.accessToken;
+                    setCookie("accessToken", token, { path: "/", expires: 1200 });
+                }
+            }
+            const result = await changeUserInfo(data, token);
             return result;
         } catch (error) {
             console.log(error)
@@ -77,26 +98,29 @@ const userSlice = createSlice({
         })
         builder.addCase(loginUser.fulfilled, (state, action) => {
             console.log("LOG SL: " , action.payload)
-            if (action.payload.success) {
-                const response = { ...action.payload };
-                state = { ...state, user: response.user, isAuth: true };
-                setCookie("refreshToken", response.refreshToken, { path: "/", expires: 3600 });
-                setCookie("accessToken", response.accessToken, { path: "/", expires: 1200 });
-            }
-
-            // setTimeout(() => {
-            //     console.log(action.payload, state)
-            // })
+            const response = action.payload;
+            setCookie("refreshToken", response.refreshToken, { path: "/", expires: 3600 });
+            setCookie("accessToken", response.accessToken, { path: "/", expires: 1200 });
         })
-        builder.addCase(getUser.fulfilled, (state, action) => {
-            console.log("Get user successful: " , action.payload)
+        builder.addCase(setUser.fulfilled, (state, action) => {
+            console.log("Set user successful: " , action.payload)
+            state.user = action.payload.user;
+            state.isAuth = true;
+            // state = { user: action.payload.user, isAuth: true };
+            // setTimeout(() => {
+            //     console.log("New state: ", state)
+            // }, 2000)
         })
         builder.addCase(logoutUser.fulfilled, (state, action) => {
             console.log("Logout result: " , action.payload)
             deleteCookie("accessToken");
             deleteCookie("refreshToken");
         })
+        builder.addCase(modifyUser.fulfilled, (state, action) => {
+            console.log("Modify user result: ", action.payload)
+            // state.user = action.payload.user;
+        })
     }
 })
 
-export { loginUser, logoutUser, registerUser, getUser, userSlice }
+export { loginUser, logoutUser, registerUser, setUser, modifyUser, userSlice }
