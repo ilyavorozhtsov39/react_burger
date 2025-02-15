@@ -20,7 +20,7 @@ function ResetPassword() {
         if (result.success) {
             navigate("/login");
         }
-        console.log(result)
+        console.log("Reset password result: ", result)
     }
 
     return (

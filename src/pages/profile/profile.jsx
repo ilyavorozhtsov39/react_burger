@@ -2,16 +2,29 @@ import React, { useEffect } from 'react';
 import styles from './profile.module.scss';
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux"
-import { getUser } from "../../services/user-slice.js"
+import { getUser, logoutUser } from "../../services/user-slice.js"
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    async function handleLogout() {
+        const result = await dispatch(logoutUser())
+        console.log("Logout result: ", result)
+        if (result.payload.success) {
+            navigate("/login")
+        }
+    }
 
     useEffect(() => {
         async function getProfile() {
             const result = await dispatch(getUser())
-            console.log(result)
+            if (!result.payload.success) {
+                navigate("/login")
+            }
+            console.log("Get profile result: ", result)
         }
         getProfile()
     }, [])
@@ -23,7 +36,7 @@ function Profile() {
                     <ul className={styles.routes}>
                         <li className={styles.route}>Профиль</li>
                         <li className={styles.route}>История заказов</li>
-                        <li className={styles.route}>Выход</li>
+                        <li className={styles.route} onClick={handleLogout}>Выход</li>
                     </ul>
                     <p className={styles.text}>В этом разделе вы можете изменить свои персональные данные</p>
                 </section>

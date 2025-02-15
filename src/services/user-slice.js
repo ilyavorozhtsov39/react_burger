@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { login, register, getUserInfo, refreshToken } from "../api/user.js"
-import { setCookie, getCookie } from './cookies.js';
+import { login, logout, register, getUserInfo, refreshToken } from "../api/user.js"
+import { setCookie, getCookie, deleteCookie } from './cookies.js';
 
 const loginUser = createAsyncThunk(
     "user/loginUser", 
@@ -49,6 +49,19 @@ const getUser = createAsyncThunk(
     }
 )
 
+const logoutUser = createAsyncThunk(
+    "user/logoutUser", 
+    async () => {
+        try {
+            const token = getCookie("refreshToken");
+            const result = await logout(token);
+            return result;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
+
 const userSlice = createSlice({
     name: "user",
     initialState: { 
@@ -66,7 +79,6 @@ const userSlice = createSlice({
             console.log("LOG SL: " , action.payload)
             if (action.payload.success) {
                 const response = { ...action.payload };
-                delete response.success;
                 state = { ...state, user: response.user, isAuth: true };
                 setCookie("refreshToken", response.refreshToken, { path: "/", expires: 3600 });
                 setCookie("accessToken", response.accessToken, { path: "/", expires: 1200 });
@@ -79,7 +91,12 @@ const userSlice = createSlice({
         builder.addCase(getUser.fulfilled, (state, action) => {
             console.log("Get user successful: " , action.payload)
         })
+        builder.addCase(logoutUser.fulfilled, (state, action) => {
+            console.log("Logout result: " , action.payload)
+            deleteCookie("accessToken");
+            deleteCookie("refreshToken");
+        })
     }
 })
 
-export { loginUser, registerUser, getUser, userSlice }
+export { loginUser, logoutUser, registerUser, getUser, userSlice }

@@ -72,4 +72,16 @@ async function setNewPassword(data) {
     return result;
 }
 
-export { register, login, getUserInfo, refreshToken, resetPassword, setNewPassword }
+async function logout(token) {
+    const response = await fetch(`${BASE_URL}/auth/logout`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ token: `${token}` })
+    })
+    const result = await response.json();
+    return result;
+}
+
+export { register, login, logout, getUserInfo, refreshToken, resetPassword, setNewPassword }

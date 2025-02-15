@@ -5,11 +5,13 @@ import styles from "./login.module.scss";
 import { useState } from "react";
 import { useDispatch } from "react-redux"
 import { loginUser } from "../../services/user-slice.js"
+import { useNavigate } from "react-router-dom";
 
 function Login() {
 
     const [form, setForm] = useState({ email: "", password: "" });
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     function handleChange(e) {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -19,7 +21,7 @@ function Login() {
         e.preventDefault();
         const result = await dispatch(loginUser(form));
         if (result.payload.success) {
-            // переход на главную страницу
+            navigate("/");
         } else {
           console.log("Error: ", result)
         }
