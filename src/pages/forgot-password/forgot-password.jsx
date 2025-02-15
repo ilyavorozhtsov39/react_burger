@@ -18,7 +18,7 @@ function ForgotPassword() {
         e.preventDefault();
         const result = await resetPassword(form);
         if (result.success) {
-            navigate("/reset-password");
+            navigate("/reset-password", { state: { from: "/forgot-password" }});
         }
         console.log("Reset password request: ", result)
     }

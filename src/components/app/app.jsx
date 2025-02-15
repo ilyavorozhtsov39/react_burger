@@ -24,17 +24,23 @@ function App() {
         <AppHeader />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/profile" element={<ProtectedPage element={<Profile />} />} />
+          <Route path="/login" element={<ProtectedPage type="auth" element={<Login />} />} />
+          <Route path="/register" element={<ProtectedPage type="auth" element={<Register />} />} />
+          <Route path="/forgot-password" element={<ProtectedPage type="auth" element={<ForgotPassword />} />} />
+          <Route path="/reset-password" element={<ProtectedPage type="auth" element={<ResetPassword />} />} />
+          <Route path="/profile" element={<ProtectedPage type="unauth" element={<Profile />} />} />
           <Route path="/ingredients/:id" element={<Ingredient />} />
         </Routes>
       </Router>
     </div>
   );
 }
+
+{/* <Route path="/login" element={<Login />} />
+<Route path="/register" element={<Register />} />
+<Route path="/forgot-password" element={<ForgotPassword />} />
+<Route path="/reset-password" element={<ResetPassword />} />
+<Route path="/profile" element={<ProtectedPage type="unauth" element={<Profile />} />} /> */}
 
 
 function AppWrapper() {

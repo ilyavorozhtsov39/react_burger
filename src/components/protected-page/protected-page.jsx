@@ -1,9 +1,9 @@
-import { Route, Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useDispatch } from "react-redux"
 import { setUser } from "../../services/user-slice.js"
 import { useState, useEffect } from 'react';
 
-function ProtectedPage({ element }) {
+function ProtectedPage({ type, element }) {
 
     const [ isUserLoaded, setIsUserLoaded ] = useState(false)
     const [ authUser, setAuthUser ] = useState(false)
@@ -14,6 +14,10 @@ function ProtectedPage({ element }) {
         async function getUserInfo() {
             const response = await dispatch(setUser())
             setIsUserLoaded(true)
+            // let result = response.payload.success
+            // if (type === "auth") {
+            //     result = !result
+            // }
             setAuthUser(response.payload.success)
         }
         getUserInfo()
@@ -23,7 +27,11 @@ function ProtectedPage({ element }) {
         return null
     }
 
-    return authUser ? element : <Navigate to="/login" replace state={{ from: location }} />
+    if (type === "unauth") {
+        return authUser ? element : <Navigate to="/login" replace state={{ from: location }} />
+    } else if (type === "auth") {
+        return authUser ? <Navigate to="/" replace /> : element
+    }
 }
 
 export default ProtectedPage

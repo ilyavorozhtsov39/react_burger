@@ -1,14 +1,16 @@
 import styles from './reset-password.module.scss';
 import AuthWrapper from "../../components/auth-wrapper/auth-wrapper";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { PasswordInput, Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { setNewPassword } from '../../api/user';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function ResetPassword() {
 
     const [form, setForm] = useState({ password: "", token: "" });
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from || "/";
 
     function handleChange(e) {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -22,6 +24,12 @@ function ResetPassword() {
         }
         console.log("Reset password result: ", result)
     }
+
+    useEffect(() => {
+        if (from !== "/forgot-password") {
+            navigate("/login");
+        }
+    }, [])
 
     return (
         <AuthWrapper title="Восстановление пароля">
