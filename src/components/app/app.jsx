@@ -13,6 +13,7 @@ import { rootReducer } from '../../services/index.js';
 import { Provider } from "react-redux"
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ProtectedPage from '../protected-page/protected-page.jsx';
 
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<ProtectedPage element={<Profile />} />} />
           <Route path="/ingredients/:id" element={<Ingredient />} />
         </Routes>
       </Router>

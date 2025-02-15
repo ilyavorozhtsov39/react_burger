@@ -5,13 +5,15 @@ import styles from "./login.module.scss";
 import { useState } from "react";
 import { useDispatch } from "react-redux"
 import { loginUser, setUser } from "../../services/user-slice.js"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Login() {
 
     const [form, setForm] = useState({ email: "", password: "" });
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
 
     function handleChange(e) {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -21,8 +23,8 @@ function Login() {
         e.preventDefault();
         const result = await dispatch(loginUser(form));
         if (result.payload.success) {
-            navigate("/");
-            dispatch(setUser())
+            navigate(from, { replace: true });
+            // dispatch(setUser())
         } else {
           console.log("Error: ", result)
         }

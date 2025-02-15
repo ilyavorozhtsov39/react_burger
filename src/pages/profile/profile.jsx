@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './profile.module.scss';
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { logoutUser, modifyUser } from "../../services/user-slice.js"
 import { useNavigate } from 'react-router-dom';
 
@@ -10,7 +10,6 @@ import { setUser } from "../../services/user-slice.js"
 function Profile() {
 
     const [form, setForm] = useState({  name: "", login: "", password: "" });
-    const { user } = useSelector(state => state.user)
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -33,7 +32,15 @@ function Profile() {
     }
 
     useEffect(() => {
-        setForm({ name: user.name, login: user.email, password: "" })
+        async function getUserInfo() {
+            const data = await dispatch(setUser())
+            if (data.payload.success) {
+                const { user } = data.payload
+                setForm({ name: user.name, login: user.email, password: "" })
+            }
+        }
+        console.log(window.history)
+        getUserInfo()
     }, [])
 
     return (
