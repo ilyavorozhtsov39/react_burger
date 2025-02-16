@@ -9,7 +9,6 @@ function ProtectedPage({ type, element }) {
     const [ authUser, setAuthUser ] = useState(false)
     const location = useLocation()
     const from = location.state?.from?.pathname || '/';
-    console.log("FROM: ", from, location)
 
     const userState = useSelector(state => state.user)
 
@@ -20,6 +19,8 @@ function ProtectedPage({ type, element }) {
             }
             if (userState.isAuth) {
                 setAuthUser(true)
+            } else {
+                setAuthUser(false)
             }
         }
 
@@ -33,9 +34,7 @@ function ProtectedPage({ type, element }) {
     if (type === "unauth") {
         return authUser ? element : <Navigate to="/login" replace state={{ from: location }} />
     } else if (type === "auth") {
-        return element
-        // console.log("GONAV")
-        // return authUser ? <Navigate to={from} replace /> : element
+        return authUser ? <Navigate to={from} replace /> : element
     }
 }
 

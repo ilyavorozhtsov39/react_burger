@@ -116,6 +116,8 @@ const userSlice = createSlice({
         })
         builder.addCase(logoutUser.fulfilled, (state, action) => {
             console.log("Logout result: " , action.payload)
+            state.user = { name: "", email: "" };
+            state.isAuth = false;
             deleteCookie("accessToken");
             deleteCookie("refreshToken");
         })

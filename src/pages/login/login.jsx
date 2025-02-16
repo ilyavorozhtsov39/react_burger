@@ -14,7 +14,6 @@ function Login() {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
-    // console.log(from)
 
     function handleChange(e) {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -24,9 +23,10 @@ function Login() {
         e.preventDefault();
         const result = await dispatch(loginUser(form));
         if (result.payload.success) {
-            await dispatch(setUser())
-            // console.log("Submit login: ", from)
-            navigate(from, { replace: true });
+            const userSet = await dispatch(setUser())
+            if (userSet.payload.success) {
+              navigate(from, { replace: true });
+            }
         } else {
           console.log("Error: ", result)
         }
