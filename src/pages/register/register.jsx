@@ -23,7 +23,7 @@ function Register() {
 
     return (
         <AuthWrapper title="Регистрация">
-            <form action="" className={styles.form} onSubmit={sumbitForm}>
+            <form className={styles.form} onSubmit={sumbitForm}>
                 <Input 
                     type="text" 
                     placeholder="Имя" 

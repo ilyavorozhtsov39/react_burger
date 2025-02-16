@@ -12,8 +12,8 @@ function AppHeader() {
     const navigate = useNavigate();
     const location = useLocation()
 
-    async function goToProfile() {
-        navigate("/profile");
+    async function switchPage(page) {
+        navigate(page);
     }
 
     useEffect(() => {
@@ -24,6 +24,7 @@ function AppHeader() {
         <header className={styles.header}>
             <div className={styles.content}>
                 <nav className={styles.items}>
+                    <div onClick={() => switchPage("/")}>
                     <HeaderMenuItem
                         text="Конструктор"
                         stylesModifier={{marginRight: "4px"}}
@@ -31,6 +32,7 @@ function AppHeader() {
                     >
                         <BurgerIcon type={activePage === "/" ? "primary" : "secondary"} />
                     </HeaderMenuItem>
+                    </div>
                     <HeaderMenuItem
                         text="Лента заказов"
                         stylesModifier={{marginLeft: "4px"}}
@@ -40,7 +42,7 @@ function AppHeader() {
                     </HeaderMenuItem>
                 </nav>
                 <Logo />
-                <div className={styles.container} onClick={goToProfile}>
+                <div className={styles.container} onClick={() => switchPage("/profile")}>
                     <HeaderMenuItem
                         text="Личный кабинет"
                         type={activePage === "/profile" ? "primary" : "secondary"}
@@ -53,7 +55,5 @@ function AppHeader() {
     );
 }
 
-{/* <Link to="/profile">
-</Link> */}
 
 export default AppHeader;

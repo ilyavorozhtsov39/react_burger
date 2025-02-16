@@ -33,11 +33,13 @@ function ResetPassword() {
 
     return (
         <AuthWrapper title="Восстановление пароля">
-            <PasswordInput name="password" value={form.password} placeholder="Введите новый пароль" extraClass="mb-6" onChange={handleChange} />
-            <Input name="token" value={form.token} type="text" placeholder="Введите код из письма" extraClass="mb-6" onChange={handleChange} />
-            <Button htmlType="button" type="primary" size="medium" extraClass="mb-20" onClick={submitForm}>
-                Восстановить
-            </Button>
+            <form className={styles.form} onSubmit={submitForm}>
+                <PasswordInput name="password" value={form.password} placeholder="Введите новый пароль" extraClass="mb-6" onChange={handleChange} />
+                <Input name="token" value={form.token} type="text" placeholder="Введите код из письма" extraClass="mb-6" onChange={handleChange} />
+                <Button htmlType="submit" type="primary" size="medium" extraClass={styles.button}>
+                    Восстановить
+                </Button>
+            </form>
             <p className={styles.text}>Вспомнили пароль? <Link to="/login">Войти</Link></p>
         </AuthWrapper>
     )

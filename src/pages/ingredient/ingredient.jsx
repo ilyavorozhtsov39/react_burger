@@ -1,4 +1,5 @@
 import styles from './ingredient.module.scss';
+import PropTypes from 'prop-types';
 
 
 function IngredientPage({ children }) {
@@ -7,6 +8,10 @@ function IngredientPage({ children }) {
             {children}
         </div>
     )
+}
+
+IngredientPage.propTypes = {
+    children: PropTypes.node
 }
 
 export default IngredientPage;

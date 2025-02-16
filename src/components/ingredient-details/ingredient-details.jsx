@@ -46,18 +46,18 @@ function InfoBlock({ text, number }) {
     )
 }
 
-// IngredientDetails.propTypes = {
-//     image: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     fat: PropTypes.number.isRequired,
-//     calories: PropTypes.number.isRequired,
-//     carbohydrates: PropTypes.number.isRequired,
-//     proteins: PropTypes.number.isRequired,
-// }
+IngredientDetails.propTypes = {
+    image: PropTypes.string,
+    name: PropTypes.string,
+    fat: PropTypes.number,
+    calories: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    proteins: PropTypes.number,
+}
 
-// InfoBlock.propTypes = {
-//     text: PropTypes.string.isRequired,
-//     number: PropTypes.number.isRequired,
-// }
+InfoBlock.propTypes = {
+    text: PropTypes.string,
+    number: PropTypes.number,
+}
 
 export default IngredientDetails;

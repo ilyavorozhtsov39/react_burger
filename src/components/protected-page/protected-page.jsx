@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from "react-redux"
 import { useState, useEffect } from 'react';
+import PropTypes from "prop-types";
 
 
 function ProtectedPage({ type, element }) {
@@ -36,6 +37,11 @@ function ProtectedPage({ type, element }) {
     } else if (type === "auth") {
         return authUser ? <Navigate to={from} replace /> : element
     }
+}
+
+ProtectedPage.propTypes = {
+    type: PropTypes.string.isRequired,
+    element: PropTypes.node.isRequired
 }
 
 export default ProtectedPage

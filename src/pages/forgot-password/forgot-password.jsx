@@ -25,10 +25,12 @@ function ForgotPassword() {
 
     return (
         <AuthWrapper title="Восстановление пароля">
-            <EmailInput name="email" placeholder="Укажите e-mail" extraClass="mb-6" onChange={handleChange} value={form.email} />
-            <Button htmlType="button" type="primary" size="medium" extraClass="mb-20" onClick={submitForm}>
-                Восстановить
-            </Button>
+            <form className={styles.form} onSubmit={submitForm}>
+                <EmailInput name="email" placeholder="Укажите e-mail" extraClass="mb-6" onChange={handleChange} value={form.email} />
+                <Button htmlType="submit" type="primary" size="medium" extraClass={styles.button}>
+                    Восстановить
+                </Button>
+            </form>
             <p className={styles.text}>Вспомнили пароль? <Link to="/login">Войти</Link></p>
         </AuthWrapper>
     )

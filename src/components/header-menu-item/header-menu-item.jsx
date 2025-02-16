@@ -15,6 +15,7 @@ function HeaderMenuItem({text, stylesModifier = {}, type, children}) {
 HeaderMenuItem.propTypes = {
     text: PropTypes.string.isRequired,
     classModifier: PropTypes.objectOf(PropTypes.string),
+    type: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired
 }
 

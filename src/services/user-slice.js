@@ -96,10 +96,10 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(registerUser.fulfilled, (state, action) => {
-            console.log("REG SL: " , action.payload)
+            console.log("Register result: " , action.payload)
         })
         builder.addCase(loginUser.fulfilled, (state, action) => {
-            console.log("LOG SL: " , action.payload)
+            console.log("Login result: " , action.payload)
             const response = action.payload;
             setCookie("refreshToken", response.refreshToken, { path: "/", expires: 3600 });
             setCookie("accessToken", response.accessToken, { path: "/", expires: 1200 });
@@ -124,7 +124,6 @@ const userSlice = createSlice({
         })
         builder.addCase(modifyUser.fulfilled, (state, action) => {
             console.log("Modify user result: ", action.payload)
-            // state.user = action.payload.user;
         })
     }
 })

@@ -13,7 +13,6 @@ import { updatePrice, updateIdList, sendOrgerInfo } from "../../services/order-i
 import { setUser } from "../../services/user-slice.js"
 import { useNavigate } from "react-router-dom"
 
-const tempOrderId = "034536";
 
 function BurgerConstructor({ data }) {
 

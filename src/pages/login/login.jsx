@@ -34,28 +34,29 @@ function Login() {
 
   return (
     <AuthWrapper title="Вход">
-        <EmailInput 
-          name="email" 
-          value={form.email}
-          placeholder="E-mail" 
-          extraClass="mb-6"
-          onChange={handleChange} 
-        />
-        <PasswordInput 
-          name="password" 
-          value={form.password}
-          placeholder="Пароль" 
-          extraClass="mb-6"
-          onChange={handleChange} 
-        />
-        <Button 
-          htmlType="button" 
-          type="primary" 
-          size="medium" 
-          extraClass="mb-20"
-          onClick={sumbitForm}>
-            Войти
-        </Button>
+        <form className={styles.form} onSubmit={sumbitForm}>
+          <EmailInput 
+            name="email" 
+            value={form.email}
+            placeholder="E-mail" 
+            extraClass="mb-6"
+            onChange={handleChange} 
+          />
+          <PasswordInput 
+            name="password" 
+            value={form.password}
+            placeholder="Пароль" 
+            extraClass="mb-6"
+            onChange={handleChange} 
+          />
+          <Button 
+            htmlType="submit" 
+            type="primary" 
+            size="medium" 
+            extraClass="mb-20">
+              Войти
+          </Button>
+        </form>
         <p className={styles.text}>Вы - новый пользователь? <Link to="/register">Зарегистрироваться</Link></p>
         <p className={styles.text}>Забыли пароль? <Link to="/forgot-password">Восстановить пароль</Link></p>
     </AuthWrapper>

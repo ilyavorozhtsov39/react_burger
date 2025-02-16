@@ -6,8 +6,7 @@ import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx"
 import PropTypes from "prop-types";
 import { IngredientType } from "../../utils/types.js"
-import { addIngredientInfo, removeIngredientInfo } from "../../services/ingredient-info-slice.js"
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 
 function BurgerIngredients({ data, showModal, closeModal }) {
@@ -18,17 +17,6 @@ function BurgerIngredients({ data, showModal, closeModal }) {
 
   const { ingredientInfo, infoStored } = useSelector(state => state.ingredient)
   const { burgerList, bun } = useSelector(state => state.burger)
-  const dispatch = useDispatch()
-
-  // function showModal(dataId) {
-  //   const item = data.find(el => el._id === dataId)
-  //   dispatch(addIngredientInfo(item))
-  //   setModalVisible(true)
-  // }
-
-  // function closeModal() {
-  //   setModalVisible(false)
-  // }
 
   const containerRef = useRef()
 
@@ -147,6 +135,12 @@ function Section({ section, title, showModal }) {
 
 BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(IngredientType)
+}
+
+Section.propTypes = {
+  section: PropTypes.arrayOf(IngredientType),
+  title: PropTypes.string,
+  showModal: PropTypes.func
 }
 
 export default BurgerIngredients;
