@@ -12,41 +12,55 @@ import { configureStore } from '@reduxjs/toolkit'
 import { rootReducer } from '../../services/index.js';
 import { Provider } from "react-redux"
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import ProtectedPage from '../protected-page/protected-page.jsx';
 import  { useDispatch, useSelector } from "react-redux"
 import { setUser } from "../../services/user-slice.js"
 import { getIngredients } from "../../services/ingredients-slice.js"
+import IngredientDetails from '../../components/ingredient-details/ingredient-details.jsx';
+import Modal from '../../components/modal/modal.jsx';
 
 
 function App() {
 
   const { ingredientsList } = useSelector(state => state.ingredients)
 
+  const navigate = useNavigate()
   const dispatch = useDispatch();
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  // console.log(location)
 
   useEffect(() => {
     dispatch(setUser())
     dispatch(getIngredients())
   }, [])
 
+  function closeModal() {
+    navigate(-1)
+  }
+
   return (
     <div className={styles.app}>
-      <Router>
         <AppHeader />
-        <Routes>
+        <Routes location={background || location}>
           <Route path="/" element={<Main ingredientsList={ingredientsList} />} />
           <Route path="/login" element={<ProtectedPage type="auth" element={<Login />} />} />
           <Route path="/register" element={<ProtectedPage type="auth" element={<Register />} />} />
           <Route path="/forgot-password" element={<ProtectedPage type="auth" element={<ForgotPassword />} />} />
           <Route path="/reset-password" element={<ProtectedPage type="auth" element={<ResetPassword />} />} />
           <Route path="/profile" element={<ProtectedPage type="unauth" element={<Profile />} />} />
-          <Route path="/ingredients/:id" element={<Ingredient />} />
+          <Route path="/ingredients/:id" element={<IngredientDetails />} />
         </Routes>
-      </Router>
+        {background && (
+          <Routes>
+            <Route path="/ingredients/:id" element={<Modal closeModal={closeModal}><IngredientDetails /></Modal>} />
+          </Routes>
+        )}
     </div>
   );
 }
+
 
 
 function AppWrapper() {
@@ -58,7 +72,9 @@ function AppWrapper() {
 
   return (
     <Provider store={store}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </Provider>
   )
 }

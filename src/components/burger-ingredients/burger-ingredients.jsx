@@ -10,7 +10,7 @@ import { addIngredientInfo, removeIngredientInfo } from "../../services/ingredie
 import { useSelector, useDispatch } from "react-redux";
 
 
-function BurgerIngredients({ data }) {
+function BurgerIngredients({ data, showModal, closeModal }) {
 
   const [modalVisible, setModalVisible] = useState(false)
   const [dataCopy, setDataCopy] = useState(data)
@@ -20,15 +20,15 @@ function BurgerIngredients({ data }) {
   const { burgerList, bun } = useSelector(state => state.burger)
   const dispatch = useDispatch()
 
-  function showModal(dataId) {
-    const item = data.find(el => el._id === dataId)
-    dispatch(addIngredientInfo(item))
-    setModalVisible(true)
-  }
+  // function showModal(dataId) {
+  //   const item = data.find(el => el._id === dataId)
+  //   dispatch(addIngredientInfo(item))
+  //   setModalVisible(true)
+  // }
 
-  function closeModal() {
-    setModalVisible(false)
-  }
+  // function closeModal() {
+  //   setModalVisible(false)
+  // }
 
   const containerRef = useRef()
 
