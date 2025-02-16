@@ -19,6 +19,7 @@ import { setUser } from "../../services/user-slice.js"
 import { getIngredients } from "../../services/ingredients-slice.js"
 import IngredientDetails from '../../components/ingredient-details/ingredient-details.jsx';
 import Modal from '../../components/modal/modal.jsx';
+import IngredientPage from '../../pages/ingredient/ingredient.jsx';
 
 
 function App() {
@@ -50,7 +51,7 @@ function App() {
           <Route path="/forgot-password" element={<ProtectedPage type="auth" element={<ForgotPassword />} />} />
           <Route path="/reset-password" element={<ProtectedPage type="auth" element={<ResetPassword />} />} />
           <Route path="/profile" element={<ProtectedPage type="unauth" element={<Profile />} />} />
-          <Route path="/ingredients/:id" element={<IngredientDetails />} />
+          <Route path="/ingredients/:id" element={<IngredientPage><IngredientDetails /></IngredientPage>} />
         </Routes>
         {background && (
           <Routes>
