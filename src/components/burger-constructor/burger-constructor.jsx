@@ -10,6 +10,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addIngredient, removeIngredient } from "../../services/burger-slice.js"
 import ConstructorItem from "../constructor-item/constructor-item.jsx"
 import { updatePrice, updateIdList, sendOrgerInfo } from "../../services/order-info-slice.js" 
+import { setUser } from "../../services/user-slice.js"
+import { useNavigate } from "react-router-dom"
 
 const tempOrderId = "034536";
 
@@ -20,6 +22,7 @@ function BurgerConstructor({ data }) {
   const { price, idList, orderInfo } = useSelector(state => state.order)
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [ , dropTarget ] = useDrop({
       accept: "ingredient",
@@ -37,10 +40,15 @@ function BurgerConstructor({ data }) {
     setModalVisible(false)
   }
 
-  function createOrder(e) {
+  async function createOrder(e) {
     e.stopPropagation()
-    setModalVisible(true)
-    dispatch(sendOrgerInfo({ ingredients: idList }))
+    const user = await dispatch(setUser())
+    if (!user.payload.success) {
+      navigate("/login")
+    } else {
+      setModalVisible(true)
+      dispatch(sendOrgerInfo({ ingredients: idList }))
+    }
   }
 
   useEffect(() => {

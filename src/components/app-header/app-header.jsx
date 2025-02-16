@@ -1,16 +1,24 @@
 import styles from './app-header.module.scss';
 import { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import HeaderMenuItem from '../header-menu-item/header-menu-item.jsx';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect, useState } from "react"
 
 
 function AppHeader() {
 
+    const [ activePage, setActivePage ] = useState("/")
+
     const navigate = useNavigate();
+    const location = useLocation()
 
     async function goToProfile() {
         navigate("/profile");
     }
+
+    useEffect(() => {
+        setActivePage(location.pathname)
+    }, [location])
 
     return (
         <header className={styles.header}>
@@ -19,22 +27,25 @@ function AppHeader() {
                     <HeaderMenuItem
                         text="Конструктор"
                         stylesModifier={{marginRight: "4px"}}
+                        type={activePage === "/" ? "primary" : "secondary"}
                     >
-                        <BurgerIcon type="primary" />
+                        <BurgerIcon type={activePage === "/" ? "primary" : "secondary"} />
                     </HeaderMenuItem>
                     <HeaderMenuItem
                         text="Лента заказов"
                         stylesModifier={{marginLeft: "4px"}}
+                        type={activePage === "/list" ? "primary" : "secondary"}
                     >
-                        <ListIcon type="secondary" />
+                        <ListIcon type={activePage === "/list" ? "primary" : "secondary"} />
                     </HeaderMenuItem>
                 </nav>
                 <Logo />
                 <div className={styles.container} onClick={goToProfile}>
                     <HeaderMenuItem
                         text="Личный кабинет"
+                        type={activePage === "/profile" ? "primary" : "secondary"}
                     >
-                        <ProfileIcon type="secondary" />
+                        <ProfileIcon type={activePage === "/profile" ? "primary" : "secondary"} />
                     </HeaderMenuItem>
                 </div>
             </div>    

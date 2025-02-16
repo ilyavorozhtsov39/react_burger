@@ -30,17 +30,17 @@ const registerUser = createAsyncThunk(
 const setUser = createAsyncThunk(
     "user/setUser", 
     async () => {
-        let token = getCookie("accessToken");
-        if (!token) {
-            const refreshTokenValue = getCookie("refreshToken");
-            const result = await refreshToken(refreshTokenValue);
-            if (result.success) {
-                token = result.accessToken;
-                setCookie("accessToken", token, { path: "/", expires: 1200 });
-            }
-        }
-        // console.log(token)
         try {
+            let token = getCookie("accessToken");
+            if (!token) {
+                const refreshTokenValue = getCookie("refreshToken");
+                const result = await refreshToken(refreshTokenValue);
+                if (result.success) {
+                    token = result.accessToken;
+                    setCookie("accessToken", token, { path: "/", expires: 1200 });
+                }
+            }
+
             const result = await getUserInfo(token);
             return result;
         } catch (error) {
@@ -62,6 +62,7 @@ const modifyUser = createAsyncThunk(
                     setCookie("accessToken", token, { path: "/", expires: 1200 });
                 }
             }
+
             const result = await changeUserInfo(data, token);
             return result;
         } catch (error) {

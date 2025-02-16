@@ -21,13 +21,11 @@ function Main({ ingredientsList }) {
         // dispatch(addIngredientInfo(item))
         setModalVisible(true)
         navigate(`/ingredients/${dataId}`, { state: { background: location }}) 
-        console.log("show")
       }
     
       function closeModal() {
         setModalVisible(false)
         navigate(-1)
-        console.log("hide")
       }
 
     return (
