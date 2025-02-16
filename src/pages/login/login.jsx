@@ -25,8 +25,8 @@ function Login() {
         const result = await dispatch(loginUser(form));
         if (result.payload.success) {
             await dispatch(setUser())
+            // console.log("Submit login: ", from)
             navigate(from, { replace: true });
-            console.log("Submit login: ", from)
         } else {
           console.log("Error: ", result)
         }

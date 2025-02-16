@@ -34,7 +34,7 @@ function Ingredient({ id, counter, dataId, name, image, price, showModal }) {
 
 Ingredient.propTypes = {
   id: PropTypes.number.isRequired,
-  counter: PropTypes.number.isRequired,
+  counter: PropTypes.number,
   dataId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
