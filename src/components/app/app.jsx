@@ -50,7 +50,9 @@ function App() {
           <Route path="/register" element={<ProtectedPage type="auth" element={<Register />} />} />
           <Route path="/forgot-password" element={<ProtectedPage type="auth" element={<ForgotPassword />} />} />
           <Route path="/reset-password" element={<ProtectedPage type="auth" element={<ResetPassword />} />} />
-          <Route path="/profile" element={<ProtectedPage type="unauth" element={<Profile />} />} />
+          <Route path="/profile" element={<ProtectedPage type="unauth" element={<Profile />} />}>
+            <Route path=":orders" element={<div></div>} />
+          </Route>
           <Route path="/ingredients/:id" element={<IngredientPage><IngredientDetails /></IngredientPage>} />
         </Routes>
         {background && (

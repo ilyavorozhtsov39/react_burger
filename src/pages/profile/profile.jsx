@@ -3,16 +3,18 @@ import styles from './profile.module.scss';
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux"
 import { logoutUser, modifyUser } from "../../services/user-slice.js"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { setUser } from "../../services/user-slice.js"
 
 function Profile() {
 
     const [form, setForm] = useState({  name: "", login: "", password: "" });
+    const [ ordersModal, setOrdersModal ] = useState(false)
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const userState = useSelector(state => state.user)
 
     async function handleLogout() {
@@ -33,11 +35,24 @@ function Profile() {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
 
+    function openOrders() {
+        navigate("/profile/orders")
+    }
+
     useEffect(() => {
         if (userState.isAuth) {
             setForm({ name: userState.user.name, login: userState.user.email, password: "" })
         }
     }, [userState])
+
+    useEffect(() => {
+        if (location.pathname === "/profile/orders") {
+            setOrdersModal(true)
+        } else {
+            setOrdersModal(false)
+        }
+        
+    }, [location])
 
     return (
         <main className={styles.main}>
@@ -45,8 +60,8 @@ function Profile() {
                 <section className={styles.list}>
                     <ul className={styles.routes}>
                         <li className={styles.route}>Профиль</li>
-                        <li className={styles.route}>История заказов</li>
-                        <li className={styles.route} onClick={handleLogout}>Выход</li>
+                        <li className={ordersModal ? styles.route : styles.routeSecondary} onClick={openOrders}>История заказов</li>
+                        <li className={styles.routeSecondary} onClick={handleLogout}>Выход</li>
                     </ul>
                     <p className={styles.text}>В этом разделе вы можете изменить свои персональные данные</p>
                 </section>
