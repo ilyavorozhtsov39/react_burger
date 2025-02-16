@@ -7,15 +7,7 @@ import BurgerConstructor from '../../components/burger-constructor/burger-constr
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients.jsx';
 import styles from './main.module.scss'
 
-function Main() {
-
-    const { ingredientsList } = useSelector(state => state.ingredients)
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getIngredients())
-    }, [])
+function Main({ ingredientsList }) {
 
     return (
         <DndProvider backend={HTML5Backend}>

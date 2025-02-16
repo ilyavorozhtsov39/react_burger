@@ -11,19 +11,31 @@ import styles from "./app.module.scss";
 import { configureStore } from '@reduxjs/toolkit'
 import { rootReducer } from '../../services/index.js';
 import { Provider } from "react-redux"
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProtectedPage from '../protected-page/protected-page.jsx';
+import  { useDispatch, useSelector } from "react-redux"
+import { setUser } from "../../services/user-slice.js"
+import { getIngredients } from "../../services/ingredients-slice.js"
 
 
 function App() {
+
+  const { ingredientsList } = useSelector(state => state.ingredients)
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setUser())
+    dispatch(getIngredients())
+  }, [])
 
   return (
     <div className={styles.app}>
       <Router>
         <AppHeader />
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Main ingredientsList={ingredientsList} />} />
           <Route path="/login" element={<ProtectedPage type="auth" element={<Login />} />} />
           <Route path="/register" element={<ProtectedPage type="auth" element={<Register />} />} />
           <Route path="/forgot-password" element={<ProtectedPage type="auth" element={<ForgotPassword />} />} />
@@ -35,12 +47,6 @@ function App() {
     </div>
   );
 }
-
-{/* <Route path="/login" element={<Login />} />
-<Route path="/register" element={<Register />} />
-<Route path="/forgot-password" element={<ForgotPassword />} />
-<Route path="/reset-password" element={<ResetPassword />} />
-<Route path="/profile" element={<ProtectedPage type="unauth" element={<Profile />} />} /> */}
 
 
 function AppWrapper() {

@@ -1,27 +1,28 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useDispatch } from "react-redux"
-import { setUser } from "../../services/user-slice.js"
+import { useSelector } from "react-redux"
 import { useState, useEffect } from 'react';
+
 
 function ProtectedPage({ type, element }) {
 
     const [ isUserLoaded, setIsUserLoaded ] = useState(false)
     const [ authUser, setAuthUser ] = useState(false)
-    const dispatch = useDispatch()
     const location = useLocation()
+
+    const userState = useSelector(state => state.user)
 
     useEffect(() => {
         async function getUserInfo() {
-            const response = await dispatch(setUser())
-            setIsUserLoaded(true)
-            // let result = response.payload.success
-            // if (type === "auth") {
-            //     result = !result
-            // }
-            setAuthUser(response.payload.success)
+            if (userState.loaded) {
+                setIsUserLoaded(true)
+            }
+            if (userState.isAuth) {
+                setAuthUser(true)
+            }
         }
+
         getUserInfo()
-    }, [dispatch])
+    }, [userState])
 
     if (!isUserLoaded) {
         return null

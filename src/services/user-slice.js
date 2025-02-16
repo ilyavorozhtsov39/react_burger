@@ -90,7 +90,8 @@ const userSlice = createSlice({
             email: "",
             name: ""
         },
-        isAuth: false
+        isAuth: false,
+        loaded: false
     },
     extraReducers: (builder) => {
         builder.addCase(registerUser.fulfilled, (state, action) => {
@@ -103,13 +104,15 @@ const userSlice = createSlice({
             setCookie("accessToken", response.accessToken, { path: "/", expires: 1200 });
         })
         builder.addCase(setUser.fulfilled, (state, action) => {
-            console.log("Set user successful: " , action.payload)
-            state.user = action.payload.user;
-            state.isAuth = true;
-            // state = { user: action.payload.user, isAuth: true };
-            // setTimeout(() => {
-            //     console.log("New state: ", state)
-            // }, 2000)
+            state.loaded = true
+            if (action.payload.success) {
+                console.log("User found")
+                state.user = action.payload.user;
+                state.isAuth = true;
+            } else {
+                console.log("User not found")
+                state.isAuth = false;
+            }
         })
         builder.addCase(logoutUser.fulfilled, (state, action) => {
             console.log("Logout result: " , action.payload)

@@ -56,16 +56,18 @@ function BurgerIngredients({ data }) {
     const allIngredients = [ ...burgerList, bun ]
 
     const modded = dataCopy.map(item => {
-      item.counter = 0;
+      let copy = { ...item }
+      copy.counter = 0;
       allIngredients.forEach(added => {
-        if (added._id === item._id) {
-          item.counter += 1
+        if (added._id === copy._id) {
+          copy.counter += 1
         }
       })
-      return item;
+      return copy;
     })
     setDataCopy(modded)
   }, [burgerList, bun])
+
 
   useEffect(() => {
     const copy = data.map(item => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './profile.module.scss';
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { logoutUser, modifyUser } from "../../services/user-slice.js"
 import { useNavigate } from 'react-router-dom';
 
@@ -13,11 +13,13 @@ function Profile() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const userState = useSelector(state => state.user)
 
     async function handleLogout() {
         const result = await dispatch(logoutUser())
-        console.log("Logout result: ", result)
+        // console.log("Logout result: ", result)
         if (result.payload.success) {
+            // console.log("TO LOGIN")
             navigate("/login")
         }
     }
@@ -32,16 +34,10 @@ function Profile() {
     }
 
     useEffect(() => {
-        async function getUserInfo() {
-            const data = await dispatch(setUser())
-            if (data.payload.success) {
-                const { user } = data.payload
-                setForm({ name: user.name, login: user.email, password: "" })
-            }
+        if (userState.isAuth) {
+            setForm({ name: userState.user.name, login: userState.user.email, password: "" })
         }
-        console.log(window.history)
-        getUserInfo()
-    }, [])
+    }, [userState])
 
     return (
         <main className={styles.main}>
