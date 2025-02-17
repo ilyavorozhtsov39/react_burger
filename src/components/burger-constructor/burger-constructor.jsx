@@ -104,7 +104,7 @@ function BurgerConstructor({ data }) {
               thumbnail={item.image_mobile}
               length={burgerList.length}
               handleClose={removeElement}
-              key={item.key}
+              key={item.uniqueId}
             />
           )
         }

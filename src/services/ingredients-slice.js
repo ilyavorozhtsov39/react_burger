@@ -19,7 +19,7 @@ const ingredientsSlice = createSlice({
                 state.ingredientsList = action.payload;
               },
             prepare: (data) => {
-                const updated = data.payload.map(item => ({ ...item, key: uuidv4()  }))
+                const updated = data.payload.map(item => ({ ...item, uniqueId: uuidv4()  }))
                 return { payload: updated }
             }
         }

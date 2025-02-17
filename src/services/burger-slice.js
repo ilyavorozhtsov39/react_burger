@@ -1,17 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
-
+import { v4 as uuidv4 } from 'uuid';
 
 
 const burgerSlice = createSlice({
     name: 'burger',
     initialState: { burgerList: [], bunSelected: false, bun: {} },
     reducers: {
-        addIngredient: (state, action) => {
-            if (action.payload.type === "bun") {
-                state.bun = action.payload
-                state.bunSelected = true
-            } else {
-                state.burgerList.push(action.payload)
+        addIngredient: {
+            reducer: (state, action) => {
+                if (action.payload.type === "bun") {
+                    state.bun = action.payload
+                    state.bunSelected = true
+                } else {
+                    state.burgerList.push(action.payload)
+                }
+            },
+            prepare: (item) => {
+                const updated = { ...item, uniqueId: uuidv4() };
+                return { payload: updated };
             }
         },
         removeIngredient: (state, action) => {
