@@ -1,0 +1,21 @@
+.container {
+    
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    width: 32px;
+}
+
+.constructorElement {
+    z-index: 10;
+}
