@@ -1,100 +1,85 @@
 import { BASE_URL } from "../utils/constants.js"
+import { checkResponse } from "../utils/checks.js";
 
 async function register(data) {
-    const response = await fetch(`${BASE_URL}/auth/register`, {
+    return fetch(`${BASE_URL}/auth/register`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
-    })
-    const result = await response.json();
-    return result;
+    }).then(checkResponse).then(result => result)
 }
 
 async function login(data) {
-    const response = await fetch(`${BASE_URL}/auth/login`, {
+    return fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
-    })
-    const result = await response.json();
-    return result;
+    }).then(checkResponse).then(result => result)
 }
 
 async function getUserInfo(token) {
-    const response = await fetch(`${BASE_URL}/auth/user`, {
+    return fetch(`${BASE_URL}/auth/user`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `${token}`
         }
-    })
-    const result = await response.json();
-    return result;
+    }).then(checkResponse).then(result => result)
 }
 
 async function changeUserInfo(data, token) {
-    const response = await fetch(`${BASE_URL}/auth/user`, {
+    return fetch(`${BASE_URL}/auth/user`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `${token}`
         },
         body: JSON.stringify(data)
-    })
-    const result = await response.json();
-    return result;
+    }).then(checkResponse).then(result => result)
 }
 
 async function refreshToken(token) {
-    const response = await fetch(`${BASE_URL}/auth/token`, {
+    return fetch(`${BASE_URL}/auth/token`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ token: `${token}` })
-    })
-    const result = await response.json();
-    return result;
+    }).then(checkResponse).then(result => result)
 }
 
 async function resetPassword(data) {
-    const response = await fetch(`${BASE_URL}/password-reset`, {
+    return fetch(`${BASE_URL}/password-reset`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
-    })
-    const result = await response.json();
-    return result;
+    }).then(checkResponse).then(result => result)
 }
 
 async function setNewPassword(data) {
-    const response = await fetch(`${BASE_URL}/password-reset/reset`, {
+    return fetch(`${BASE_URL}/password-reset/reset`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
-    })
-    const result = await response.json();
-    return result;
+    }).then(checkResponse).then(result => result)
 }
 
 async function logout(token) {
-    const response = await fetch(`${BASE_URL}/auth/logout`, {
+    return fetch(`${BASE_URL}/auth/logout`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ token: `${token}` })
-    })
-    const result = await response.json();
-    return result;
+    }).then(checkResponse).then(result => result)
 }
 
 export { register, login, logout, getUserInfo, refreshToken, resetPassword, setNewPassword, changeUserInfo }

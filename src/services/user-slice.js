@@ -31,7 +31,6 @@ const setUser = createAsyncThunk(
                 setCookie("accessToken", token, { path: "/", expires: 1200 });
             }
         }
-
         const result = await getUserInfo(token);
         return result;
     }

@@ -15,9 +15,7 @@ function ProtectedPage({ type, element }) {
 
     useEffect(() => {
         async function getUserInfo() {
-            if (userState.loaded) {
-                setIsUserLoaded(true)
-            }
+            setIsUserLoaded(true)
             if (userState.isAuth) {
                 setAuthUser(true)
             } else {
@@ -28,7 +26,7 @@ function ProtectedPage({ type, element }) {
         getUserInfo()
     }, [userState])
 
-    if (!isUserLoaded) {
+    if(!isUserLoaded) {
         return null
     }
 
