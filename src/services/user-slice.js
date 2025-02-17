@@ -6,81 +6,61 @@ import { setCookie, getCookie, deleteCookie } from './cookies.js';
 const loginUser = createAsyncThunk(
     "user/loginUser", 
     async (data) => {
-        try {
-            const result = await login(data);
-            return result;
-        } catch (error) {
-            console.log(error)
-        }
+        const result = await login(data);
+        return result;
     }
 )
 
 const registerUser = createAsyncThunk(
     "user/registerUser", 
     async (data) => {
-        try {
-            const result = await register(data);
-            return result;
-        } catch (error) {
-            console.log(error)
-        }
+        const result = await register(data);
+        return result;
     }
 )
 
 const setUser = createAsyncThunk(
     "user/setUser", 
     async () => {
-        try {
-            let token = getCookie("accessToken");
-            if (!token) {
-                const refreshTokenValue = getCookie("refreshToken");
-                const result = await refreshToken(refreshTokenValue);
-                if (result.success) {
-                    token = result.accessToken;
-                    setCookie("accessToken", token, { path: "/", expires: 1200 });
-                }
+        let token = getCookie("accessToken");
+        if (!token) {
+            const refreshTokenValue = getCookie("refreshToken");
+            const result = await refreshToken(refreshTokenValue);
+            if (result.success) {
+                token = result.accessToken;
+                setCookie("accessToken", token, { path: "/", expires: 1200 });
             }
-
-            const result = await getUserInfo(token);
-            return result;
-        } catch (error) {
-            console.log(error)
         }
+
+        const result = await getUserInfo(token);
+        return result;
     }
 )
 
 const modifyUser = createAsyncThunk(
     "user/modifyUser",
     async (data) => {
-        try {
-            const token = getCookie("accessToken");
-            if (!token) {
-                const refreshTokenValue = getCookie("refreshToken");
-                const result = await refreshToken(refreshTokenValue);
-                if (result.success) {
-                    token = result.accessToken;
-                    setCookie("accessToken", token, { path: "/", expires: 1200 });
-                }
+        const token = getCookie("accessToken");
+        if (!token) {
+            const refreshTokenValue = getCookie("refreshToken");
+            const result = await refreshToken(refreshTokenValue);
+            if (result.success) {
+                token = result.accessToken;
+                setCookie("accessToken", token, { path: "/", expires: 1200 });
             }
-
-            const result = await changeUserInfo(data, token);
-            return result;
-        } catch (error) {
-            console.log(error)
         }
+
+        const result = await changeUserInfo(data, token);
+        return result;
     }
 )
 
 const logoutUser = createAsyncThunk(
     "user/logoutUser", 
     async () => {
-        try {
-            const token = getCookie("refreshToken");
-            const result = await logout(token);
-            return result;
-        } catch (error) {
-            console.log(error)
-        }
+        const token = getCookie("refreshToken");
+        const result = await logout(token);
+        return result;
     }
 )
 

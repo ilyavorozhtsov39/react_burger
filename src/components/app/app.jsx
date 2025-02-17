@@ -15,10 +15,11 @@ import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from
 import ProtectedPage from '../protected-page/protected-page.jsx';
 import  { useDispatch, useSelector } from "react-redux"
 import { setUser } from "../../services/user-slice.js"
-import { getIngredients } from "../../services/ingredients-slice.js"
+import { getIngredients, saveIngredients } from "../../services/ingredients-slice.js"
 import IngredientDetails from '../../components/ingredient-details/ingredient-details.jsx';
 import Modal from '../../components/modal/modal.jsx';
 import IngredientPage from '../../pages/ingredient/ingredient.jsx';
+import { v4 as uuidv4 } from 'uuid';
 
 
 function App() {
@@ -29,11 +30,18 @@ function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const background = location.state && location.state.background;
-  // console.log(location)
+
+  async function handleIngredients() {
+    const response = await dispatch(getIngredients());
+    const ingredients = response.payload.map(item => ({ ...item, key: uuidv4()  }))
+    dispatch(saveIngredients(ingredients))
+
+  }
 
   useEffect(() => {
     dispatch(setUser())
     dispatch(getIngredients())
+    handleIngredients()
   }, [])
 
   function closeModal() {

@@ -1,24 +1,20 @@
 import { BASE_URL } from "../utils/constants.js"
+import { checkResponse } from "../utils/checks.js";
 
 async function getData() {
-    const response = await fetch(`${BASE_URL}/ingredients`);
-    if (!response.ok) {
-        throw new Error(`Ошибка: ${response.status}`);
-    }
-    const result = await response.json();
-    return result.data;
+    return fetch(`${BASE_URL}/ingredients`)
+        .then(checkResponse)
+        .then(result => result.data);
 }
 
 async function sendOrder(data) {
-    const response = await fetch(`${BASE_URL}/orders`, {
+    return fetch(`${BASE_URL}/orders`, {
         body: JSON.stringify(data),
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-    })
-    const result = await response.json();
-    return result;
+    }).then(checkResponse).then(result => result)
 }
 
 export { getData, sendOrder }
