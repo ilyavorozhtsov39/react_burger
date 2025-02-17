@@ -1,6 +1,6 @@
 import AuthWrapper from "../../components/auth-wrapper/auth-wrapper";
 import { Input, EmailInput, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./register.module.scss";
 import { useState } from "react";
 import { useDispatch } from "react-redux"
@@ -10,15 +10,18 @@ function Register() {
 
     const [form, setForm] = useState({  name: "", email: "", password: "" });
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     function handleChange(e) {
         setForm({ ...form, [e.target.name]: e.target.value }); 
     };
 
-    function sumbitForm(e) {
+    async function sumbitForm(e) {
         e.preventDefault();
-        dispatch(registerUser(form));
-        // console.log("submit")
+        const result = await dispatch(registerUser(form));
+        if (result.payload.success) {
+            navigate("/login")
+        }
     }
 
     return (
