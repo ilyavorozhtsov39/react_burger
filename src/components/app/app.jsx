@@ -19,7 +19,6 @@ import { getIngredients, saveIngredients } from "../../services/ingredients-slic
 import IngredientDetails from '../../components/ingredient-details/ingredient-details.jsx';
 import Modal from '../../components/modal/modal.jsx';
 import IngredientPage from '../../pages/ingredient/ingredient.jsx';
-// import { v4 as uuidv4 } from 'uuid';
 
 
 function App() {
@@ -33,7 +32,6 @@ function App() {
 
   async function handleIngredients() {
     const ingredients = await dispatch(getIngredients());
-    // const ingredients = response.payload.map(item => ({ ...item, key: uuidv4()  }))
     dispatch(saveIngredients(ingredients))
 
   }
