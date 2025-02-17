@@ -42,7 +42,8 @@ function BurgerConstructor({ data }) {
   async function createOrder(e) {
     e.stopPropagation()
     const user = await dispatch(setUser())
-    if (!user.payload.success) {
+    console.log(user)
+    if (!user.payload?.success) {
       navigate("/login")
     } else {
       setModalVisible(true)
