@@ -1,11 +1,11 @@
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import BurgerConstructor from '../../components/burger-constructor/burger-constructor.jsx';
-import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients.jsx';
+import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
+import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import styles from './main.module.scss'
 import { useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { IngredientType } from "../../utils/types.js"
+// import { IngredientType } from "../../utils/types.js"
 
 function Main({ ingredientsList }) {
 
@@ -30,8 +30,8 @@ function Main({ ingredientsList }) {
     )
 }
 
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(IngredientType)
-}
+// BurgerIngredients.propTypes = {
+//   data: PropTypes.arrayOf(IngredientType)
+// }
 
 export default Main;

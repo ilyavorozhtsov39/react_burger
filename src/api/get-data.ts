@@ -1,13 +1,18 @@
 import { BASE_URL } from "../utils/constants.js"
 import { checkResponse } from "../utils/checks.js";
 
+type Ingredients = {
+    ingredients: Array<{ [name: number]: string }>,
+}
+
 async function getData() {
     return fetch(`${BASE_URL}/ingredients`)
         .then(checkResponse)
         .then(result => result.data);
 }
 
-async function sendOrder(data) {
+async function sendOrder(data: Ingredients) {
+    console.log('order: ', data)
     return fetch(`${BASE_URL}/orders`, {
         body: JSON.stringify(data),
         method: "POST",

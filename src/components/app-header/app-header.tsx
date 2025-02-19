@@ -1,18 +1,19 @@
 import styles from './app-header.module.scss';
 import { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
-import HeaderMenuItem from '../header-menu-item/header-menu-item.jsx';
+import HeaderMenuItem from '../header-menu-item/header-menu-item';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from "react"
+import { FC } from 'react';
 
 
-function AppHeader() {
+const AppHeader: FC = () => {
 
     const [ activePage, setActivePage ] = useState("/")
 
     const navigate = useNavigate();
     const location = useLocation()
 
-    async function switchPage(page) {
+    async function switchPage(page: string) {
         navigate(page);
     }
 

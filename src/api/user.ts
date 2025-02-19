@@ -1,7 +1,20 @@
 import { BASE_URL } from "../utils/constants.js"
 import { checkResponse } from "../utils/checks.js";
 
-async function register(data) {
+type UserData = {
+    email: string,
+    password: string,
+    name: string
+}
+
+type PartialData = Omit<UserData, 'name'>
+type Email = Pick<UserData, 'email'>
+type PasswordReset = {
+    password: string,
+    token: string
+}
+
+async function register(data: UserData) {
     return fetch(`${BASE_URL}/auth/register`, {
         method: "POST",
         headers: {
@@ -11,7 +24,7 @@ async function register(data) {
     }).then(checkResponse).then(result => result)
 }
 
-async function login(data) {
+async function login(data: PartialData) {
     return fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
@@ -21,7 +34,7 @@ async function login(data) {
     }).then(checkResponse).then(result => result)
 }
 
-async function getUserInfo(token) {
+async function getUserInfo(token: string) {
     return fetch(`${BASE_URL}/auth/user`, {
         method: "GET",
         headers: {
@@ -31,7 +44,7 @@ async function getUserInfo(token) {
     }).then(checkResponse).then(result => result)
 }
 
-async function changeUserInfo(data, token) {
+async function changeUserInfo(data: UserData, token: string) {
     return fetch(`${BASE_URL}/auth/user`, {
         method: "PATCH",
         headers: {
@@ -42,7 +55,7 @@ async function changeUserInfo(data, token) {
     }).then(checkResponse).then(result => result)
 }
 
-async function refreshToken(token) {
+async function refreshToken(token: string) {
     return fetch(`${BASE_URL}/auth/token`, {
         method: "POST",
         headers: {
@@ -52,7 +65,7 @@ async function refreshToken(token) {
     }).then(checkResponse).then(result => result)
 }
 
-async function resetPassword(data) {
+async function resetPassword(data: Email) {
     return fetch(`${BASE_URL}/password-reset`, {
         method: "POST",
         headers: {
@@ -62,7 +75,7 @@ async function resetPassword(data) {
     }).then(checkResponse).then(result => result)
 }
 
-async function setNewPassword(data) {
+async function setNewPassword(data: PasswordReset) {
     return fetch(`${BASE_URL}/password-reset/reset`, {
         method: "POST",
         headers: {
@@ -72,7 +85,7 @@ async function setNewPassword(data) {
     }).then(checkResponse).then(result => result)
 }
 
-async function logout(token) {
+async function logout(token: string) {
     return fetch(`${BASE_URL}/auth/logout`, {
         method: "POST",
         headers: {

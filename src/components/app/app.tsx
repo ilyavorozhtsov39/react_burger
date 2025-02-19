@@ -1,29 +1,36 @@
-import Main from '../../pages/main/main.jsx';
-import Login from '../../pages/login/login.jsx';
-import Register from '../../pages/register/register.jsx';
-import ForgotPassword from '../../pages/forgot-password/forgot-password.jsx';
-import ResetPassword from '../../pages/reset-password/reset-password.jsx';
-import Profile from '../../pages/profile/profile.jsx';
-import { Box } from "@ya.praktikum/react-developer-burger-ui-components"
+import Main from '../../pages/main/main';
+import Login from '../../pages/login/login';
+import Register from '../../pages/register/register';
+import ForgotPassword from '../../pages/forgot-password/forgot-password';
+import ResetPassword from '../../pages/reset-password/reset-password';
+import Profile from '../../pages/profile/profile';
+// import { Box } from "@ya.praktikum/react-developer-burger-ui-components"
 import AppHeader from '../app-header/app-header';
 import styles from "./app.module.scss";
 import { configureStore } from '@reduxjs/toolkit'
-import { rootReducer } from '../../services/index.js';
+import { rootReducer } from '../../services/index';
 import { Provider } from "react-redux"
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import ProtectedPage from '../protected-page/protected-page.jsx';
+import ProtectedPage from '../protected-page/protected-page';
 import  { useDispatch, useSelector } from "react-redux"
-import { setUser } from "../../services/user-slice.js"
-import { getIngredients, saveIngredients } from "../../services/ingredients-slice.js"
-import IngredientDetails from '../../components/ingredient-details/ingredient-details.jsx';
-import Modal from '../../components/modal/modal.jsx';
-import IngredientPage from '../../pages/ingredient/ingredient.jsx';
+import { setUser } from "../../services/user-slice"
+import { getIngredients, saveIngredients } from "../../services/ingredients-slice"
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modal/modal';
+import IngredientPage from '../../pages/ingredient/ingredient';
+import type { IIngredient, IIngredientWithUUID } from '../../utils/types';
+import { FC } from 'react';
 
+type State = {
+  ingredients: {
+    ingredientsList: Array<IIngredient | IIngredientWithUUID | []>
+  }
+}
 
-function App() {
+const App: FC = () => {
 
-  const { ingredientsList } = useSelector(state => state.ingredients)
+  const { ingredientsList } = useSelector((state: State) => state.ingredients)
 
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -31,13 +38,16 @@ function App() {
   const background = location.state && location.state.background;
 
   async function handleIngredients() {
+    // @ts-expect-error хранилище пока не типизировано
     const ingredients = await dispatch(getIngredients());
     dispatch(saveIngredients(ingredients))
 
   }
 
   useEffect(() => {
+    // @ts-expect-error хранилище пока не типизировано
     dispatch(setUser())
+    // @ts-expect-error хранилище пока не типизировано
     dispatch(getIngredients())
     handleIngredients()
   }, [])
@@ -71,7 +81,7 @@ function App() {
 
 
 
-function AppWrapper() {
+const AppWrapper: FC = () => {
 
   const store = configureStore({
     reducer: rootReducer,

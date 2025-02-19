@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react"
 import styles from "./burger-constructor.module.scss"
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
-import PropTypes from "prop-types"
 import Modal from "../modal/modal.jsx"
 import OrderDetails from "../order-details/order-details.jsx"
-import { IngredientType } from "../../utils/types.js"
+// import { IngredientType } from "../../utils/types.js"
 import { useDrop } from "react-dnd";
 import { useSelector, useDispatch } from 'react-redux';
 import { addIngredient, removeIngredient } from "../../services/burger-slice.js"
@@ -12,26 +11,55 @@ import ConstructorItem from "../constructor-item/constructor-item.jsx"
 import { updatePrice, updateIdList, sendOrgerInfo } from "../../services/order-info-slice.js" 
 import { setUser } from "../../services/user-slice.js"
 import { useNavigate } from "react-router-dom"
+import { FC } from "react"
+import type { IIngredient, IIngredientWithUUID } from '../../utils/types';
 
 
-function BurgerConstructor({ data }) {
+type TBurgerConstructorProps = {
+  data: Array<IIngredient | IIngredientWithUUID | []>
+}
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const { burgerList, bun, bunSelected } = useSelector(state => state.burger)
-  const { price, idList, orderInfo } = useSelector(state => state.order)
+type TBurger = {
+  burger: {
+    burgerList: Array<IIngredientWithUUID> | [],
+    bun: IIngredientWithUUID | {},
+    bunSelected: boolean
+  }
+}
+
+type TOrder = {
+  order: {
+    price: number,
+    idList: Array<string>,
+    orderInfo: {
+      success: boolean,
+      order: {
+        number: number
+      }
+    }
+  }
+}
+
+const BurgerConstructor: FC<TBurgerConstructorProps> = ({ data }) => {
+
+  const [ fullData, setFullData ] = useState<Array<IIngredientWithUUID> | []>([])
+  const [ modalVisible, setModalVisible ] = useState(false);
+  const [ selectedBun, setSelectedBun ] = useState<IIngredientWithUUID>({} as IIngredientWithUUID);
+  const { burgerList, bun, bunSelected } = useSelector((state: TBurger) => state.burger)
+  const { price, idList, orderInfo } = useSelector((state: TOrder) => state.order)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [ , dropTarget ] = useDrop({
       accept: "ingredient",
-      drop(item) {
-        const itemToStore = data.find(element => element._id === item.dataId)
+      drop(item: { dataId: string }) {
+        const itemToStore = fullData.find((element: IIngredientWithUUID) => element._id === item.dataId)
         dispatch(addIngredient(itemToStore));
       },
   })
 
-  function removeElement(index) {
+  function removeElement(index: number) {
     dispatch(removeIngredient({ index }));
   }
 
@@ -39,13 +67,15 @@ function BurgerConstructor({ data }) {
     setModalVisible(false)
   }
 
-  async function createOrder(e) {
+  async function createOrder(e: Event) {
     e.stopPropagation()
-    const user = await dispatch(setUser())
+    // @ts-expect-error хранилище пока не типизировано
+    const user = await dispatch(setUser()) as unknown as { payload: { success: boolean } }
     if (!user.payload?.success) {
       navigate("/login")
     } else {
       setModalVisible(true)
+      // @ts-expect-error хранилище пока не типизировано
       dispatch(sendOrgerInfo({ ingredients: idList }))
     }
   }
@@ -54,9 +84,9 @@ function BurgerConstructor({ data }) {
     function updateOrderInfo() {
       let newPrice = 0;
       const idList = []
-      if (Object.keys(bun).length !== 0) {
-        newPrice += bun.price
-        idList.push(bun._id)
+      if (bunSelected) {
+        newPrice += selectedBun.price;
+        idList.push(selectedBun._id);
       }
 
   
@@ -70,7 +100,19 @@ function BurgerConstructor({ data }) {
     }
 
     updateOrderInfo()
+
+    if (bunSelected) {
+      const typedBun = bun as IIngredientWithUUID;
+      setSelectedBun(typedBun)
+    }
   }, [burgerList, bun ])
+
+  useEffect(() => {
+    if (data.length > 0 && data[0].hasOwnProperty("uniqueId")) {
+      const newData = data as unknown as Array<IIngredientWithUUID>
+      setFullData(newData)
+    }
+  }, [])
 
 
   return (
@@ -85,9 +127,9 @@ function BurgerConstructor({ data }) {
         {
           bunSelected &&
           <Bun
-            text={bun.name + "\n (верх)"}
-            price={bun.price}
-            thumbnail={bun.image_mobile}
+            text={selectedBun.name + "\n (верх)"}
+            price={selectedBun.price}
+            thumbnail={selectedBun.image_mobile}
             extraClass="mb-4"
             isLocked={true}
             type="top"
@@ -96,7 +138,7 @@ function BurgerConstructor({ data }) {
       </div>
       <ul className={styles.items}>
         {
-          burgerList && burgerList.map((item, index) => 
+          burgerList && burgerList.map((item: IIngredientWithUUID, index) => 
             <ConstructorItem
               index={index}
               text={item.name}
@@ -113,9 +155,9 @@ function BurgerConstructor({ data }) {
         {
           bunSelected &&
           <Bun
-            text={bun.name + "\n (низ)"}
-            price={bun.price}
-            thumbnail={bun.image_mobile}
+            text={selectedBun.name + "\n (низ)"}
+            price={selectedBun.price}
+            thumbnail={selectedBun.image_mobile}
             isLocked={true}
             extraClass="mt-4"
             type="bottom"
@@ -158,18 +200,10 @@ function Bun({ type, ...props }) {
 
 
 
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(IngredientType)
-}
-
-Bun.propTypes = {
-  type: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
-  extraClass: PropTypes.string,
-  isLocked: PropTypes.bool.isRequired
-}
+// if (Object.keys(bun).length !== 0) {
+//   newPrice += typedBun.price;
+//   idList.push(typedBun._id);
+// }
 
 
 

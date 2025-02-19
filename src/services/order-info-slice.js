@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { sendOrder } from "../api/get-data.js"
+import { sendOrder } from "../api/get-data"
 
 const sendOrgerInfo = createAsyncThunk(
     "order/sendOrgerInfo", 

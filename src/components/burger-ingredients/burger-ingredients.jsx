@@ -5,7 +5,7 @@ import Ingredient from "../ingredient/ingredient.jsx";
 import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx"
 import PropTypes from "prop-types";
-import { IngredientType } from "../../utils/types.js"
+// import { IngredientType } from "../../utils/types.js"
 import { useSelector } from "react-redux";
 
 
@@ -133,14 +133,14 @@ function Section({ section, title, showModal }) {
   )
 }
 
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(IngredientType)
-}
+// BurgerIngredients.propTypes = {
+//   data: PropTypes.arrayOf(IngredientType)
+// }
 
-Section.propTypes = {
-  section: PropTypes.arrayOf(IngredientType),
-  title: PropTypes.string,
-  showModal: PropTypes.func
-}
+// Section.propTypes = {
+//   section: PropTypes.arrayOf(IngredientType),
+//   title: PropTypes.string,
+//   showModal: PropTypes.func
+// }
 
 export default BurgerIngredients;

@@ -1,7 +1,12 @@
 import styles from "./auth-wrapper.module.scss";
-import PropTypes from "prop-types";
+import { FC, ReactNode } from 'react';
 
-function AuthWrapper({ title, children }) {
+type TAuthWrapperProps = {
+  title: string;
+  children: ReactNode
+}
+
+const AuthWrapper: FC<TAuthWrapperProps> = ({ title, children }) => {
   return (
     <main className={styles.authWrapper}>
         <div className={styles.container}>
@@ -10,11 +15,6 @@ function AuthWrapper({ title, children }) {
         </div>
     </main>
   );
-}
-
-AuthWrapper.propTypes = {
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
 }
 
 export default AuthWrapper;

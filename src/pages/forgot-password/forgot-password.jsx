@@ -3,7 +3,7 @@ import AuthWrapper from "../../components/auth-wrapper/auth-wrapper";
 import { Link, useNavigate } from "react-router-dom";
 import { EmailInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
-import { resetPassword } from "../../api/user.js";
+import { resetPassword } from "../../api/user";
 
 function ForgotPassword() {
 

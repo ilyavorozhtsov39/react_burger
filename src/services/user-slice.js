@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { login, logout, register, getUserInfo, refreshToken, changeUserInfo } from "../api/user.js"
+import { login, logout, register, getUserInfo, refreshToken, changeUserInfo } from "../api/user"
 import { setCookie, getCookie, deleteCookie } from './cookies.js';
 
 
