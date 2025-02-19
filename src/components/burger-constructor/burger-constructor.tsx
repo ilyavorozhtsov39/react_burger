@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import styles from "./burger-constructor.module.scss"
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import Modal from "../modal/modal.jsx"
@@ -51,6 +51,8 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ data }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const dropTargetRef = useRef<HTMLDivElement>(null);
+
   const [ , dropTarget ] = useDrop({
       accept: "ingredient",
       drop(item: { dataId: string }) {
@@ -59,6 +61,12 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ data }) => {
         dispatch(addIngredient(itemToStore));
       },
   })
+
+  useEffect(() => {
+    if (dropTargetRef.current) {
+      dropTarget(dropTargetRef.current);
+    }
+  }, [dropTarget]);
 
   function removeElement(index: number) {
     dispatch(removeIngredient({ index }));
@@ -117,7 +125,7 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ data }) => {
 
 
   return (
-    <section className={styles.constructor} ref={dropTarget}>
+    <section className={styles.constructor} ref={dropTargetRef}>
       {
         modalVisible && orderInfo.success &&
         <Modal closeModal={closeModal}>
@@ -194,13 +202,21 @@ type TBunType = {
 
 const Bun: FC<TBunType> = ({ type, ...props }) => {
 
+  const dropTargetRef = useRef<HTMLDivElement>(null);
+
   const [ , dropTarget ] = useDrop({
     accept: "inside",
     drop: item => ({ data: type })
   })
 
+  useEffect(() => {
+    if (dropTargetRef.current) {
+      dropTarget(dropTargetRef.current);
+    }
+  }, [dropTarget])
+
   return (
-    <div ref={dropTarget}>
+    <div ref={dropTargetRef}>
       <ConstructorElement type={type} {...props} />
     </div>
   )
