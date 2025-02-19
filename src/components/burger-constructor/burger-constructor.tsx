@@ -55,6 +55,7 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ data }) => {
       accept: "ingredient",
       drop(item: { dataId: string }) {
         const itemToStore = fullData.find((element: IIngredientWithUUID) => element._id === item.dataId)
+        console.log(fullData)
         dispatch(addIngredient(itemToStore));
       },
   })
@@ -112,7 +113,7 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ data }) => {
       const newData = data as unknown as Array<IIngredientWithUUID>
       setFullData(newData)
     }
-  }, [])
+  }, [data])
 
 
   return (
@@ -182,7 +183,16 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ data }) => {
   )
 }
 
-function Bun({ type, ...props }) {
+type TBunType = {
+  text: string,
+  price: number,
+  thumbnail: string,
+  isLocked: boolean,
+  extraClass: string,
+  type: "top" | "bottom"
+}
+
+const Bun: FC<TBunType> = ({ type, ...props }) => {
 
   const [ , dropTarget ] = useDrop({
     accept: "inside",
