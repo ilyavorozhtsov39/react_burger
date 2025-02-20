@@ -4,12 +4,11 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from "../ingredient/ingredient";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details"
-// import { IngredientType } from "../../utils/types.js"
 import { useSelector } from "react-redux";
-import type { IIngredient, IIngredientWithUUID } from '../../utils/types';
+import type { IIngredientWithUUID } from '../../utils/types';
 
 type TBurgerIngredientsProps = {
-  data: Array<IIngredient | IIngredientWithUUID | []>,
+  data: Array<IIngredientWithUUID> | [],
   showModal: () => void,
   closeModal: () => void
 }
@@ -23,9 +22,15 @@ type TIngredientState = {
 
 type TBurgerState = {
   burger: {
-    burgerList: Array<IIngredientWithUUID>,
+    burgerList: Array<IIngredientWithUUID> | [],
     bun: IIngredientWithUUID | {}
   }
+}
+
+type Sorted = {
+  buns: TDataCopy | [],
+  sauce: TDataCopy | [],
+  main: TDataCopy | []
 }
 
 type TDataCopy = Array<IIngredientWithUUID & {counter: number}>
@@ -91,14 +96,14 @@ const BurgerIngredients = ({ data, showModal, closeModal }: TBurgerIngredientsPr
   }, [data])
 
   function saveIngredients() {
-    const sorted = {}
+    const sorted: Sorted = { buns: [], sauce: [], main: [] }
     sorted.buns = dataCopy.filter(item => item.type === "bun")
     sorted.sauce = dataCopy.filter(item => item.type === "sauce")
     sorted.main = dataCopy.filter(item => item.type === "main")
     return sorted;
   }
 
-  let ingredients = {buns: [], sauce: [], main: []}
+  let ingredients: Sorted = {buns: [], sauce: [], main: []}
   ingredients = useMemo(saveIngredients, [dataCopy])
 
   return (
@@ -110,9 +115,9 @@ const BurgerIngredients = ({ data, showModal, closeModal }: TBurgerIngredientsPr
       }
       <h1 className={styles.header}>Соберите бургер</h1>
       <div className={styles.tabs}>
-        <Tab value="buns" active={activeSection === 0}>Булки</Tab>
-        <Tab value="sauce" active={activeSection === 1}>Соусы</Tab>
-        <Tab value="main" active={activeSection === 2}>Начинки</Tab>
+        <Tab value="buns" active={activeSection === 0} onClick={() => {}}>Булки</Tab>
+        <Tab value="sauce" active={activeSection === 1} onClick={() => {}}>Соусы</Tab>
+        <Tab value="main" active={activeSection === 2} onClick={() => {}}>Начинки</Tab>
       </div>
       <div className={styles.content} ref={containerRef}>
         <Section
@@ -135,7 +140,13 @@ const BurgerIngredients = ({ data, showModal, closeModal }: TBurgerIngredientsPr
   )
 }
 
-function Section({ section, title, showModal }) {
+type Section = {
+  section: TDataCopy | [],
+  title: string,
+  showModal: () => void
+}
+
+function Section({ section, title, showModal }: Section) {
   return ( 
     <section className="section">
       <h2 className={styles.subheader}>{title}</h2>
@@ -155,15 +166,5 @@ function Section({ section, title, showModal }) {
     </section>
   )
 }
-
-// BurgerIngredients.propTypes = {
-//   data: PropTypes.arrayOf(IngredientType)
-// }
-
-// Section.propTypes = {
-//   section: PropTypes.arrayOf(IngredientType),
-//   title: PropTypes.string,
-//   showModal: PropTypes.func
-// }
 
 export default BurgerIngredients;

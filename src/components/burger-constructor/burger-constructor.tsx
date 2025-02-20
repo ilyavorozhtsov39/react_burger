@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from "react"
 import styles from "./burger-constructor.module.scss"
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
-import Modal from "../modal/modal.jsx"
-import OrderDetails from "../order-details/order-details.jsx"
+import Modal from "../modal/modal"
+import OrderDetails from "../order-details/order-details"
 // import { IngredientType } from "../../utils/types.js"
 import { useDrop } from "react-dnd";
 import { useSelector, useDispatch } from 'react-redux';
-import { addIngredient, removeIngredient } from "../../services/burger-slice.js"
-import ConstructorItem from "../constructor-item/constructor-item.jsx"
-import { updatePrice, updateIdList, sendOrgerInfo } from "../../services/order-info-slice.js" 
+import { addIngredient, removeIngredient } from "../../services/burger-slice"
+import ConstructorItem from "../constructor-item/constructor-item"
+import { updatePrice, updateIdList, sendOrgerInfo } from "../../services/order-info-slice" 
 import { setUser } from "../../services/user-slice.js"
 import { useNavigate } from "react-router-dom"
 import { FC } from "react"
@@ -57,7 +57,6 @@ const BurgerConstructor = ({ data }: TBurgerConstructorProps): React.JSX.Element
       accept: "ingredient",
       drop(item: { dataId: string }) {
         const itemToStore = data.find((element: IIngredientWithUUID) => element._id === item.dataId)
-        console.log(data)
         dispatch(addIngredient(itemToStore));
       },
   })
@@ -116,13 +115,6 @@ const BurgerConstructor = ({ data }: TBurgerConstructorProps): React.JSX.Element
       setSelectedBun(typedBun)
     }
   }, [burgerList, bun ])
-
-  // useEffect(() => {
-  //   if (data.length > 0 && data[0].hasOwnProperty("uniqueId")) {
-  //     const newData = data as unknown as Array<IIngredientWithUUID>
-  //     setFullData(newData)
-  //   }
-  // }, [data])
 
 
   return (

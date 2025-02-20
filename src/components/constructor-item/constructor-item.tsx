@@ -1,11 +1,30 @@
-import PropTypes from "prop-types"
 import styles from "./constructor-item.module.scss"
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { useDrag, useDrop } from "react-dnd";
 import { sortIngredients, removeIngredient } from "../../services/burger-slice.js"
 import { useDispatch } from 'react-redux';
+import { useEffect, useRef } from 'react'
 
-function ConstructorItem({ index, text, price, thumbnail, length, handleClose }) {
+type TConstructorItemProps = {
+  index: number,
+  text: string,
+  price: number,
+  thumbnail: string,
+  length: number,
+  handleClose: (index: number) => void
+}
+
+type XYCoord = {
+  x: number,
+  y: number
+}
+
+type DropResult = {
+  data: "top" | "bottom" | XYCoord,
+  dropEffect: "move"
+}
+
+function ConstructorItem({ index, text, price, thumbnail, length, handleClose }: TConstructorItemProps) {
 
     const conditionalPadding = 16
     const dispatch = useDispatch()
@@ -15,28 +34,29 @@ function ConstructorItem({ index, text, price, thumbnail, length, handleClose })
           item: {index},
           collect: monitor => ({
               isDrag: monitor.isDragging(),
-              source: monitor.getInitialSourceClientOffset()
+              source: monitor.getInitialSourceClientOffset() as XYCoord
           }),
           end: (item, monitor) => {
-            const dropResult = monitor.getDropResult();
+            const dropResult = monitor.getDropResult() as DropResult;
 
             if (dropResult && typeof dropResult.data === "string") {
               handleOverBun(dropResult.data, index)
             } else if (dropResult) {
-              const position = handleDrop(source, dropResult.data, index)
+              const target = dropResult.data as XYCoord;
+              const position = handleDrop(source, target, index)
               dispatch(sortIngredients({ position, index }))
             }
         }
     });
 
-    function handleOverBun(type, index) {
+    function handleOverBun(type: "top" | "bottom", index: number) {
       const position = type === "top" ? 0 : length ;
       dispatch(sortIngredients({ position, index }))
     }
 
 
-    function handleDrop(source, target, index) {
-      const element = document.querySelector(".constructor-list-item:nth-child(" + (index + 1) + ")");
+    function handleDrop(source: XYCoord, target: XYCoord, index: number) {
+      const element = document.querySelector(".constructor-list-item:nth-child(" + (index + 1) + ")") as HTMLElement;
       const elementHeight = element.offsetHeight + conditionalPadding;
       const result = { x: Math.round(target.x - source.x), y: Math.round(target.y - source.y) }
       const offsetY = result.y;
@@ -56,10 +76,18 @@ function ConstructorItem({ index, text, price, thumbnail, length, handleClose })
         drop: item => ({ data: offsetData, index })
     })
 
+    const dropTargetRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (dropTargetRef.current) {
+        dropTarget(dropTargetRef.current);
+      }
+    }, [dropTarget])
+
     const isFinal = index === length - 1;
     return (
       <li className={styles.container + " constructor-list-item"} style={ !isFinal ? {paddingBottom: `${conditionalPadding}px`} : {}} ref={dropTarget}>
-        <div className={styles.content} ref={dragRef}>
+        <div className={styles.content} ref={dropTargetRef}>
           <div className={styles.icon}>
             <DragIcon />
           </div>
@@ -76,14 +104,5 @@ function ConstructorItem({ index, text, price, thumbnail, length, handleClose })
     )
 }
 
-
-ConstructorItem.propTypes = {
-    index: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    thumbnail: PropTypes.string.isRequired,
-    length: PropTypes.number.isRequired,
-    handleClose: PropTypes.func.isRequired
-}
 
 export default ConstructorItem;

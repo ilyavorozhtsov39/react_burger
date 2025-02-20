@@ -3,10 +3,9 @@ import { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-dev
 import HeaderMenuItem from '../header-menu-item/header-menu-item';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from "react"
-import { FC } from 'react';
 
 
-const AppHeader: FC = () => {
+const AppHeader = () => {
 
     const [ activePage, setActivePage ] = useState("/")
 
