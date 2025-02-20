@@ -1,7 +1,7 @@
 import styles from "./constructor-item.module.scss"
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
-import { sortIngredients, removeIngredient } from "../../services/burger-slice.js"
+import { sortIngredients, removeIngredient } from "../../services/burger-slice"
 import { useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react'
 

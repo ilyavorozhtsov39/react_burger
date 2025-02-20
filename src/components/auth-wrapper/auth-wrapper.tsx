@@ -1,12 +1,12 @@
 import styles from "./auth-wrapper.module.scss";
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 type TAuthWrapperProps = {
   title: string;
   children: ReactNode
 }
 
-const AuthWrapper = ({ title, children }: TAuthWrapperProps) => {
+const AuthWrapper = ({ title, children }: TAuthWrapperProps): React.JSX.Element => {
   return (
     <main className={styles.authWrapper}>
         <div className={styles.container}>

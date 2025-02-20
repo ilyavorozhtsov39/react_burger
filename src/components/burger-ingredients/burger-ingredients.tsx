@@ -35,7 +35,7 @@ type Sorted = {
 
 type TDataCopy = Array<IIngredientWithUUID & {counter: number}>
 
-const BurgerIngredients = ({ data, showModal, closeModal }: TBurgerIngredientsProps) => {
+const BurgerIngredients = ({ data, showModal, closeModal }: TBurgerIngredientsProps): React.JSX.Element => {
 
   const [modalVisible, setModalVisible] = useState(false)
   const [dataCopy, setDataCopy] = useState<TDataCopy>([])
@@ -146,7 +146,7 @@ type Section = {
   showModal: () => void
 }
 
-function Section({ section, title, showModal }: Section) {
+function Section({ section, title, showModal }: Section): React.JSX.Element {
   return ( 
     <section className="section">
       <h2 className={styles.subheader}>{title}</h2>

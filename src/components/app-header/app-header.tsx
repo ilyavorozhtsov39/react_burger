@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from "react"
 
 
-const AppHeader = () => {
+const AppHeader = (): React.JSX.Element => {
 
     const [ activePage, setActivePage ] = useState("/")
 

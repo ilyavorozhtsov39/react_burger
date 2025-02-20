@@ -27,7 +27,7 @@ type State = {
   }
 }
 
-const App = () => {
+const App = (): React.JSX.Element => {
 
   const { ingredientsList } = useSelector((state: State) => state.ingredients)
   const [ ingredientsListWihtUUID, setIngredientsListWihtUUID ] = useState<Array<IIngredientWithUUID>>([])

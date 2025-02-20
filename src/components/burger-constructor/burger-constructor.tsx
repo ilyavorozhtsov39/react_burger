@@ -3,7 +3,6 @@ import styles from "./burger-constructor.module.scss"
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import Modal from "../modal/modal"
 import OrderDetails from "../order-details/order-details"
-// import { IngredientType } from "../../utils/types.js"
 import { useDrop } from "react-dnd";
 import { useSelector, useDispatch } from 'react-redux';
 import { addIngredient, removeIngredient } from "../../services/burger-slice"
@@ -193,7 +192,7 @@ type TBunType = {
   type: "top" | "bottom"
 }
 
-const Bun: FC<TBunType> = ({ type, ...props }) => {
+const Bun: FC<TBunType> = ({ type, ...props }): React.JSX.Element => {
 
   const dropTargetRef = useRef<HTMLDivElement>(null);
 
