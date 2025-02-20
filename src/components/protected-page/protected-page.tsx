@@ -5,10 +5,12 @@ import { IUser } from '../../utils/types'
 
 type TProtectedPageProps = {
     type: string,
-    element: ReactNode
+    element: React.JSX.Element
 }
 
-const ProtectedPage = ({ type, element }: TProtectedPageProps) => {
+type TProtectedPageReturnType = React.JSX.Element | null
+
+const ProtectedPage = ({ type, element }: TProtectedPageProps): TProtectedPageReturnType => {
 
     const [ isUserLoaded, setIsUserLoaded ] = useState(false)
     const [ authUser, setAuthUser ] = useState(false)
@@ -35,10 +37,12 @@ const ProtectedPage = ({ type, element }: TProtectedPageProps) => {
     }
 
     if (type === "unauth") {
-        return authUser ? element : <Navigate to="/login" replace state={{ from: location }} />
+        return authUser ? element as React.JSX.Element : <Navigate to="/login" replace state={{ from: location }} />
     } else if (type === "auth") {
-        return authUser ? <Navigate to={from} replace /> : element
+        return authUser ? <Navigate to={from} replace /> : element as React.JSX.Element
     }
+    
+    return null
 }
 
 export default ProtectedPage

@@ -110,7 +110,7 @@ const BurgerIngredients = ({ data, showModal, closeModal }: TBurgerIngredientsPr
     <div className={styles.ingredients}>
       {modalVisible && 
       <Modal closeModal={closeModal}>
-        {infoStored && <IngredientDetails {...ingredientInfo} />}
+        {infoStored && <IngredientDetails />}
       </Modal>
       }
       <h1 className={styles.header}>Соберите бургер</h1>
