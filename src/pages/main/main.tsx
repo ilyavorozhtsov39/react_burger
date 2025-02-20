@@ -4,15 +4,19 @@ import BurgerConstructor from '../../components/burger-constructor/burger-constr
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import styles from './main.module.scss'
 import { useNavigate, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
-// import { IngredientType } from "../../utils/types.js"
+import { IIngredientWithUUID } from '../../utils/types'
+import React from 'react'
 
-function Main({ ingredientsList }) {
+type TIngredientList = {
+    ingredientsList: Array<IIngredientWithUUID> | []
+}
+
+const Main = ({ ingredientsList }: TIngredientList): React.JSX.Element => {
 
     const navigate = useNavigate()
     const location = useLocation()
 
-    function showModal(dataId) {
+    function showModal(dataId: string) {
         navigate(`/ingredients/${dataId}`, { state: { background: location }}) 
     }
     
@@ -29,9 +33,5 @@ function Main({ ingredientsList }) {
         </DndProvider>
     )
 }
-
-// BurgerIngredients.propTypes = {
-//   data: PropTypes.arrayOf(IngredientType)
-// }
 
 export default Main;

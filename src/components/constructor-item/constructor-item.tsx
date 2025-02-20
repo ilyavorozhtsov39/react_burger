@@ -84,16 +84,20 @@ function ConstructorItem({ index, text, price, thumbnail, length, handleClose }:
     })
 
     const dragTargetRef = useRef<HTMLDivElement>(null);
+    const dropTargetRef = useRef<HTMLLIElement>(null);
 
     useEffect(() => {
       if (dragTargetRef.current) {
         dragRef(dragTargetRef.current);
       }
-    }, [dragRef])
+      if (dropTargetRef.current) {
+        dropTarget(dropTargetRef.current)
+      }
+    }, [dragRef, dropTarget])
 
     const isFinal = index === length - 1;
     return (
-      <li className={styles.container + " constructor-list-item"} style={ !isFinal ? {paddingBottom: `${conditionalPadding}px`} : {}} ref={dropTarget}>
+      <li className={styles.container + " constructor-list-item"} style={ !isFinal ? {paddingBottom: `${conditionalPadding}px`} : {}} ref={dropTargetRef}>
         <div className={styles.content} ref={dragTargetRef}>
           <div className={styles.icon}>
             <DragIcon type="primary" />

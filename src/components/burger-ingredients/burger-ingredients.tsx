@@ -9,7 +9,7 @@ import type { IIngredientWithUUID } from '../../utils/types';
 
 type TBurgerIngredientsProps = {
   data: Array<IIngredientWithUUID> | [],
-  showModal: () => void,
+  showModal: (dataId: string) => void,
   closeModal: () => void
 }
 
@@ -143,7 +143,7 @@ const BurgerIngredients = ({ data, showModal, closeModal }: TBurgerIngredientsPr
 type Section = {
   section: TDataCopy | [],
   title: string,
-  showModal: () => void
+  showModal: (dataId: string) => void
 }
 
 function Section({ section, title, showModal }: Section): React.JSX.Element {

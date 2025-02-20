@@ -2,12 +2,18 @@ import AuthWrapper from "../../components/auth-wrapper/auth-wrapper";
 import { EmailInput, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import styles from "./login.module.scss";
-import { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useDispatch } from "react-redux"
-import { loginUser, setUser } from "../../services/user-slice.js"
+import { loginUser, setUser } from "../../services/user-slice"
 import { useNavigate, useLocation } from "react-router-dom";
 
-function Login() {
+type RequestResult = {
+  payload: {
+    success: boolean
+  }
+}
+
+const Login = (): React.JSX.Element => {
 
     const [form, setForm] = useState({ email: "", password: "" });
     const dispatch = useDispatch();
@@ -15,15 +21,17 @@ function Login() {
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
 
-    function handleChange(e) {
+    function handleChange(e: ChangeEvent<HTMLInputElement>) {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    async function sumbitForm(e) {
+    async function sumbitForm(e: FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
-        const result = await dispatch(loginUser(form));
+        // @ts-expect-error хранилище пока не типизировано
+        const result = await dispatch(loginUser(form)) as RequestResult;
         if (result.payload.success) {
-            const userSet = await dispatch(setUser())
+            // @ts-expect-error хранилище пока не типизировано
+            const userSet = await dispatch(setUser()) as RequestResult;
             if (userSet.payload.success) {
               navigate(from, { replace: true });
             }

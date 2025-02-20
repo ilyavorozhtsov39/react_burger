@@ -1,13 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import styles from './profile.module.scss';
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux"
-import { logoutUser, modifyUser } from "../../services/user-slice.js"
+import { logoutUser, modifyUser } from "../../services/user-slice"
 import { useNavigate, useLocation } from 'react-router-dom';
+import { setUser } from "../../services/user-slice"
+import type { IUser } from '../../utils/types'
 
-import { setUser } from "../../services/user-slice.js"
+type State = {
+    user: IUser
+}
 
-function Profile() {
+type RequestResult = {
+    payload: {
+      success: boolean
+    }
+}
+
+const Profile = (): React.JSX.Element => {
 
     const [form, setForm] = useState({  name: "", login: "", password: "" });
     const [initialData, setInitialData] = useState({  name: "", login: "", password: "" });
@@ -17,20 +27,22 @@ function Profile() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const userState = useSelector(state => state.user)
+    const userState = useSelector((state: State) => state.user)
 
     async function handleLogout() {
-        const result = await dispatch(logoutUser())
-        // console.log("Logout result: ", result)
+        // @ts-expect-error хранилище пока не типизировано
+        const result = await dispatch(logoutUser()) as RequestResult
         if (result.payload.success) {
             // console.log("TO LOGIN")
             navigate("/login")
         }
     }
 
-    function changeUserInfo(e) {
+    function changeUserInfo(e: FormEvent<HTMLFormElement>): void {
         e.preventDefault()
+        // @ts-expect-error хранилище пока не типизировано
         dispatch(modifyUser(form))
+        // @ts-expect-error хранилище пока не типизировано
         dispatch(setUser())
     }
 
@@ -39,7 +51,7 @@ function Profile() {
         toggleFormChanged(false)
     }
 
-    function handleChange(e) { 
+    function handleChange(e: ChangeEvent<HTMLInputElement>) { 
         toggleFormChanged(true)
         setForm({ ...form, [e.target.name]: e.target.value })
     }
@@ -76,9 +88,9 @@ function Profile() {
                     <p className={styles.text}>В этом разделе вы можете изменить свои персональные данные</p>
                 </div>
                 <form className={styles.inputs} onSubmit={changeUserInfo}>
-                    <Input type="text" placeholder="Имя" name="name" extraClass="mb-6" icon="EditIcon" value={form.name} onChange={handleChange} />
-                    <Input type="text" placeholder="Логин" name="login" icon="EditIcon" extraClass="mb-6" value={form.login} onChange={handleChange} />
-                    <Input type="password" placeholder="Пароль" name="password" icon="EditIcon" value={form.password} onChange={handleChange} />
+                    <Input type="text" placeholder="Имя" name="name" extraClass="mb-6" icon="EditIcon" value={form.name} onChange={handleChange} onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}} />
+                    <Input type="text" placeholder="Логин" name="login" icon="EditIcon" extraClass="mb-6" value={form.login} onChange={handleChange} onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}} />
+                    <Input type="password" placeholder="Пароль" name="password" icon="EditIcon" value={form.password} onChange={handleChange} onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}} />
                     {
                         formChanged &&
                         <div className={styles.buttons}>

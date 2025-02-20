@@ -1,4 +1,10 @@
-function setCookie(name, value, props) {
+type TSetCookieProps = {
+    path: string,
+    expires: any,
+    [key: string]: any
+}
+
+function setCookie(name: string, value: string, props: TSetCookieProps) {
     props = props || {};
     let exp = props.expires;
     if (typeof exp == "number" && exp) {
@@ -21,15 +27,15 @@ function setCookie(name, value, props) {
     document.cookie = updatedCookie;
 }
 
-function getCookie(name) {
+function getCookie(name: string): string | undefined {
     let matches = document.cookie.match(new RegExp(
         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
 } 
 
-function deleteCookie(name) {
-    setCookie(name, null, { expires: -1 });
+function deleteCookie(name: string): void {
+    setCookie(name, "", { expires: -1, path: "/" });
 }
 
 export { setCookie, getCookie, deleteCookie }

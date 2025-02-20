@@ -2,23 +2,30 @@ import AuthWrapper from "../../components/auth-wrapper/auth-wrapper";
 import { Input, EmailInput, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./register.module.scss";
-import { useState } from "react";
+import React, { useState, FormEvent, ChangeEvent } from "react";
 import { useDispatch } from "react-redux"
-import { registerUser } from "../../services/user-slice.js"
+import { registerUser } from "../../services/user-slice"
 
-function Register() {
+type RequestResult = {
+    payload: {
+      success: boolean
+    }
+}
+
+const Register = (): React.JSX.Element => {
 
     const [form, setForm] = useState({  name: "", email: "", password: "" });
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    function handleChange(e) {
+    function handleChange(e: ChangeEvent<HTMLInputElement>) {
         setForm({ ...form, [e.target.name]: e.target.value }); 
     };
 
-    async function sumbitForm(e) {
+    async function sumbitForm(e: FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
-        const result = await dispatch(registerUser(form));
+        // @ts-expect-error хранилище пока не типизировано
+        const result = await dispatch(registerUser(form)) as RequestResult;
         if (result.payload.success) {
             navigate("/login")
         }
@@ -35,6 +42,8 @@ function Register() {
                     size="default" 
                     extraClass="mb-6"
                     onChange={handleChange}
+                    onPointerEnterCapture={() => {}}
+                    onPointerLeaveCapture={() => {}}
                 />
                 <EmailInput 
                     name="email" 
