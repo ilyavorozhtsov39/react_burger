@@ -1,6 +1,6 @@
 import styles from "./constructor-item.module.scss"
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components"
-import { useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { sortIngredients, removeIngredient } from "../../services/burger-slice.js"
 import { useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react'
@@ -23,6 +23,11 @@ type DropResult = {
   data: "top" | "bottom" | XYCoord,
   dropEffect: "move"
 }
+
+type DragItem = {
+  index: number;
+  type: string;
+};
 
 function ConstructorItem({ index, text, price, thumbnail, length, handleClose }: TConstructorItemProps) {
 
@@ -65,31 +70,33 @@ function ConstructorItem({ index, text, price, thumbnail, length, handleClose }:
       return newPosition;
     }
 
-    const [ {offsetData}, dropTarget ] = useDrop({
+    const [ {offsetData}, dropTarget ] = useDrop<DragItem, DropResult, { offsetData: XYCoord }>({
         accept: "inside",
         collect: monitor => ({ offsetData: { x: 0, y: 0 } }),
-        hover: (item, monitor) => {
+        hover: (item, monitor: DropTargetMonitor) => {
           const currentOffset = monitor.getSourceClientOffset()
-          offsetData.x = currentOffset.x
-          offsetData.y = currentOffset.y
+          if (currentOffset) {
+            offsetData.x = currentOffset.x
+            offsetData.y = currentOffset.y
+          }
         },
-        drop: item => ({ data: offsetData, index })
+        drop: (item: DragItem): DropResult => ({ data: offsetData, dropEffect: "move" })
     })
 
-    const dropTargetRef = useRef<HTMLDivElement>(null);
+    const dragTargetRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-      if (dropTargetRef.current) {
-        dropTarget(dropTargetRef.current);
+      if (dragTargetRef.current) {
+        dragRef(dragTargetRef.current);
       }
-    }, [dropTarget])
+    }, [dragRef])
 
     const isFinal = index === length - 1;
     return (
       <li className={styles.container + " constructor-list-item"} style={ !isFinal ? {paddingBottom: `${conditionalPadding}px`} : {}} ref={dropTarget}>
-        <div className={styles.content} ref={dropTargetRef}>
+        <div className={styles.content} ref={dragTargetRef}>
           <div className={styles.icon}>
-            <DragIcon />
+            <DragIcon type="primary" />
           </div>
           <ConstructorElement
             text={text}
