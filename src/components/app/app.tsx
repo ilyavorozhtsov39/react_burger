@@ -20,17 +20,17 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import IngredientPage from '../../pages/ingredient/ingredient';
 import type { IIngredient, IIngredientWithUUID } from '../../utils/types';
-import { FC } from 'react';
 
 type State = {
   ingredients: {
-    ingredientsList: Array<IIngredient | IIngredientWithUUID | []>
+    ingredientsList: Array<IIngredient | IIngredientWithUUID> | []
   }
 }
 
-const App: FC = () => {
+const App = () => {
 
   const { ingredientsList } = useSelector((state: State) => state.ingredients)
+  const [ ingredientsListWihtUUID, setIngredientsListWihtUUID ] = useState<Array<IIngredientWithUUID>>([])
 
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -52,6 +52,13 @@ const App: FC = () => {
     handleIngredients()
   }, [])
 
+  useEffect(() => {
+    if (ingredientsList[0].hasOwnProperty('uniqueId')) {
+      const updatedList = ingredientsList as Array<IIngredientWithUUID>
+      setIngredientsListWihtUUID(updatedList)
+    }
+  }, [ingredientsList])
+
   function closeModal() {
     navigate(-1)
   }
@@ -60,7 +67,7 @@ const App: FC = () => {
     <div className={styles.app}>
         <AppHeader />
         <Routes location={background || location}>
-          <Route path="/" element={<Main ingredientsList={ingredientsList} />} />
+          <Route path="/" element={<Main ingredientsList={ingredientsListWihtUUID} />} />
           <Route path="/login" element={<ProtectedPage type="auth" element={<Login />} />} />
           <Route path="/register" element={<ProtectedPage type="auth" element={<Register />} />} />
           <Route path="/forgot-password" element={<ProtectedPage type="auth" element={<ForgotPassword />} />} />
@@ -81,7 +88,7 @@ const App: FC = () => {
 
 
 
-const AppWrapper: FC = () => {
+const AppWrapper = () => {
 
   const store = configureStore({
     reducer: rootReducer,

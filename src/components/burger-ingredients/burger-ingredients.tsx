@@ -1,27 +1,48 @@
 import React, { useState, useEffect, useRef, useMemo } from "react"
 import styles from "./burger-ingredients.module.scss"
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import Ingredient from "../ingredient/ingredient.jsx";
-import Modal from "../modal/modal.jsx";
-import IngredientDetails from "../ingredient-details/ingredient-details.jsx"
-import PropTypes from "prop-types";
+import Ingredient from "../ingredient/ingredient";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details"
 // import { IngredientType } from "../../utils/types.js"
 import { useSelector } from "react-redux";
+import type { IIngredient, IIngredientWithUUID } from '../../utils/types';
 
+type TBurgerIngredientsProps = {
+  data: Array<IIngredient | IIngredientWithUUID | []>,
+  showModal: () => void,
+  closeModal: () => void
+}
 
-function BurgerIngredients({ data, showModal, closeModal }) {
+type TIngredientState = {
+  ingredient: {
+    ingredientInfo: IIngredientWithUUID | {},
+    infoStored: boolean
+  }
+}
+
+type TBurgerState = {
+  burger: {
+    burgerList: Array<IIngredientWithUUID>,
+    bun: IIngredientWithUUID | {}
+  }
+}
+
+type TDataCopy = Array<IIngredientWithUUID & {counter: number}>
+
+const BurgerIngredients = ({ data, showModal, closeModal }: TBurgerIngredientsProps) => {
 
   const [modalVisible, setModalVisible] = useState(false)
-  const [dataCopy, setDataCopy] = useState(data)
+  const [dataCopy, setDataCopy] = useState<TDataCopy>([])
   const [activeSection, setActiveSection] = useState(0)
 
-  const { ingredientInfo, infoStored } = useSelector(state => state.ingredient)
-  const { burgerList, bun } = useSelector(state => state.burger)
+  const { ingredientInfo, infoStored } = useSelector((state: TIngredientState) => state.ingredient)
+  const { burgerList, bun } = useSelector((state: TBurgerState) => state.burger)
 
-  const containerRef = useRef()
+  const containerRef = useRef<HTMLDivElement>(null)
 
   function handleScroll() {
-    const container = containerRef.current;
+    const container = containerRef.current as HTMLDivElement;
     const sections = container.querySelectorAll('.section');
     let index = 0;
 
@@ -35,17 +56,16 @@ function BurgerIngredients({ data, showModal, closeModal }) {
   }
 
   useEffect(() => {
-    const container = containerRef.current;
+    const container = containerRef.current as HTMLDivElement;;
     container.addEventListener('scroll', handleScroll);
       return () => container.removeEventListener('scroll', handleScroll);
   }, [])
 
   useEffect(() => {
-    const allIngredients = [ ...burgerList, bun ]
+    const allIngredients = [ ...burgerList, bun ] as Array<IIngredientWithUUID>
 
     const modded = dataCopy.map(item => {
-      let copy = { ...item }
-      copy.counter = 0;
+      let copy = { ...item, counter: 0 }
       allIngredients.forEach(added => {
         if (added._id === copy._id) {
           copy.counter += 1
@@ -58,13 +78,16 @@ function BurgerIngredients({ data, showModal, closeModal }) {
 
 
   useEffect(() => {
-    const copy = data.map(item => {
-      return {
-        ...item,
-        counter: 0
-      }
-    })
-    setDataCopy(copy)
+    if (data.length > 0) {
+      const copy = data.map(item => {
+        return {
+          ...item,
+          counter: 0
+        }
+      })
+      setDataCopy(copy)
+
+    }
   }, [data])
 
   function saveIngredients() {

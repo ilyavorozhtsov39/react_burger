@@ -12,11 +12,12 @@ import { updatePrice, updateIdList, sendOrgerInfo } from "../../services/order-i
 import { setUser } from "../../services/user-slice.js"
 import { useNavigate } from "react-router-dom"
 import { FC } from "react"
-import type { IIngredient, IIngredientWithUUID } from '../../utils/types';
+import type { IIngredientWithUUID } from '../../utils/types';
+import { ingredientTemplate } from "../../utils/constants"
 
 
 type TBurgerConstructorProps = {
-  data: Array<IIngredient | IIngredientWithUUID | []>
+  data: Array<IIngredientWithUUID> | []
 }
 
 type TBurger = {
@@ -40,11 +41,10 @@ type TOrder = {
   }
 }
 
-const BurgerConstructor: FC<TBurgerConstructorProps> = ({ data }) => {
+const BurgerConstructor = ({ data }: TBurgerConstructorProps): React.JSX.Element => {
 
-  const [ fullData, setFullData ] = useState<Array<IIngredientWithUUID> | []>([])
   const [ modalVisible, setModalVisible ] = useState(false);
-  const [ selectedBun, setSelectedBun ] = useState<IIngredientWithUUID>({} as IIngredientWithUUID);
+  const [ selectedBun, setSelectedBun ] = useState<IIngredientWithUUID>(ingredientTemplate);
   const { burgerList, bun, bunSelected } = useSelector((state: TBurger) => state.burger)
   const { price, idList, orderInfo } = useSelector((state: TOrder) => state.order)
 
@@ -56,8 +56,8 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ data }) => {
   const [ , dropTarget ] = useDrop({
       accept: "ingredient",
       drop(item: { dataId: string }) {
-        const itemToStore = fullData.find((element: IIngredientWithUUID) => element._id === item.dataId)
-        console.log(fullData)
+        const itemToStore = data.find((element: IIngredientWithUUID) => element._id === item.dataId)
+        console.log(data)
         dispatch(addIngredient(itemToStore));
       },
   })
@@ -94,8 +94,9 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ data }) => {
       let newPrice = 0;
       const idList = []
       if (bunSelected) {
-        newPrice += selectedBun.price;
-        idList.push(selectedBun._id);
+        const bun = selectedBun as IIngredientWithUUID;
+        newPrice += bun.price;
+        idList.push(bun._id);
       }
 
   
@@ -116,16 +117,16 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ data }) => {
     }
   }, [burgerList, bun ])
 
-  useEffect(() => {
-    if (data.length > 0 && data[0].hasOwnProperty("uniqueId")) {
-      const newData = data as unknown as Array<IIngredientWithUUID>
-      setFullData(newData)
-    }
-  }, [data])
+  // useEffect(() => {
+  //   if (data.length > 0 && data[0].hasOwnProperty("uniqueId")) {
+  //     const newData = data as unknown as Array<IIngredientWithUUID>
+  //     setFullData(newData)
+  //   }
+  // }, [data])
 
 
   return (
-    <section className={styles.constructor} ref={dropTargetRef}>
+    <section className={styles.section} ref={dropTargetRef}>
       {
         modalVisible && orderInfo.success &&
         <Modal closeModal={closeModal}>
@@ -182,7 +183,7 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ data }) => {
           type="primary"
           size="large"
           htmlType="button"
-          onClick={createOrder}
+          onClick={createOrder as unknown as () => void}
         >
           Оформить заказ
         </Button>  
