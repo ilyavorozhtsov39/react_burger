@@ -1,5 +1,5 @@
 import { BASE_URL } from "../utils/constants"
-import { checkResponse } from "../utils/checks.js";
+import { checkResponse } from "../utils/checks";
 
 type Ingredients = {
     ingredients: Array<{ [name: number]: string }>,
