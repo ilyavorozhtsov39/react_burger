@@ -10,9 +10,13 @@ type ResetPasswordResult = {
     success: boolean
 }
 
+type State = {
+    email: string
+}
+
 const ForgotPassword = (): React.JSX.Element => {
 
-    const [form, setForm] = useState({ email: "" });
+    const [form, setForm] = useState<State>({ email: "" });
     const navigate = useNavigate();
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {

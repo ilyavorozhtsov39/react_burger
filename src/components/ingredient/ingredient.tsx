@@ -15,7 +15,7 @@ type TIngredientProps = {
 
 const Ingredient = ({ id, counter, dataId, name, image, price, showModal }: TIngredientProps): React.JSX.Element => {
 
-  const [{isDrag}, dragRef] = useDrag({
+  const [{}, dragRef] = useDrag({
       type: "ingredient",
       item: {dataId},
       collect: monitor => ({

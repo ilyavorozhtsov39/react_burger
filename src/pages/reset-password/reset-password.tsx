@@ -5,9 +5,14 @@ import { PasswordInput, Input, Button } from "@ya.praktikum/react-developer-burg
 import { setNewPassword } from '../../api/user';
 import React, { useState, useEffect, FormEvent, ChangeEvent } from "react";
 
+type TState = {
+    password: string,
+    token: string
+}
+
 const ResetPassword = (): React.JSX.Element => {
 
-    const [form, setForm] = useState({ password: "", token: "" });
+    const [form, setForm] = useState<TState>({ password: "", token: "" });
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from || "/";

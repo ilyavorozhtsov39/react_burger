@@ -26,7 +26,7 @@ type DropResult = {
 
 type DragItem = {
   index: number;
-  type: string;
+  type?: string;
 };
 
 function ConstructorItem({ index, text, price, thumbnail, length, handleClose }: TConstructorItemProps) {
@@ -34,14 +34,14 @@ function ConstructorItem({ index, text, price, thumbnail, length, handleClose }:
     const conditionalPadding = 16
     const dispatch = useDispatch()
 
-    const [ {isDrag, source}, dragRef ] = useDrag({
+    const [ { source}, dragRef ] = useDrag<DragItem, DropResult, { source: XYCoord }>({
           type: "inside",
           item: {index},
           collect: monitor => ({
               isDrag: monitor.isDragging(),
               source: monitor.getInitialSourceClientOffset() as XYCoord
           }),
-          end: (item, monitor) => {
+          end: (item: DragItem, monitor) => {
             const dropResult = monitor.getDropResult() as DropResult;
 
             if (dropResult && typeof dropResult.data === "string") {

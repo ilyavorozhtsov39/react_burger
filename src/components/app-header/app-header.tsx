@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 
 const AppHeader = (): React.JSX.Element => {
 
-    const [ activePage, setActivePage ] = useState("/")
+    const [ activePage, setActivePage ] = useState<string>("/")
 
     const navigate = useNavigate();
     const location = useLocation()

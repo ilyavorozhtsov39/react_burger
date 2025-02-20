@@ -13,9 +13,14 @@ type RequestResult = {
   }
 }
 
+type State = {
+  email: string,
+  password: string
+}
+
 const Login = (): React.JSX.Element => {
 
-    const [form, setForm] = useState({ email: "", password: "" });
+    const [form, setForm] = useState<State>({ email: "", password: "" });
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();

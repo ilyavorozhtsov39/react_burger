@@ -12,8 +12,8 @@ type TProtectedPageReturnType = React.JSX.Element | null
 
 const ProtectedPage = ({ type, element }: TProtectedPageProps): TProtectedPageReturnType => {
 
-    const [ isUserLoaded, setIsUserLoaded ] = useState(false)
-    const [ authUser, setAuthUser ] = useState(false)
+    const [ isUserLoaded, setIsUserLoaded ] = useState<boolean>(false)
+    const [ authUser, setAuthUser ] = useState<boolean>(false)
     const location = useLocation()
     const from = location.state?.from?.pathname || '/';
 

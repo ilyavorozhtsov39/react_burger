@@ -17,12 +17,18 @@ type RequestResult = {
     }
 }
 
+type TState = {
+    name: string,
+    login: string,
+    password: string
+}
+
 const Profile = (): React.JSX.Element => {
 
-    const [form, setForm] = useState({  name: "", login: "", password: "" });
-    const [initialData, setInitialData] = useState({  name: "", login: "", password: "" });
-    const [ formChanged, toggleFormChanged ] = useState(false)
-    const [ ordersModal, setOrdersModal ] = useState(false)
+    const [form, setForm] = useState<TState>({  name: "", login: "", password: "" });
+    const [initialData, setInitialData] = useState<TState>({  name: "", login: "", password: "" });
+    const [ formChanged, toggleFormChanged ] = useState<boolean>(false)
+    const [ ordersModal, setOrdersModal ] = useState<boolean>(false)
 
     const dispatch = useDispatch();
     const navigate = useNavigate();

@@ -12,9 +12,15 @@ type RequestResult = {
     }
 }
 
+type TState = {
+    name: string,
+    email: string,
+    password: string
+}
+
 const Register = (): React.JSX.Element => {
 
-    const [form, setForm] = useState({  name: "", email: "", password: "" });
+    const [form, setForm] = useState<TState>({  name: "", email: "", password: "" });
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

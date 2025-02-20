@@ -42,7 +42,7 @@ type TOrder = {
 
 const BurgerConstructor = ({ data }: TBurgerConstructorProps): React.JSX.Element => {
 
-  const [ modalVisible, setModalVisible ] = useState(false);
+  const [ modalVisible, setModalVisible ] = useState<boolean>(false);
   const [ selectedBun, setSelectedBun ] = useState<IIngredientWithUUID>(ingredientTemplate);
   const { burgerList, bun, bunSelected } = useSelector((state: TBurger) => state.burger)
   const { price, idList, orderInfo } = useSelector((state: TOrder) => state.order)

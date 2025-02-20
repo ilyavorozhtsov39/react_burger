@@ -39,7 +39,7 @@ const BurgerIngredients = ({ data, showModal, closeModal }: TBurgerIngredientsPr
 
   const [modalVisible, setModalVisible] = useState(false)
   const [dataCopy, setDataCopy] = useState<TDataCopy>([])
-  const [activeSection, setActiveSection] = useState(0)
+  const [activeSection, setActiveSection] = useState<number>(0)
 
   const { ingredientInfo, infoStored } = useSelector((state: TIngredientState) => state.ingredient)
   const { burgerList, bun } = useSelector((state: TBurgerState) => state.burger)
