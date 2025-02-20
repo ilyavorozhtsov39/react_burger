@@ -53,7 +53,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    if (ingredientsList[0].hasOwnProperty('uniqueId')) {
+    if (ingredientsList.length > 0 && ingredientsList[0].hasOwnProperty('uniqueId')) {
       const updatedList = ingredientsList as Array<IIngredientWithUUID>
       setIngredientsListWihtUUID(updatedList)
     }

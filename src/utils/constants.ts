@@ -1,7 +1,8 @@
-const BASE_URL = 'https://norma.nomoreparties.space/api'
-import type { IIngredientWithUUID } from "./types"
 
-const ingredientTemplate: IIngredientWithUUID = {
+
+const BASE_URL = 'https://norma.nomoreparties.space/api'
+
+const ingredientTemplate = {
     _id: "",
     name: "",
     type: "",

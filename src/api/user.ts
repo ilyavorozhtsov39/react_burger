@@ -1,4 +1,4 @@
-import { BASE_URL } from "../utils/constants.js"
+import { BASE_URL } from "../utils/constants"
 import { checkResponse } from "../utils/checks.js";
 
 type UserData = {
