@@ -1,9 +1,12 @@
 import React from "react"
 import styles from "./order-details.module.scss"
-import PropTypes from "prop-types";
 import orderDoneImage from "../../images/order-done.png"
 
-function OrderDetails({ orderId }) {
+type TOrderDetailsProps = {
+    orderId: number
+}
+
+const OrderDetails = ({ orderId }: TOrderDetailsProps): React.JSX.Element => {
     return (
         <div className={styles.container}>
             <p className={styles.orderId}>{orderId}</p>
@@ -13,10 +16,6 @@ function OrderDetails({ orderId }) {
             <p className={styles.textWait}>Дождитесь готовности на орбитальной станции</p>
         </div>
     )
-}
-
-OrderDetails.propTypes = {
-    orderId: PropTypes.number.isRequired
 }
 
 export default OrderDetails;

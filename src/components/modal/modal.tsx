@@ -2,21 +2,25 @@ import styles from "./modal.module.scss"
 import { useEffect } from "react"
 import ReactDom from "react-dom"
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components"
-import PropTypes from "prop-types"
+import React, { ReactNode } from "react"
 
-const modalRoot = document.getElementById("modals")
+type TModalProps = {
+    closeModal: () => void,
+    children: ReactNode
+}
 
+const modalRoot = document.getElementById("modals") as HTMLElement
 
-function Modal({ closeModal, children }) {
+const Modal = ({ closeModal, children }: TModalProps): React.JSX.Element => {
 
-    function handleCloseButton(e) {
+    function handleCloseButton(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault()
         e.stopPropagation()
         closeModal()
     }
 
     useEffect(() => {
-        function closeByEscape(e) {
+        function closeByEscape(e: KeyboardEvent) {
             if (e.key === "Escape") {
                 closeModal()
             }
@@ -42,9 +46,9 @@ function Modal({ closeModal, children }) {
     )
 }
 
-function ModalOverlay({closeModal, children}) {
+const ModalOverlay = ({closeModal, children}: TModalProps): React.JSX.Element => {
 
-    function closeModalWindow(e) {
+    function closeModalWindow(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         if (e.target === e.currentTarget) {
             closeModal()
         }
@@ -55,16 +59,6 @@ function ModalOverlay({closeModal, children}) {
             {children}
         </div>
     )
-}
-
-Modal.propTypes = {
-    closeModal: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
-}
-
-ModalOverlay.propTypes = {
-    closeModal: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
 }
 
 export default Modal;

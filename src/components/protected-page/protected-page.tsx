@@ -1,17 +1,21 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from "react-redux"
-import { useState, useEffect } from 'react';
-import PropTypes from "prop-types";
+import { useState, useEffect, ReactNode } from 'react';
+import { IUser } from '../../utils/types'
 
+type TProtectedPageProps = {
+    type: string,
+    element: ReactNode
+}
 
-function ProtectedPage({ type, element }) {
+const ProtectedPage = ({ type, element }: TProtectedPageProps) => {
 
     const [ isUserLoaded, setIsUserLoaded ] = useState(false)
     const [ authUser, setAuthUser ] = useState(false)
     const location = useLocation()
     const from = location.state?.from?.pathname || '/';
 
-    const userState = useSelector(state => state.user)
+    const userState = useSelector((state: { user: IUser }) => state.user)
 
     useEffect(() => {
         async function getUserInfo() {
@@ -35,11 +39,6 @@ function ProtectedPage({ type, element }) {
     } else if (type === "auth") {
         return authUser ? <Navigate to={from} replace /> : element
     }
-}
-
-ProtectedPage.propTypes = {
-    type: PropTypes.string.isRequired,
-    element: PropTypes.node.isRequired
 }
 
 export default ProtectedPage

@@ -13,8 +13,17 @@ interface IIngredient {
     __v: number,
 }
 
+interface IUser {
+    user: {
+        email: string,
+        name: string,
+    },
+    isAuth: boolean,
+    loaded: boolean
+}
+
 interface IIngredientWithUUID extends IIngredient {
     uniqueId: string
 }
 
-export type { IIngredient, IIngredientWithUUID }
+export type { IIngredient, IIngredientWithUUID, IUser }
