@@ -1,0 +1,33 @@
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { sendOrder } from "../api/get-data"
+
+const sendOrgerInfo = createAsyncThunk(
+    "order/sendOrgerInfo", 
+    async (data) => {
+        const result = await sendOrder(data);
+        return result;
+    }
+)
+
+const orderSlice = createSlice({
+    name: 'order',
+    initialState: { price: 0, idList: [], orderInfo: { success: false } },
+    reducers: {
+        updatePrice: (state, action) => {
+            state.price = action.payload
+        },
+        updateIdList: (state, action) => {
+            state.idList = action.payload
+        }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(sendOrgerInfo.fulfilled, (state, action) => {
+            state.orderInfo = action.payload; 
+        })
+    }
+})
+
+const { updatePrice, updateIdList } = orderSlice.actions
+
+
+export { updatePrice, orderSlice, updateIdList, sendOrgerInfo }
