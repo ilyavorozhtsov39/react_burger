@@ -34,9 +34,9 @@ const burgerSlice = createSlice({
                 return { payload: updated };
             }
         },
-        removeIngredient: (state, action: PayloadAction<number>) => {
+        removeIngredient: (state, action: PayloadAction<{ index: number }>) => {
             const copy = [ ...state.burgerList ]
-            copy.splice(action.payload, 1)
+            copy.splice(action.payload.index, 1)
             state.burgerList = copy
         },
         sortIngredients: (state, action: PayloadAction<{ position: number, index: number }>) => {

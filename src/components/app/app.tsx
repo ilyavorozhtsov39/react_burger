@@ -13,13 +13,14 @@ import { Provider } from "react-redux"
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import ProtectedPage from '../protected-page/protected-page';
-import  { useDispatch, useSelector } from "react-redux"
+import  { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux"
 import { setUser } from "../../services/user-slice"
 import { getIngredients, saveIngredients } from "../../services/ingredients-slice"
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import IngredientPage from '../../pages/ingredient/ingredient';
 import type { IIngredient, IIngredientWithUUID } from '../../utils/types';
+import type { RootState } from '../../services/index';
 
 type State = {
   ingredients: {
@@ -27,27 +28,33 @@ type State = {
   }
 }
 
+const store = configureStore({
+  reducer: rootReducer,
+  devTools: true
+})
+
+type AppDispatch = typeof store.dispatch;
+const useAppDispatch = () => useDispatch<AppDispatch>();
+const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
 const App = (): React.JSX.Element => {
 
-  const { ingredientsList } = useSelector((state: State) => state.ingredients)
+  const { ingredientsList } = useAppSelector((state: State) => state.ingredients)
   const [ ingredientsListWihtUUID, setIngredientsListWihtUUID ] = useState<Array<IIngredientWithUUID>>([])
 
   const navigate = useNavigate()
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const background = location.state && location.state.background;
 
   async function handleIngredients() {
-    // @ts-expect-error хранилище пока не типизировано
     const ingredients = await dispatch(getIngredients());
     dispatch(saveIngredients(ingredients))
 
   }
 
   useEffect(() => {
-    // @ts-expect-error хранилище пока не типизировано
     dispatch(setUser())
-    // @ts-expect-error хранилище пока не типизировано
     dispatch(getIngredients())
     handleIngredients()
   }, [])
@@ -90,10 +97,10 @@ const App = (): React.JSX.Element => {
 
 const AppWrapper = () => {
 
-  const store = configureStore({
-    reducer: rootReducer,
-    devTools: true
-  })
+  // const store = configureStore({
+  //   reducer: rootReducer,
+  //   devTools: true
+  // })
 
   return (
     <Provider store={store}>
@@ -104,4 +111,5 @@ const AppWrapper = () => {
   )
 }
 
+export { useAppDispatch, useAppSelector }
 export default AppWrapper;

@@ -15,7 +15,7 @@ type TResponse = {
 
 type TState = {
     price: number,
-    idList: Array<number>,
+    idList: Array<string>,
     orderInfo: {
         success: boolean
     }
@@ -44,7 +44,7 @@ const orderSlice = createSlice({
         updatePrice: (state, action: PayloadAction<number>) => {
             state.price = action.payload
         },
-        updateIdList: (state, action: PayloadAction<Array<number>>) => {
+        updateIdList: (state, action: PayloadAction<Array<string>>) => {
             state.idList = action.payload
         }
     },

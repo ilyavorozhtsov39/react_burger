@@ -6,3 +6,5 @@ import { ingredientInfoSlice } from "./ingredient-info-slice"
 import { userSlice } from "./user-slice"
 
 export const rootReducer = combineSlices(ingredientsSlice, burgerSlice, orderSlice, ingredientInfoSlice, userSlice)
+
+export type RootState = ReturnType<typeof rootReducer>
