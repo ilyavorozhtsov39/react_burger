@@ -1,18 +1,32 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid';
+import { IIngredientWithUUID } from '../utils/types';
 
+type TBurger = {
+    burgerList: Array<IIngredientWithUUID>,
+    bun: IIngredientWithUUID | {},
+    bunSelected: boolean
+}
+
+
+const initialState: TBurger = {
+    burgerList: [],
+    bunSelected: false,
+    bun: {},
+}
 
 const burgerSlice = createSlice({
     name: 'burger',
-    initialState: { burgerList: [], bunSelected: false, bun: {} },
+    initialState,
     reducers: {
         addIngredient: {
-            reducer: (state, action) => {
+            reducer: (state, action: PayloadAction<IIngredientWithUUID>) => {
                 if (action.payload.type === "bun") {
                     state.bun = action.payload
                     state.bunSelected = true
                 } else {
                     state.burgerList.push(action.payload)
+                    console.log(action.payload)
                 }
             },
             prepare: (item) => {
@@ -20,17 +34,17 @@ const burgerSlice = createSlice({
                 return { payload: updated };
             }
         },
-        removeIngredient: (state, action) => {
+        removeIngredient: (state, action: PayloadAction<number>) => {
             const copy = [ ...state.burgerList ]
             copy.splice(action.payload, 1)
             state.burgerList = copy
         },
-        sortIngredients: (state, action) => {
+        sortIngredients: (state, action: PayloadAction<{ position: number, index: number }>) => {
             const { position, index } = action.payload;
-            const copy = [ ...state.burgerList ]
+            const copy = [ ...state.burgerList ] as Array<IIngredientWithUUID | string>
             const element = copy.splice(index, 1, "placeholder")[0]
             copy.splice(position, 0, element)
-            const filtered = copy.filter(item => item !== "placeholder")
+            const filtered = copy.filter(item => item !== "placeholder") as Array<IIngredientWithUUID>
             state.burgerList = filtered
         }
     },

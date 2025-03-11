@@ -1,15 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { IIngredientWithUUID } from '../utils/types';
+
+type TIngredient = {
+    ingredientInfo: IIngredientWithUUID | {},
+    infoStored: boolean
+}
+
+const initialState: TIngredient = {
+    ingredientInfo: {},
+    infoStored: false,
+}
 
 const ingredientInfoSlice = createSlice({
     name: 'ingredient',
-    initialState: { ingredientInfo: {}, infoStored: false },
+    initialState,
     reducers: {
-        addIngredientInfo: (state, action) => {
+        addIngredientInfo: (state, action: PayloadAction<IIngredientWithUUID>) => {
             state.ingredientInfo = action.payload;
             state.infoStored = true;
             
         },
-        removeIngredientInfo: (state, action) => {
+        removeIngredientInfo: (state) => {
             state.ingredientInfo = {};
             state.infoStored = false;            
         },

@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addIngredient, removeIngredient } from "../../services/burger-slice"
 import ConstructorItem from "../constructor-item/constructor-item"
 import { updatePrice, updateIdList, sendOrgerInfo } from "../../services/order-info-slice" 
-import { setUser } from "../../services/user-slice.js"
+import { setUser } from "../../services/user-slice"
 import { useNavigate } from "react-router-dom"
 import { FC } from "react"
 import type { IIngredientWithUUID } from '../../utils/types';
