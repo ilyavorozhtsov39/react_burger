@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ingredient-details.module.scss';
 import { useParams } from 'react-router-dom';
-import {  useSelector } from 'react-redux';
+import { useAppSelector } from "../app/app"
 import type { IIngredient, IIngredientWithUUID } from '../../utils/types'
 import { ingredientTemplate } from '../../utils/constants'
 
@@ -23,7 +23,7 @@ const IngredientDetails = (): React.JSX.Element => {
 
     const [ ingredient, setIngredient ] = useState<TIngredient>(ingredientTemplate)
 
-    const { ingredientsList } = useSelector((state: State) => state.ingredients)
+    const { ingredientsList } = useAppSelector((state: State) => state.ingredients)
     const params = useParams()
 
     useEffect(() => {

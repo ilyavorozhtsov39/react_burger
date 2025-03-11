@@ -2,7 +2,7 @@ import styles from "./constructor-item.module.scss"
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { sortIngredients, removeIngredient } from "../../services/burger-slice"
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from "../app/app"
 import { useEffect, useRef } from 'react'
 
 type TConstructorItemProps = {
@@ -32,7 +32,7 @@ type DragItem = {
 function ConstructorItem({ index, text, price, thumbnail, length, handleClose }: TConstructorItemProps) {
 
     const conditionalPadding = 16
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const [ { source}, dragRef ] = useDrag<DragItem, DropResult, { source: XYCoord }>({
           type: "inside",

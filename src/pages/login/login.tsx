@@ -3,7 +3,7 @@ import { EmailInput, PasswordInput, Button } from "@ya.praktikum/react-developer
 import { Link } from "react-router-dom";
 import styles from "./login.module.scss";
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { useDispatch } from "react-redux"
+import { useAppDispatch } from "../../components/app/app"
 import { loginUser, setUser } from "../../services/user-slice"
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -21,7 +21,7 @@ type State = {
 const Login = (): React.JSX.Element => {
 
     const [form, setForm] = useState<State>({ email: "", password: "" });
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
@@ -32,10 +32,8 @@ const Login = (): React.JSX.Element => {
 
     async function sumbitForm(e: FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
-        // @ts-expect-error хранилище пока не типизировано
         const result = await dispatch(loginUser(form)) as RequestResult;
         if (result.payload.success) {
-            // @ts-expect-error хранилище пока не типизировано
             const userSet = await dispatch(setUser()) as RequestResult;
             if (userSet.payload.success) {
               navigate(from, { replace: true });

@@ -4,7 +4,7 @@ import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktiku
 import Modal from "../modal/modal"
 import OrderDetails from "../order-details/order-details"
 import { useDrop } from "react-dnd";
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from "../app/app"
 import { addIngredient, removeIngredient } from "../../services/burger-slice"
 import ConstructorItem from "../constructor-item/constructor-item"
 import { updatePrice, updateIdList, sendOrgerInfo } from "../../services/order-info-slice" 
@@ -44,10 +44,10 @@ const BurgerConstructor = ({ data }: TBurgerConstructorProps): React.JSX.Element
 
   const [ modalVisible, setModalVisible ] = useState<boolean>(false);
   const [ selectedBun, setSelectedBun ] = useState<IIngredientWithUUID>(ingredientTemplate);
-  const { burgerList, bun, bunSelected } = useSelector((state: TBurger) => state.burger)
-  const { price, idList, orderInfo } = useSelector((state: TOrder) => state.order)
+  const { burgerList, bun, bunSelected } = useAppSelector((state: TBurger) => state.burger)
+  const { price, idList, orderInfo } = useAppSelector((state: TOrder) => state.order)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const dropTargetRef = useRef<HTMLDivElement>(null);
@@ -76,13 +76,11 @@ const BurgerConstructor = ({ data }: TBurgerConstructorProps): React.JSX.Element
 
   async function createOrder(e: Event) {
     e.stopPropagation()
-    // @ts-expect-error хранилище пока не типизировано
     const user = await dispatch(setUser()) as unknown as { payload: { success: boolean } }
     if (!user.payload?.success) {
       navigate("/login")
     } else {
       setModalVisible(true)
-      // @ts-expect-error хранилище пока не типизировано
       dispatch(sendOrgerInfo({ ingredients: idList }))
     }
   }

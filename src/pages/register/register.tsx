@@ -3,7 +3,7 @@ import { Input, EmailInput, PasswordInput, Button } from "@ya.praktikum/react-de
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./register.module.scss";
 import React, { useState, FormEvent, ChangeEvent } from "react";
-import { useDispatch } from "react-redux"
+import { useAppDispatch } from "../../components/app/app"
 import { registerUser } from "../../services/user-slice"
 
 type RequestResult = {
@@ -21,7 +21,7 @@ type TState = {
 const Register = (): React.JSX.Element => {
 
     const [form, setForm] = useState<TState>({  name: "", email: "", password: "" });
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -30,7 +30,6 @@ const Register = (): React.JSX.Element => {
 
     async function sumbitForm(e: FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
-        // @ts-expect-error хранилище пока не типизировано
         const result = await dispatch(registerUser(form)) as RequestResult;
         if (result.payload.success) {
             navigate("/login")

@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector } from "react-redux"
+import { useAppSelector } from "../app/app"
 import { useState, useEffect, ReactNode } from 'react';
 import { IUser } from '../../utils/types'
 
@@ -17,7 +17,7 @@ const ProtectedPage = ({ type, element }: TProtectedPageProps): TProtectedPageRe
     const location = useLocation()
     const from = location.state?.from?.pathname || '/';
 
-    const userState = useSelector((state: { user: IUser }) => state.user)
+    const userState = useAppSelector((state: { user: IUser }) => state.user)
 
     useEffect(() => {
         async function getUserInfo() {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import styles from './profile.module.scss';
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux"
+import { useAppSelector, useAppDispatch } from "../../components/app/app"
 import { logoutUser, modifyUser } from "../../services/user-slice"
 import { useNavigate, useLocation } from 'react-router-dom';
 import { setUser } from "../../services/user-slice"
@@ -30,25 +30,21 @@ const Profile = (): React.JSX.Element => {
     const [ formChanged, toggleFormChanged ] = useState<boolean>(false)
     const [ ordersModal, setOrdersModal ] = useState<boolean>(false)
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const userState = useSelector((state: State) => state.user)
+    const userState = useAppSelector((state: State) => state.user)
 
     async function handleLogout() {
-        // @ts-expect-error хранилище пока не типизировано
         const result = await dispatch(logoutUser()) as RequestResult
         if (result.payload.success) {
-            // console.log("TO LOGIN")
             navigate("/login")
         }
     }
 
     function changeUserInfo(e: FormEvent<HTMLFormElement>): void {
         e.preventDefault()
-        // @ts-expect-error хранилище пока не типизировано
         dispatch(modifyUser(form))
-        // @ts-expect-error хранилище пока не типизировано
         dispatch(setUser())
     }
 

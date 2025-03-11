@@ -13,6 +13,12 @@ type TUserData = {
     name: string
 }
 
+type TModifyData = {
+    name: string,
+    login: string,
+    password: string
+}
+
 type TResponse = {
     success: boolean,
     user: {
@@ -81,9 +87,9 @@ const setUser = createAsyncThunk<TGetUserResponse>(
     }
 )
 
-const modifyUser = createAsyncThunk<TGetUserResponse, TUserData>(
+const modifyUser = createAsyncThunk<TGetUserResponse, TModifyData>(
     "user/modifyUser",
-    async (data: TUserData) => {
+    async (data: TModifyData) => {
         let token = getCookie("accessToken");
         if (!token) {
             const refreshTokenValue = getCookie("refreshToken") as string;

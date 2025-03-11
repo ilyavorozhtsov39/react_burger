@@ -17,7 +17,10 @@ type TState = {
     price: number,
     idList: Array<string>,
     orderInfo: {
-        success: boolean
+        success: boolean,
+        order: {
+            number: number
+        }
     }
 }
 
@@ -33,7 +36,10 @@ const initialState: TState = {
     price: 0,
     idList: [],
     orderInfo: {
-        success: false
+        success: false,
+        order: {
+            number: 0
+        }
     }
 }
 

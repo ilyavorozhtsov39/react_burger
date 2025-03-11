@@ -7,6 +7,12 @@ type UserData = {
     name: string
 }
 
+type ModifiedData = {
+    name: string,
+    login: string,
+    password: string
+}
+
 type PartialData = Omit<UserData, 'name'>
 type Email = Pick<UserData, 'email'>
 type PasswordReset = {
@@ -44,7 +50,7 @@ async function getUserInfo(token: string) {
     }).then(checkResponse).then(result => result)
 }
 
-async function changeUserInfo(data: UserData, token: string) {
+async function changeUserInfo(data: ModifiedData, token: string) {
     return fetch(`${BASE_URL}/auth/user`, {
         method: "PATCH",
         headers: {

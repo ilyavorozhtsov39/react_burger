@@ -4,7 +4,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from "../ingredient/ingredient";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details"
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../app/app"
 import type { IIngredientWithUUID } from '../../utils/types';
 
 type TBurgerIngredientsProps = {
@@ -41,8 +41,8 @@ const BurgerIngredients = ({ data, showModal, closeModal }: TBurgerIngredientsPr
   const [dataCopy, setDataCopy] = useState<TDataCopy>([])
   const [activeSection, setActiveSection] = useState<number>(0)
 
-  const { ingredientInfo, infoStored } = useSelector((state: TIngredientState) => state.ingredient)
-  const { burgerList, bun } = useSelector((state: TBurgerState) => state.burger)
+  const { ingredientInfo, infoStored } = useAppSelector((state: TIngredientState) => state.ingredient)
+  const { burgerList, bun } = useAppSelector((state: TBurgerState) => state.burger)
 
   const containerRef = useRef<HTMLDivElement>(null)
 
