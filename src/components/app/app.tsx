@@ -4,7 +4,8 @@ import Register from '../../pages/register/register';
 import ForgotPassword from '../../pages/forgot-password/forgot-password';
 import ResetPassword from '../../pages/reset-password/reset-password';
 import Profile from '../../pages/profile/profile';
-// import { Box } from "@ya.praktikum/react-developer-burger-ui-components"
+import Feed from '../../pages/feed/feed';
+import Orders from '../../pages/orders/orders';
 import AppHeader from '../app-header/app-header';
 import styles from "./app.module.scss";
 import { configureStore } from '@reduxjs/toolkit'
@@ -79,6 +80,9 @@ const App = (): React.JSX.Element => {
           <Route path="/register" element={<ProtectedPage type="auth" element={<Register />} />} />
           <Route path="/forgot-password" element={<ProtectedPage type="auth" element={<ForgotPassword />} />} />
           <Route path="/reset-password" element={<ProtectedPage type="auth" element={<ResetPassword />} />} />
+          <Route path="/feed" element={<ProtectedPage type="auth" element={<Feed ingredientsList={ingredientsListWihtUUID} />} />}>
+            <Route path=":id" element={<div></div>} />
+          </Route>
           <Route path="/profile" element={<ProtectedPage type="unauth" element={<Profile />} />}>
             <Route path=":orders" element={<div></div>} />
           </Route>

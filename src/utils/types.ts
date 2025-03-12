@@ -26,4 +26,18 @@ interface IIngredientWithUUID extends IIngredient {
     uniqueId: string
 }
 
-export type { IIngredient, IIngredientWithUUID, IUser }
+interface IFeedOrder {
+    createdAt: string,
+    ingredients: Array<string>,
+    number: number,
+    status: string,
+    updatedAt: string,
+    _id: string
+}
+
+interface IFeedUpdatedOrder extends IFeedOrder {
+    updatedIngredients: Array<IIngredientWithUUID>,
+    price: number,
+}
+
+export type { IIngredient, IIngredientWithUUID, IUser, IFeedOrder, IFeedUpdatedOrder }

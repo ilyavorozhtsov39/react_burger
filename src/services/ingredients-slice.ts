@@ -12,7 +12,7 @@ const getIngredients = createAsyncThunk<Array<IIngredient>>(
     "ingredients/getIngredients", 
     async () => {
         const data = await getData();
-        console.log(data)
+        // console.log(data)
         return data;
     }
 )
