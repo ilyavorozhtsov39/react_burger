@@ -34,7 +34,7 @@ const FeedOrder = ({ order }: TFeedOrderProps): React.JSX.Element => {
   useEffect(() => {
     const result = getDateInfo(order.createdAt);
     setTimeInfo(result);
-    console.log(order)
+    // console.log(order)
   }, [order]);
 
   return (
@@ -48,7 +48,11 @@ const FeedOrder = ({ order }: TFeedOrderProps): React.JSX.Element => {
         <div className={styles.images}>
           {
             order.updatedIngredients.map((ingredient, index) => {
-              return <IngredientImage key={index} image={ingredient.image_mobile} />
+              if (index < 6) {
+                return <IngredientImage key={index} image={ingredient.image_mobile} index={index} length={order.updatedIngredients.length} />
+              } else {
+                return null
+              }
             })
           }
         </div>
@@ -57,12 +61,56 @@ const FeedOrder = ({ order }: TFeedOrderProps): React.JSX.Element => {
   )
 }
 
-const IngredientImage = ({ image }: { image: string }): React.JSX.Element => {
-  return (
-    <div className={styles.imageContainer}>
-      <img src={image} alt="ingredient" className={styles.image} />
-    </div>
-  )
+type TState = {
+  zIndex: number,
+  right: string,
+  opacity?: number
+}
+
+const IngredientImage = ({ image, index, length }: { image: string, index: number, length: number }): React.JSX.Element => {
+
+  const [ position, setPosition ] = useState<TState>()
+
+  function handlePosition() {
+    let overlap = 10;
+    let shift = 0;
+
+    for (let i = 0; i < index; i++) {
+      shift += 16;
+      overlap -= 1;
+    }
+    const newStyles = {
+      zIndex: overlap,
+      right: `${shift}px`
+    }
+    return newStyles
+  }
+
+  useEffect(() => {
+    const newStyles = handlePosition();
+    setPosition(newStyles);
+  }
+  , [])
+  
+  if (index === 5) {
+    return (
+      <div className={styles.imageContainer} style={{
+        zIndex: 0,
+        right: '80px',
+      }}>
+        <img src={image} alt="ingredient" className={styles.image} style={{ opacity: 0.5 }} />
+        <div className={styles.overlapper}>
+          <p className='text text_type_main-small'>{`+${length - 6}`}</p>
+        </div>
+      </div>
+    )
+  } else {
+    return (
+      <div className={styles.imageContainer} style={position}>
+        <img src={image} alt="ingredient" className={styles.image} />
+      </div>
+    )
+  }
 }
 
 export default FeedOrder;
