@@ -1,0 +1,56 @@
+@import '../../variables.scss';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    position: relative;
+    box-sizing: border-box;
+    gap: 24px;
+    width: 584px;
+    height: 214px;
+    border-radius: 40px;
+    padding: 24px;
+    background: $dark-gray;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 64px;
+}
+
+.images {
+    display: flex;
+    flex-direction: row;
+    height: 64px;
+}
+
+.imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    background: linear-gradient(to top, #1C1C21, #1C1C21) padding-box, linear-gradient(90deg, rgba(128, 26, 178, 1), rgba(76, 76, 255, 1)) border-box;
+    // border-image: radial-gradient(circle, $blue 50%, red 50%) 1;
+    // border-image: linear-gradient(to right, $blue, $blue 50%, red 50%, red) 0.5;
+}
+
+.image {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+    object-position: center;
+}

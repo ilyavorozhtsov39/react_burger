@@ -11,9 +11,9 @@
         ],
         "_id": "",
         "status": "done",
-        "number": 1,
-        "createdAt": "2021-06-23T20:11:01.403Z",
-        "updatedAt": "2021-06-23T20:11:01.406Z"
+        "number": 216,
+        "createdAt": "2025-03-11T20:11:01.403Z",
+        "updatedAt": "2025-03-11T20:11:01.406Z"
       },
       {
         "ingredients": [
@@ -22,9 +22,34 @@
         ],
         "_id": "",
         "status": "done",
-        "number": 3,
-        "createdAt": "2021-06-23T20:13:23.654Z",
-        "updatedAt": "2021-06-23T20:13:23.657Z"
+        "number": 215,
+        "createdAt": "2025-03-10T20:13:23.654Z",
+        "updatedAt": "2025-03-10T20:13:23.657Z"
+      },
+      {
+        "ingredients": [
+          "643d69a5c3f7b9001cfa093c",
+          "643d69a5c3f7b9001cfa0940",
+          "643d69a5c3f7b9001cfa0944",
+          "643d69a5c3f7b9001cfa0947",
+          "643d69a5c3f7b9001cfa0949"
+        ],
+        "_id": "",
+        "status": "done",
+        "number": 214,
+        "createdAt": "2025-03-09T20:11:01.403Z",
+        "updatedAt": "2025-03-09T20:11:01.406Z"
+      },
+      {
+        "ingredients": [
+          "643d69a5c3f7b9001cfa0944",
+          "643d69a5c3f7b9001cfa0947"
+        ],
+        "_id": "",
+        "status": "done",
+        "number": 213,
+        "createdAt": "2025-03-04T20:13:23.654Z",
+        "updatedAt": "2025-03-04T20:13:23.657Z"
       }
     ],
     "total": 2,
