@@ -3,6 +3,8 @@ import styles from './feed.module.scss'
 import FeedOrder from '../../components/feed-order/feed-order';
 import type { IIngredientWithUUID, IFeedOrder, IFeedUpdatedOrder } from '../../utils/types';
 import data from '../../data.json'
+import { setOrders } from '../../services/feed-slice'
+import { useAppDispatch } from '../../components/app/app';
 
 type TFeedProps = {
     ingredientsList: Array<IIngredientWithUUID> | []
@@ -18,6 +20,8 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
     const [ ordersInfo, setOrdersInfo ] = useState<IFeedUpdatedOrder[]>([])
     const [ status, setStatus ] = useState<TStatus>()
     const [ totalOrders, setTotalOrders ] = useState<{ total: string, totalToday: string }>()
+
+    const dispatch = useAppDispatch();
 
     function updateIngredients(orders: Array<IFeedOrder>) {
         const updatedOrders = orders.map((order: IFeedOrder) => {
@@ -35,6 +39,7 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
             }
         })
         setOrdersInfo(updatedOrders)
+        dispatch(setOrders(updatedOrders))
     }
 
     function formatNumberWithSpace(number: number): string {

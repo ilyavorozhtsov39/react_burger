@@ -5,7 +5,7 @@ import ForgotPassword from '../../pages/forgot-password/forgot-password';
 import ResetPassword from '../../pages/reset-password/reset-password';
 import Profile from '../../pages/profile/profile';
 import Feed from '../../pages/feed/feed';
-import Orders from '../../pages/orders/orders';
+import OrderInfo from '../order-info/order-info';
 import AppHeader from '../app-header/app-header';
 import styles from "./app.module.scss";
 import { configureStore } from '@reduxjs/toolkit'
@@ -91,6 +91,7 @@ const App = (): React.JSX.Element => {
         {background && (
           <Routes>
             <Route path="/ingredients/:id" element={<Modal closeModal={closeModal}><IngredientDetails /></Modal>} />
+            <Route path="/feed/:id" element={<Modal closeModal={closeModal}><OrderInfo /></Modal>} />
           </Routes>
         )}
     </div>

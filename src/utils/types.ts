@@ -32,6 +32,7 @@ interface IFeedOrder {
     number: number,
     status: string,
     updatedAt: string,
+    name: string,
     _id: string
 }
 

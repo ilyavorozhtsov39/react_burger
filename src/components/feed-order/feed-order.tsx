@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './feed-order.module.scss'
 import type { IFeedUpdatedOrder } from '../../utils/types';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useNavigate, useLocation } from "react-router-dom";
 
 type TFeedOrderProps = {
   order: IFeedUpdatedOrder
@@ -39,6 +40,13 @@ const FeedOrder = ({ order }: TFeedOrderProps): React.JSX.Element => {
     setTotalPrice(price);
   }
 
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  function showModal() {
+    navigate(`/feed/${order._id}`, { state: { background: location }}) 
+  }
+
   
   useEffect(() => {
     getDateInfo(order.createdAt);
@@ -46,12 +54,12 @@ const FeedOrder = ({ order }: TFeedOrderProps): React.JSX.Element => {
   }, [order]);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={showModal}>
       <p className={styles.header}>
         <span className='text text_type_digits-default'>#{order.number}</span>
         <span className='text text_type_main-default text_color_inactive'>{timeInfo}</span>
       </p>
-      <p className='text text_type_main-medium'>Interstellar бургер</p>
+      <p className='text text_type_main-medium'>{order.name}</p>
       <div className={styles.footer}>
         <div className={styles.images}>
           {

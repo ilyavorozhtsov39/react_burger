@@ -33,13 +33,15 @@ const AppHeader = (): React.JSX.Element => {
                         <BurgerIcon type={activePage === "/" ? "primary" : "secondary"} />
                     </HeaderMenuItem>
                     </div>
+                    <div onClick={() => switchPage("/feed")}>
                     <HeaderMenuItem
                         text="Лента заказов"
                         stylesModifier={{marginLeft: "4px"}}
-                        type={activePage === "/list" ? "primary" : "secondary"}
+                        type={activePage === "/feed" ? "primary" : "secondary"}
                     >
-                        <ListIcon type={activePage === "/list" ? "primary" : "secondary"} />
+                        <ListIcon type={activePage === "/feed" ? "primary" : "secondary"} />
                     </HeaderMenuItem>
+                    </div>
                 </nav>
                 <Logo />
                 <div className={styles.container} onClick={() => switchPage("/profile")}>
