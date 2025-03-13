@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from './feed-order.module.scss'
 import type { IFeedUpdatedOrder } from '../../utils/types';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 type TFeedOrderProps = {
   order: IFeedUpdatedOrder
@@ -9,6 +10,7 @@ type TFeedOrderProps = {
 const FeedOrder = ({ order }: TFeedOrderProps): React.JSX.Element => {
 
   const [ timeInfo, setTimeInfo ] = useState<string>('')
+  const [ totalPrice, setTotalPrice ] = useState<number>(0)
 
   function getDateInfo(dateString: string) {
     const givenDate = new Date(dateString);
@@ -27,14 +29,20 @@ const FeedOrder = ({ order }: TFeedOrderProps): React.JSX.Element => {
     const info = daysPassed === 0 ? `Сегодня` :
                  daysPassed === 1 ? `Вчера` :
                  daysPassed < 5 ? `${daysPassed} дня назад` : `${daysPassed} дней назад`;
-    return `${info}, ${time}`;
+    setTimeInfo(`${info}, ${time}`)
+  }
+
+  function setPrice() {
+    const price = order.updatedIngredients.reduce((acc, ingredient) => {
+      return acc + ingredient.price;
+    }, 0)
+    setTotalPrice(price);
   }
 
   
   useEffect(() => {
-    const result = getDateInfo(order.createdAt);
-    setTimeInfo(result);
-    // console.log(order)
+    getDateInfo(order.createdAt);
+    setPrice()
   }, [order]);
 
   return (
@@ -56,6 +64,10 @@ const FeedOrder = ({ order }: TFeedOrderProps): React.JSX.Element => {
             })
           }
         </div>
+        <div className={styles.price}>
+          <p className='text text_type_digits-default mr-2'>{totalPrice}</p>
+          <CurrencyIcon type="primary" />
+        </div>
       </div>
     </div>
   )
@@ -76,7 +88,7 @@ const IngredientImage = ({ image, index, length }: { image: string, index: numbe
     let shift = 0;
 
     for (let i = 0; i < index; i++) {
-      shift += 16;
+      shift += 22;
       overlap -= 1;
     }
     const newStyles = {
@@ -96,7 +108,7 @@ const IngredientImage = ({ image, index, length }: { image: string, index: numbe
     return (
       <div className={styles.imageContainer} style={{
         zIndex: 0,
-        right: '80px',
+        right: '110px',
       }}>
         <img src={image} alt="ingredient" className={styles.image} style={{ opacity: 0.5 }} />
         <div className={styles.overlapper}>
