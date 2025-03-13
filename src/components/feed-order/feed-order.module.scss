@@ -30,6 +30,7 @@
 .images {
     display: flex;
     flex-direction: row;
+    position: relative;
     height: 64px;
 }
 
@@ -38,8 +39,9 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    width: 64px;
-    height: 64px;
+    box-sizing: border-box;
+    max-width: 64px;
+    max-height: 64px;
     overflow: hidden;
     border-radius: 50%;
     border: 3px solid transparent;

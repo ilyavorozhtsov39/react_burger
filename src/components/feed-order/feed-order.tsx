@@ -10,28 +10,7 @@ type TFeedOrderProps = {
 
 const FeedOrder = ({ order }: TFeedOrderProps): React.JSX.Element => {
 
-  const [ timeInfo, setTimeInfo ] = useState<string>('')
   const [ totalPrice, setTotalPrice ] = useState<number>(0)
-
-  function getDateInfo(dateString: string) {
-    const givenDate = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    };
-    const time = givenDate.toLocaleTimeString([], options);
-
-
-    const currentDate = new Date();
-    const differenceInMilliseconds = currentDate.getTime() - givenDate.getTime();
-    const millisecondsInADay = 1000 * 60 * 60 * 24;
-    const daysPassed = Math.floor(differenceInMilliseconds / millisecondsInADay);
-    const info = daysPassed === 0 ? `Сегодня` :
-                 daysPassed === 1 ? `Вчера` :
-                 daysPassed < 5 ? `${daysPassed} дня назад` : `${daysPassed} дней назад`;
-    setTimeInfo(`${info}, ${time}`)
-  }
 
   function setPrice() {
     const price = order.updatedIngredients.reduce((acc, ingredient) => {
@@ -49,7 +28,6 @@ const FeedOrder = ({ order }: TFeedOrderProps): React.JSX.Element => {
 
   
   useEffect(() => {
-    getDateInfo(order.createdAt);
     setPrice()
   }, [order]);
 
@@ -57,7 +35,7 @@ const FeedOrder = ({ order }: TFeedOrderProps): React.JSX.Element => {
     <div className={styles.container} onClick={showModal}>
       <p className={styles.header}>
         <span className='text text_type_digits-default'>#{order.number}</span>
-        <span className='text text_type_main-default text_color_inactive'>{timeInfo}</span>
+        <span className='text text_type_main-default text_color_inactive'>{order.date}</span>
       </p>
       <p className='text text_type_main-medium'>{order.name}</p>
       <div className={styles.footer}>

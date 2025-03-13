@@ -32,15 +32,37 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
             const price = updatedIngredients.reduce((acc: number, ingredient: IIngredientWithUUID) => {
                 return acc + ingredient.price
             }, 0)
+            const date = getDateInfo(order.createdAt)
             return {
                 ...order,
                 price,
-                updatedIngredients
+                updatedIngredients,
+                date
             }
         })
         setOrdersInfo(updatedOrders)
         dispatch(setOrders(updatedOrders))
     }
+
+    function getDateInfo(dateString: string) {
+        const givenDate = new Date(dateString);
+        const options: Intl.DateTimeFormatOptions = {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+        };
+        const time = givenDate.toLocaleTimeString([], options);
+    
+    
+        const currentDate = new Date();
+        const differenceInMilliseconds = currentDate.getTime() - givenDate.getTime();
+        const millisecondsInADay = 1000 * 60 * 60 * 24;
+        const daysPassed = Math.floor(differenceInMilliseconds / millisecondsInADay);
+        const info = daysPassed === 0 ? `Сегодня` :
+                     daysPassed === 1 ? `Вчера` :
+                     daysPassed < 5 ? `${daysPassed} дня назад` : `${daysPassed} дней назад`;
+        return `${info}, ${time}`
+      }
 
     function formatNumberWithSpace(number: number): string {
         return new Intl.NumberFormat('en-US', {

@@ -39,6 +39,7 @@ interface IFeedOrder {
 interface IFeedUpdatedOrder extends IFeedOrder {
     updatedIngredients: Array<IIngredientWithUUID>,
     price: number,
+    date: string
 }
 
 export type { IIngredient, IIngredientWithUUID, IUser, IFeedOrder, IFeedUpdatedOrder }
