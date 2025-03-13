@@ -64,6 +64,7 @@ const OrderInfo = (): React.JSX.Element => {
     useEffect(() => {
         function handleState() {
             const order = orders.find(item => item._id === params.id)
+            console.log(orders)
             setOrder(order)
             if (order?.status === "done") setStatus(true)
         }
