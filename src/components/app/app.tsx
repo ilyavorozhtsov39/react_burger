@@ -22,6 +22,10 @@ import Modal from '../modal/modal';
 import IngredientPage from '../../pages/ingredient/ingredient';
 import type { IIngredient, IIngredientWithUUID } from '../../utils/types';
 import type { RootState } from '../../services/index';
+import { wsConnecting, wsClose, wsError, wsMessage, wsOpen } from '../../services/websocket-slice';
+import { socketMiddleware } from '../../services/middleware';
+import { wsConnect, wsConnectProfile, wsDisconnect } from '../../services/actions';
+
 
 type State = {
   ingredients: {
@@ -29,9 +33,31 @@ type State = {
   }
 }
 
+const liveTableMiddleware = socketMiddleware({
+  connect: wsConnect,
+  disconnect: wsDisconnect,
+  onConnecting: wsConnecting,
+  onOpen: wsOpen,
+  onClose: wsClose,
+  onError: wsError,
+  onMessage: wsMessage
+});
+
+const liveTableMiddlewareProfile = socketMiddleware({
+  connect: wsConnectProfile,
+  disconnect: wsDisconnect,
+  onConnecting: wsConnecting,
+  onOpen: wsOpen,
+  onClose: wsClose,
+  onError: wsError,
+  onMessage: wsMessage
+});
+
 const store = configureStore({
   reducer: rootReducer,
-  devTools: true
+  middleware: (getDefaultMidlewares) => {
+    return getDefaultMidlewares().concat(liveTableMiddleware, liveTableMiddlewareProfile);
+  }
 })
 
 type AppDispatch = typeof store.dispatch;

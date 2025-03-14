@@ -4,7 +4,11 @@ import FeedOrder from '../../components/feed-order/feed-order';
 import type { IIngredientWithUUID, IFeedOrder, IFeedUpdatedOrder } from '../../utils/types';
 import data from '../../data.json'
 import { setOrders } from '../../services/feed-slice'
-import { useAppDispatch } from '../../components/app/app';
+import { useAppDispatch, useAppSelector } from '../../components/app/app';
+
+import { wsConnect, wsDisconnect } from '../../services/actions';
+import { wsMessage } from '../../services/websocket-slice';
+import { getStatus, getOrders } from '../../services/websocket-slice';
 
 type TFeedProps = {
     ingredientsList: Array<IIngredientWithUUID> | []
@@ -99,6 +103,20 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
         }
         handleTotalOrders(data.total, data.totalToday)
     }, [ingredientsList])
+
+
+    const socketStatus = useAppSelector(getStatus)
+
+    useEffect(() => {
+        dispatch(wsConnect('wss://norma.nomoreparties.space/orders/all'))
+        setTimeout(() => {
+            dispatch(wsDisconnect())
+        }, 5000)
+    }, [])
+
+    useEffect(() => {
+        console.log(socketStatus)
+    }, [socketStatus])
 
     return (
         <div className={styles.feed}>
