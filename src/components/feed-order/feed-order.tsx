@@ -5,10 +5,11 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { useNavigate, useLocation } from "react-router-dom";
 
 type TFeedOrderProps = {
-  order: IFeedUpdatedOrder
+  order: IFeedUpdatedOrder,
+  page: string
 }
 
-const FeedOrder = ({ order }: TFeedOrderProps): React.JSX.Element => {
+const FeedOrder = ({ order, page }: TFeedOrderProps): React.JSX.Element => {
 
   const [ totalPrice, setTotalPrice ] = useState<number>(0)
 

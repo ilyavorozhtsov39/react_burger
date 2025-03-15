@@ -1,3 +1,5 @@
+import { refreshToken } from '../api/user'
+
 type TSetCookieProps = {
     path: string,
     expires: any,
@@ -38,4 +40,23 @@ function deleteCookie(name: string): void {
     setCookie(name, "", { expires: -1, path: "/" });
 }
 
-export { setCookie, getCookie, deleteCookie }
+async function getToken() {
+    let token: string | undefined
+    try {
+
+        token = getCookie("accessToken");
+        if (!token) {
+            const refreshTokenValue = getCookie("refreshToken") as string;
+            const result = await refreshToken(refreshTokenValue);
+            if (result.success) {
+                token = result.accessToken as string;
+                setCookie("accessToken", token, { path: "/", expires: 1200 });
+            }
+        }
+    } catch (err) {
+        throw new Error(`Error: ${err}`)
+    }
+    return token;
+}
+
+export { setCookie, getCookie, deleteCookie, getToken }

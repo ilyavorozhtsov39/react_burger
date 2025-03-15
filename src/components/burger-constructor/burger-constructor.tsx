@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom"
 import { FC } from "react"
 import type { IIngredientWithUUID } from '../../utils/types';
 import { ingredientTemplate } from "../../utils/constants"
+import { getToken } from '../../services/cookies'
 
 
 type TBurgerConstructorProps = {

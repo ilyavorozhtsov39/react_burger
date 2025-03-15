@@ -1,15 +1,13 @@
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import styles from './profile.module.scss';
-import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppSelector, useAppDispatch } from "../../components/app/app"
 import { logoutUser, modifyUser } from "../../services/user-slice"
 import { useNavigate, useLocation } from 'react-router-dom';
-import { setUser } from "../../services/user-slice"
-import type { IUser } from '../../utils/types'
-
-type State = {
-    user: IUser
-}
+import ProfileForm from '../../components/profile-form/profile-form'
+import { refreshToken } from '../../api/user'
+import { getToken } from '../../services/cookies';
+import { wsConnect, wsDisconnect } from '../../services/actions';
+import { getOrders, getStatus } from '../../services/websocket-slice'
 
 type RequestResult = {
     payload: {
@@ -18,22 +16,21 @@ type RequestResult = {
 }
 
 type TState = {
-    name: string,
-    login: string,
-    password: string
+    form: boolean,
+    orders: boolean
 }
 
 const Profile = (): React.JSX.Element => {
 
-    const [form, setForm] = useState<TState>({  name: "", login: "", password: "" });
-    const [initialData, setInitialData] = useState<TState>({  name: "", login: "", password: "" });
-    const [ formChanged, toggleFormChanged ] = useState<boolean>(false)
     const [ ordersModal, setOrdersModal ] = useState<boolean>(false)
+    const [ accessToken, setAccessToken ] = useState<string | undefined>()
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const userState = useAppSelector((state: State) => state.user)
+
+    const socketStatus = useAppSelector(getStatus)
+    const socketOrders = useAppSelector(getOrders)
 
     async function handleLogout() {
         const result = await dispatch(logoutUser()) as RequestResult
@@ -42,32 +39,37 @@ const Profile = (): React.JSX.Element => {
         }
     }
 
-    function changeUserInfo(e: FormEvent<HTMLFormElement>): void {
-        e.preventDefault()
-        dispatch(modifyUser(form))
-        dispatch(setUser())
-    }
-
-    function cancelChange() {
-        setForm({ name: initialData.name, login: initialData.login, password: "" })
-        toggleFormChanged(false)
-    }
-
-    function handleChange(e: ChangeEvent<HTMLInputElement>) { 
-        toggleFormChanged(true)
-        setForm({ ...form, [e.target.name]: e.target.value })
+    async function getAccessToken() {
+        const token = await getToken()
+        const tokenValue = token ? token.split(" ")[1] : undefined
+        setAccessToken(tokenValue)
     }
 
     function openOrders() {
         navigate("/profile/orders")
     }
 
+    function openProfile() {
+        navigate("/profile")
+    }
+
     useEffect(() => {
-        if (userState.isAuth) {
-            setForm({ name: userState.user.name, login: userState.user.email, password: "" })
-            setInitialData({ name: userState.user.name, login: userState.user.email, password: "" })
+        console.log(socketOrders)
+    }, [socketOrders])
+
+    useEffect(() => {
+        getAccessToken()
+        return () => {
+            dispatch(wsDisconnect())
         }
-    }, [userState])
+    }, [])
+
+    useEffect(() => {
+        if (typeof accessToken === 'string') {
+            console.log(accessToken)
+            dispatch(wsConnect(`wss://norma.nomoreparties.space/orders?token=${accessToken}`))
+        }
+    }, [accessToken])
 
     useEffect(() => {
         if (location.pathname === "/profile/orders") {
@@ -83,24 +85,15 @@ const Profile = (): React.JSX.Element => {
             <div className={styles.container}>
                 <div className={styles.list}>
                     <ul className={styles.routes}>
-                        <li className={styles.route}>Профиль</li>
+                        <li className={!ordersModal ? styles.route: styles.routeSecondary} onClick={openProfile}>Профиль</li>
                         <li className={ordersModal ? styles.route : styles.routeSecondary} onClick={openOrders}>История заказов</li>
                         <li className={styles.routeSecondary} onClick={handleLogout}>Выход</li>
                     </ul>
                     <p className={styles.text}>В этом разделе вы можете изменить свои персональные данные</p>
                 </div>
-                <form className={styles.inputs} onSubmit={changeUserInfo}>
-                    <Input type="text" placeholder="Имя" name="name" extraClass="mb-6" icon="EditIcon" value={form.name} onChange={handleChange} onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}} />
-                    <Input type="text" placeholder="Логин" name="login" icon="EditIcon" extraClass="mb-6" value={form.login} onChange={handleChange} onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}} />
-                    <Input type="password" placeholder="Пароль" name="password" icon="EditIcon" value={form.password} onChange={handleChange} onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}} />
-                    {
-                        formChanged &&
-                        <div className={styles.buttons}>
-                            <Button htmlType="submit" type="primary" size="medium" extraClass="mt-15 mr-4">Сохранить</Button>
-                            <Button htmlType="button" type="primary" size="medium" onClick={cancelChange} extraClass="mt-15 ml-4">Отменить</Button>
-                        </div>
-                    }
-                </form>
+                {
+                    !ordersModal ? <ProfileForm /> : <div></div>
+                }
             </div>
         </main>
     )

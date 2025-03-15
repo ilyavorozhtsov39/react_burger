@@ -106,7 +106,7 @@ const App = (): React.JSX.Element => {
           <Route path="/register" element={<ProtectedPage type="auth" element={<Register />} />} />
           <Route path="/forgot-password" element={<ProtectedPage type="auth" element={<ForgotPassword />} />} />
           <Route path="/reset-password" element={<ProtectedPage type="auth" element={<ResetPassword />} />} />
-          <Route path="/feed" element={<ProtectedPage type="auth" element={<Feed ingredientsList={ingredientsListWihtUUID} />} />} />
+          <Route path="/feed" element={<Feed ingredientsList={ingredientsListWihtUUID} />} />
           <Route path="/profile" element={<ProtectedPage type="unauth" element={<Profile />} />}>
             <Route path=":orders" element={<div></div>} />
           </Route>

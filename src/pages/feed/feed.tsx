@@ -52,7 +52,7 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
                 <section className={styles.columnLeft}>
                     <div className={styles.ordersFeed}>
                         {ordersData?.orders.map((order: any, index: number) => {
-                            return <FeedOrder key={index} order={order} />
+                            return <FeedOrder key={index} order={order} page="feed" />
                         })}
                     </div>
                 </section>

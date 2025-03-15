@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { sendOrder } from "../api/get-data"
+import { getToken } from './cookies'
 
 type TData = {
     ingredients: Array<{ [name: number]: string }>,
@@ -27,7 +28,10 @@ type TState = {
 const sendOrgerInfo = createAsyncThunk<TResponse, TData>(
     "order/sendOrgerInfo", 
     async (data: TData) => {
-        const result = await sendOrder(data);
+        const token = await getToken()
+        // поправить
+        const result = await sendOrder(data, token as string);
+        console.log("ORDER RESULT: ", result)
         return result;
     }
 )
