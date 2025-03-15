@@ -1,6 +1,5 @@
 import { ActionCreatorWithoutPayload, ActionCreatorWithPayload, Middleware } from "@reduxjs/toolkit"
 import type { RootState } from "./index";
-import { wsConnect } from "./actions";
 
 export type TWsActionTypes<R, S> = {
     connect: ActionCreatorWithPayload<string>;
@@ -12,8 +11,6 @@ export type TWsActionTypes<R, S> = {
     onMessage: ActionCreatorWithPayload<R>;
     sendMessage?: ActionCreatorWithPayload<S>;
 }
-
-// const RECONNECT_PERIOD = 3000;
 
 export const socketMiddleware = <R, S>(
     wsActions: TWsActionTypes<R, S>,
@@ -32,7 +29,6 @@ export const socketMiddleware = <R, S>(
             sendMessage
         } = wsActions;
         let isConnected = false;
-        // let reconnectTimer = 0;
         let url = "";
 
         return (next) => (action) => {
@@ -57,29 +53,6 @@ export const socketMiddleware = <R, S>(
 
                     try {
                         const parsedData = JSON.parse(data);
-
-                        // console.log(parsedData);
-
-                        if (withTokenRefresh && parsedData.message === "Invalid or missing token") {
-
-                        //     refreshToken()
-                        //        .then(refreshData => {
-                        //           const wssUrl = new URL(url);
-                        //           wssUrl.searchParams.set(
-                        //             "token",
-                        //             refreshData.accessToken.replace("Bearer ", "")
-                        //           );
-                        //           dispatch(connect(wssUrl.toString()));
-                        //        })
-                        //        .catch(err => {
-                        //          dispatch(onError((err as Error).message));
-                        //        });
-
-                        //     dispatch(disconnect());
-                            
-                        //     return;
-                        }
-
                         dispatch(onMessage(parsedData));
                     } catch (err) {
                         dispatch(onError((err as Error).message));
@@ -88,12 +61,6 @@ export const socketMiddleware = <R, S>(
 
                 socket.onclose = () => {
                     onClose && dispatch(onClose());
-
-                    // if (isConnected) {
-                    //     reconnectTimer = window.setTimeout(() => {
-                    //         dispatch(wsConnect(url));
-                    //     }, RECONNECT_PERIOD);
-                    // }
                 };
             }
 
@@ -106,9 +73,7 @@ export const socketMiddleware = <R, S>(
             }
 
             if (socket && disconnect.match(action)) {
-                // clearTimeout(reconnectTimer);
                 isConnected = false;
-                // reconnectTimer = 0;
                 socket.close();
                 socket = null;
             }
