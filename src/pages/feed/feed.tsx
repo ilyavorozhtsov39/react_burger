@@ -6,8 +6,7 @@ import { setOrders, getUpdatedOrders } from '../../services/feed-slice'
 import { useAppDispatch, useAppSelector } from '../../components/app/app';
 
 import { wsConnect, wsDisconnect } from '../../services/actions';
-import { getStatus, getOrders } from '../../services/websocket-slice';
-
+import { getStatus, getOrders, wsClearOrders } from '../../services/websocket-slice';
 import { updateOrdersData } from '../../services/helpers/feed'
 
 type TFeedProps = {
@@ -22,28 +21,39 @@ type TStatus = {
 const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
 
     const [ ordersData, setOrdersData ] = useState<IOrdersData>()
-    const [ status, setStatus ] = useState<TStatus>()
+    const [ statuses, setStatuses ] = useState<number>(0)
 
     const socketStatus = useAppSelector(getStatus)
     const socketOrders = useAppSelector(getOrders)
+    const updatedOrdersData = useAppSelector(getUpdatedOrders)
 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(wsConnect('wss://norma.nomoreparties.space/orders/all'))
         return () => {
+            dispatch(wsClearOrders())
             dispatch(wsDisconnect())
         }
     }, [])
 
+    useEffect(() => {
+        setStatuses(prevState => ++prevState)
+    }, [socketStatus])
+
 
     useEffect(() => {
-        if (socketOrders.success === true) {
+        if (socketOrders.success === true && statuses > 0) {
             const updatedData = updateOrdersData(socketOrders, ingredientsList)
-            setOrdersData(updatedData)
-            dispatch(setOrders(updatedData))  
+            dispatch(setOrders(updatedData))
         }
-    }, [socketOrders, dispatch])
+    }, [socketOrders])
+
+    useEffect(() => {
+        if (updatedOrdersData) {
+            setOrdersData(updatedOrdersData)
+        }
+    }, [updatedOrdersData])
 
     return (
         <div className={styles.feed}>
@@ -52,7 +62,7 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
                 <section className={styles.columnLeft}>
                     <div className={styles.ordersFeed}>
                         {ordersData?.orders.map((order: any, index: number) => {
-                            return <FeedOrder key={index} order={order} page="feed" />
+                            return <FeedOrder key={order.uniqueId} order={order} page="feed" />
                         })}
                     </div>
                 </section>

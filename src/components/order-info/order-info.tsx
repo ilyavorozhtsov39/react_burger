@@ -76,25 +76,21 @@ const OrderInfo = (): React.JSX.Element => {
     }
 
     useEffect(() => {
-        // console.log(socketOrders.success, ingredientsList)
         if (socketOrders.success === true && ingredientsList.length > 0) {
             const updatedData = updateOrdersData(socketOrders, ingredientsList)
             const order = updatedData.orders.find(item => item.number === Number(params.id))
             setOrder(order)
             if (order?.status === "done") setStatus(true)
-            // console.log(updatedData)
         }
     }, [socketOrders, ingredientsList])
 
     useEffect(() => {
         function handleState(data: IOrdersData | null) {
             if (location.state?.background && data !== null) {
-                console.log('here')
                 const order = data.orders.find(item => item.number === Number(params.id))
-                console.log(order)
                 setOrder(order)
                 if (order?.status === "done") setStatus(true)
-            } else {
+            } else if (!location.state) {
                 dispatch(wsConnect('wss://norma.nomoreparties.space/orders/all'))
             }
         }

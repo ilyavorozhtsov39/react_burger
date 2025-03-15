@@ -8,6 +8,12 @@ import { refreshToken } from '../../api/user'
 import { getToken } from '../../services/cookies';
 import { wsConnect, wsDisconnect } from '../../services/actions';
 import { getOrders, getStatus } from '../../services/websocket-slice'
+import { IFeedOrder, IFeedUpdatedOrder } from '../../utils/types'
+import { getIngredientsList } from '../../services/ingredients-slice'
+import { updateOrdersData } from '../../services/helpers/feed'
+import FeedOrder from '../../components/feed-order/feed-order'
+import { wsClearOrders } from '../../services/websocket-slice'
+import { setPersonalOrders, getPersonalOrders } from '../../services/feed-slice'
 
 type RequestResult = {
     payload: {
@@ -20,6 +26,13 @@ type TState = {
     orders: boolean
 }
 
+type TData = {
+    sucess: boolean,
+    orders: Array<IFeedOrder>,
+    total: number,
+    totalToday: number
+}
+
 const Profile = (): React.JSX.Element => {
 
     const [ ordersModal, setOrdersModal ] = useState<boolean>(false)
@@ -28,9 +41,6 @@ const Profile = (): React.JSX.Element => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-
-    const socketStatus = useAppSelector(getStatus)
-    const socketOrders = useAppSelector(getOrders)
 
     async function handleLogout() {
         const result = await dispatch(logoutUser()) as RequestResult
@@ -54,19 +64,15 @@ const Profile = (): React.JSX.Element => {
     }
 
     useEffect(() => {
-        console.log(socketOrders)
-    }, [socketOrders])
-
-    useEffect(() => {
         getAccessToken()
         return () => {
+            dispatch(wsClearOrders())
             dispatch(wsDisconnect())
         }
     }, [])
 
     useEffect(() => {
         if (typeof accessToken === 'string') {
-            console.log(accessToken)
             dispatch(wsConnect(`wss://norma.nomoreparties.space/orders?token=${accessToken}`))
         }
     }, [accessToken])
@@ -92,10 +98,41 @@ const Profile = (): React.JSX.Element => {
                     <p className={styles.text}>В этом разделе вы можете изменить свои персональные данные</p>
                 </div>
                 {
-                    !ordersModal ? <ProfileForm /> : <div></div>
+                    !ordersModal ? <ProfileForm /> : <Orders />
                 }
             </div>
         </main>
+    )
+}
+
+const Orders = () => {
+
+    const [ orders, setOrders ] = useState<Array<IFeedUpdatedOrder>>([])
+
+    const dispatch = useAppDispatch()
+    const ingredientList = useAppSelector(getIngredientsList)
+    const ordersData = useAppSelector(getOrders)
+    const personalOrders = useAppSelector(getPersonalOrders)
+
+    useEffect(() => {
+        if (ordersData.success === true && ingredientList.length > 0) {
+            const updatedData = updateOrdersData(ordersData, ingredientList)
+            dispatch(setPersonalOrders(updatedData))
+        }
+    }, [ingredientList, ordersData])
+
+    useEffect(() => {
+        if (personalOrders) {
+            setOrders(personalOrders.orders)
+        }
+    }, [personalOrders])
+
+    return (
+        <div className={styles.ordersContainer}>
+           <div className={styles.orders}>
+                {orders && orders.map((item, index) => <FeedOrder order={item} key={item.uniqueId} page="profile/orders" />)}
+            </div> 
+        </div>
     )
 }
 

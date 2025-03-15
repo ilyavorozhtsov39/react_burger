@@ -17,6 +17,7 @@ type TResponse = {
 type TState = {
     price: number,
     idList: Array<string>,
+    bunId: string,
     orderInfo: {
         success: boolean,
         order: {
@@ -39,6 +40,7 @@ const sendOrgerInfo = createAsyncThunk<TResponse, TData>(
 const initialState: TState = {
     price: 0,
     idList: [],
+    bunId: "",
     orderInfo: {
         success: false,
         order: {

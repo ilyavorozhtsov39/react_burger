@@ -107,9 +107,9 @@ const App = (): React.JSX.Element => {
           <Route path="/forgot-password" element={<ProtectedPage type="auth" element={<ForgotPassword />} />} />
           <Route path="/reset-password" element={<ProtectedPage type="auth" element={<ResetPassword />} />} />
           <Route path="/feed" element={<Feed ingredientsList={ingredientsListWihtUUID} />} />
-          <Route path="/profile" element={<ProtectedPage type="unauth" element={<Profile />} />}>
-            <Route path=":orders" element={<div></div>} />
-          </Route>
+          <Route path="/profile" element={<ProtectedPage type="unauth" element={<Profile />} />} />
+          <Route path="/profile/orders" element={<ProtectedPage type="unauth" element={<Profile />} />}/>
+          <Route path="/profile/orders/:id" element={<OrderInfo />} />
           <Route path="/ingredients/:id" element={<IngredientPage><IngredientDetails /></IngredientPage>} />
           <Route path="feed/:id" element={<OrderInfo />} />
         </Routes>
@@ -117,6 +117,7 @@ const App = (): React.JSX.Element => {
           <Routes>
             <Route path="/ingredients/:id" element={<Modal closeModal={closeModal}><IngredientDetails /></Modal>} />
             <Route path="/feed/:id" element={<Modal closeModal={closeModal}><OrderInfo /></Modal>} />
+            <Route path="/profile/orders/:id" element={<Modal closeModal={closeModal}><OrderInfo /></Modal>} />
           </Routes>
         )}
     </div>

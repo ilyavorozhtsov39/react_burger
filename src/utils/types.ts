@@ -39,7 +39,8 @@ interface IFeedOrder {
 interface IFeedUpdatedOrder extends IFeedOrder {
     updatedIngredients: Array<IIngredientWithUUID>,
     price: number,
-    date: string
+    date: string,
+    uniqueId: string
 }
 
 interface IOrdersData {

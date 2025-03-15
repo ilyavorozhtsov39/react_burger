@@ -13,14 +13,12 @@ enum WebsocketStatus {
 export type Store = {
     status: WebsocketStatus;
     orders: any;
-    profileOrders: any,
     error: string | null;
 }
 
 export const initialState: Store = {
     status: WebsocketStatus.OFFLINE,
     orders: {},
-    profileOrders: {},
     error: null,
 };
 
@@ -42,8 +40,10 @@ export const websocketSlice = createSlice({
             state.error = action.payload;
         },
         wsMessage: (state, action: PayloadAction<Action>) => {
-            // console.log("action", action.payload);
             state.orders = action.payload
+        },
+        wsClearOrders: (state) => {
+            state.orders = {}
         }
     },
     selectors: {
@@ -53,7 +53,7 @@ export const websocketSlice = createSlice({
     }
 })
 
-export const { wsConnecting, wsClose, wsError, wsMessage, wsOpen } = websocketSlice.actions;
+export const { wsConnecting, wsClose, wsError, wsMessage, wsOpen, wsClearOrders } = websocketSlice.actions;
 export const { getError, getStatus, getOrders } = websocketSlice.selectors;
 
 type TActionCreators = typeof websocketSlice.actions;

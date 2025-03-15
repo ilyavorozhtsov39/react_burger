@@ -1,5 +1,5 @@
 import { IFeedOrder, IIngredientWithUUID } from "../../utils/types";
-import { setOrders } from "../feed-slice"
+import { v4 as uuidv4 } from 'uuid';
 
 type TData = {
     success: boolean,
@@ -23,7 +23,8 @@ function updateOrdersData(data: TData, ingredientsList: Array<IIngredientWithUUI
             ...order,
             price,
             updatedIngredients,
-            date
+            date,
+            uniqueId: uuidv4()
         }
     })
     const { ready, working } = sortOrders(orders)
@@ -34,7 +35,7 @@ function updateOrdersData(data: TData, ingredientsList: Array<IIngredientWithUUI
         ready, 
         working, 
         total: totalCopy, 
-        totalToday: totalTodayCopy 
+        totalToday: totalTodayCopy
     }
     return updatedData
 }
