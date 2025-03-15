@@ -53,9 +53,11 @@ export const websocketSlice = createSlice({
     }
 })
 
-export const { wsConnecting, wsClose, wsError, wsMessage, wsOpen, wsClearOrders } = websocketSlice.actions;
-export const { getError, getStatus, getOrders } = websocketSlice.selectors;
+const { wsConnecting, wsClose, wsError, wsMessage, wsOpen, wsClearOrders } = websocketSlice.actions;
+const { getError, getStatus, getOrders } = websocketSlice.selectors;
+
+
+export { wsConnecting, wsClose, wsError, wsMessage, wsOpen, wsClearOrders, getError, getStatus, getOrders }
 
 type TActionCreators = typeof websocketSlice.actions;
-
 export type TWsInternalActions = ReturnType<TActionCreators[keyof TActionCreators]>;
