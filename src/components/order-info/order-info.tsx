@@ -9,6 +9,7 @@ import { wsConnect, wsDisconnect } from '../../services/actions';
 import { getStatus, getOrders } from '../../services/websocket-slice';
 import { updateOrdersData } from '../../services/helpers/feed'
 import { getIngredientsList } from '../../services/ingredients-slice'
+import { SOCKET_URL } from '../../utils/constants'
 
 type TData = {
     success: boolean,
@@ -30,7 +31,7 @@ interface ICountedIngredient extends IIngredientWithUUID {
 const OrderInfo = (): React.JSX.Element => {
 
     const [ order, setOrder ] = useState<IFeedUpdatedOrder>()
-    const [ status, setStatus ] = useState<boolean>(false)
+    const [ status, setStatus ] = useState<string>("")
     const [ countedIngredients, setCountedIngredients ] = useState<Array<ICountedIngredient>>([])
     const [ totalPrice, setTotalPrice ] = useState<number>(0)
 
@@ -80,7 +81,9 @@ const OrderInfo = (): React.JSX.Element => {
             const updatedData = updateOrdersData(socketOrders, ingredientsList)
             const order = updatedData.orders.find(item => item.number === Number(params.id))
             setOrder(order)
-            if (order?.status === "done") setStatus(true)
+            if (order) {
+                setStatus(order.status)
+            }
         }
     }, [socketOrders, ingredientsList])
 
@@ -89,9 +92,11 @@ const OrderInfo = (): React.JSX.Element => {
             if (location.state?.background && data !== null) {
                 const order = data.orders.find(item => item.number === Number(params.id))
                 setOrder(order)
-                if (order?.status === "done") setStatus(true)
+                if (order) {
+                    setStatus(order.status)
+                }
             } else if (!location.state) {
-                dispatch(wsConnect('wss://norma.nomoreparties.space/orders/all'))
+                dispatch(wsConnect(`${SOCKET_URL}/all`))
             }
         }
         handleState(updatedOrdersData)
@@ -118,7 +123,10 @@ const OrderInfo = (): React.JSX.Element => {
         <div className={styles.container} style={location.state?.background ? {} : { marginTop: "80px" }}>
             <p className={styles.orderId}>{`#${order?.number}`}</p>
             <p className="text text_type_main-medium mb-3">{order?.name}</p>
-            <p className="text text_type_main-small mb-15 " style={status ? { color: "rgba(0, 204, 204, 1)" } : {}}>{status ? "Выполнен" : "Готовится"}</p>
+            <p className="text text_type_main-small mb-15 " style={status === "done" ? { color: "rgba(0, 204, 204, 1)" } : {}}>
+                {status === "done" ? "Выполнен" :
+                status === "pending" ? "Готовится" : "Создан"}
+            </p>
             <p className="text text_type_main-medium mb-6">Состав:</p>
             <div className={styles.ingredients}>
                 {countedIngredients.map(ingedient => 

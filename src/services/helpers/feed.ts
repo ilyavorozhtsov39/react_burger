@@ -78,8 +78,8 @@ function sortOrders(orders: Array<IFeedOrder>) {
             working.push(order.number)
         }
     })
-    ready = ready.length > 10 ? ready.slice(0, 10) : ready
-    working = working.length > 10 ? working.slice(0, 10) : working
+    ready = ready.length > 20 ? ready.slice(0, 20) : ready
+    working = working.length > 20 ? working.slice(0, 20) : working
     return { ready, working }
 }
 

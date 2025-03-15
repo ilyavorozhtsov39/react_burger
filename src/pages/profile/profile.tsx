@@ -14,6 +14,7 @@ import { updateOrdersData } from '../../services/helpers/feed'
 import FeedOrder from '../../components/feed-order/feed-order'
 import { wsClearOrders } from '../../services/websocket-slice'
 import { setPersonalOrders, getPersonalOrders } from '../../services/feed-slice'
+import { SOCKET_URL } from '../../utils/constants';
 
 type RequestResult = {
     payload: {
@@ -73,7 +74,7 @@ const Profile = (): React.JSX.Element => {
 
     useEffect(() => {
         if (typeof accessToken === 'string') {
-            dispatch(wsConnect(`wss://norma.nomoreparties.space/orders?token=${accessToken}`))
+            dispatch(wsConnect(`${SOCKET_URL}?token=${accessToken}`))
         }
     }, [accessToken])
 

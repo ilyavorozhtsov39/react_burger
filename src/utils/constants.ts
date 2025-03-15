@@ -2,6 +2,8 @@
 
 const BASE_URL = 'https://norma.nomoreparties.space/api'
 
+const SOCKET_URL = 'wss://norma.nomoreparties.space/orders'
+
 const ingredientTemplate = {
     _id: "",
     name: "",
@@ -18,4 +20,4 @@ const ingredientTemplate = {
     uniqueId: ""
 }
 
-export { BASE_URL, ingredientTemplate }
+export { BASE_URL, SOCKET_URL, ingredientTemplate }

@@ -50,11 +50,17 @@
     color: rgba(0, 204, 204, 1);
 }
 
+.ordersWorking {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2px;
+}
+
 .ordersReady {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2px;
-  }
+}
 
 .working {
     width: 272px;
