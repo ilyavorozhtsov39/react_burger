@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react'
 import styles from './feed.module.scss'
 import FeedOrder from '../../components/feed-order/feed-order';
 import type { IIngredientWithUUID, IFeedOrder, IFeedUpdatedOrder, IOrdersData } from '../../utils/types';
-import data from '../../data.json'
-import { setOrders } from '../../services/feed-slice'
+import { setOrders, getUpdatedOrders } from '../../services/feed-slice'
 import { useAppDispatch, useAppSelector } from '../../components/app/app';
 
 import { wsConnect, wsDisconnect } from '../../services/actions';
-import { wsMessage } from '../../services/websocket-slice';
 import { getStatus, getOrders } from '../../services/websocket-slice';
 
 import { updateOrdersData } from '../../services/helpers/feed'
@@ -26,28 +24,26 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
     const [ ordersData, setOrdersData ] = useState<IOrdersData>()
     const [ status, setStatus ] = useState<TStatus>()
 
-    const dispatch = useAppDispatch();
-
     const socketStatus = useAppSelector(getStatus)
     const socketOrders = useAppSelector(getOrders)
 
+    const dispatch = useAppDispatch();
+
     useEffect(() => {
         dispatch(wsConnect('wss://norma.nomoreparties.space/orders/all'))
-        setTimeout(() => {
+        return () => {
             dispatch(wsDisconnect())
-        }, 5000)
+        }
     }, [])
 
 
     useEffect(() => {
-        console.log(socketStatus)
         if (socketOrders.success === true) {
-            // console.log(socketOrders)
             const updatedData = updateOrdersData(socketOrders, ingredientsList)
             setOrdersData(updatedData)
-            console.log(updatedData)
+            dispatch(setOrders(updatedData))  
         }
-    }, [socketOrders])
+    }, [socketOrders, dispatch])
 
     return (
         <div className={styles.feed}>

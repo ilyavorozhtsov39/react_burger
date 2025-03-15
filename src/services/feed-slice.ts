@@ -1,14 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IFeedUpdatedOrder, IOrdersData } from '../utils/types';
 
-const initialState: { data: IOrdersData } = {
-    data: {
-        orders: [],
-        total: "",
-        totalToday: "",
-        ready: [],
-        working: []
-    }
+type FeedState = {
+    ordersData: IOrdersData | null
+}
+
+const initialState: FeedState = {
+    ordersData: null
 }
 
 const feedSlice = createSlice({
@@ -16,11 +14,15 @@ const feedSlice = createSlice({
     initialState,
     reducers: {
         setOrders(state, action: PayloadAction<IOrdersData>) {
-            state.data = action.payload;
+            state.ordersData = action.payload;
         }
+    },
+    selectors: {
+        getUpdatedOrders: state => state.ordersData
     }
 })
 
 const { setOrders } = feedSlice.actions;
+const { getUpdatedOrders } = feedSlice.selectors;
 
-export {  feedSlice, setOrders }
+export {  feedSlice, setOrders, getUpdatedOrders }

@@ -34,9 +34,13 @@ const ingredientsSlice = createSlice({
                 return { payload: updated }
             }
         }
+    },
+    selectors: {
+        getIngredientsList: state => state.ingredientsList
     }
 })
 
 const { saveIngredients } = ingredientsSlice.actions;
+const { getIngredientsList } = ingredientsSlice.selectors;
 
-export { getIngredients, saveIngredients, ingredientsSlice }
+export { getIngredients, saveIngredients, ingredientsSlice, getIngredientsList }

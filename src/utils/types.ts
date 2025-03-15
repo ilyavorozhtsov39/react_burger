@@ -47,7 +47,8 @@ interface IOrdersData {
     total: string,
     totalToday: string,
     working: Array<number> ,
-    ready: Array<number>
+    ready: Array<number>,
+    success: boolean
 }
 
 export type { IIngredient, IIngredientWithUUID, IUser, IFeedOrder, IFeedUpdatedOrder, IOrdersData }

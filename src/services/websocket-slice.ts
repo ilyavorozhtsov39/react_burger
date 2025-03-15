@@ -25,7 +25,7 @@ export const initialState: Store = {
 };
 
 export const websocketSlice = createSlice({
-    name: "feed",
+    name: "websocket",
     initialState,
     reducers: {
         wsConnecting: (state) => {

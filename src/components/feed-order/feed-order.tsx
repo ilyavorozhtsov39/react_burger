@@ -23,7 +23,7 @@ const FeedOrder = ({ order }: TFeedOrderProps): React.JSX.Element => {
   const location = useLocation()
 
   function showModal() {
-    navigate(`/feed/${order._id}`, { state: { background: location }}) 
+    navigate(`/feed/${order.number}`, { state: { background: location }}) 
   }
 
   

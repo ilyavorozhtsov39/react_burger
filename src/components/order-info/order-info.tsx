@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import styles from './order-info.module.scss'
-import { useParams } from 'react-router-dom'
-import { useAppSelector } from "../app/app"
+import { useParams, useLocation } from 'react-router-dom'
+import { useAppSelector, useAppDispatch } from "../app/app"
+import { getUpdatedOrders } from '../../services/feed-slice'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import type { IFeedUpdatedOrder, IIngredientWithUUID } from '../../utils/types'
+import type { IFeedUpdatedOrder, IIngredientWithUUID, IFeedOrder, IOrdersData } from '../../utils/types'
+import { wsConnect, wsDisconnect } from '../../services/actions';
+import { getStatus, getOrders } from '../../services/websocket-slice';
+import { updateOrdersData } from '../../services/helpers/feed'
+import { getIngredientsList } from '../../services/ingredients-slice'
+
+type TData = {
+    success: boolean,
+    orders: Array<IFeedOrder>,
+    total: string,
+    totalToday: string
+}
 
 type State = {
     feed: {
-        orders: Array<IFeedUpdatedOrder>
+        data: IOrdersData | null
     }
 }
 
@@ -23,7 +35,13 @@ const OrderInfo = (): React.JSX.Element => {
     const [ totalPrice, setTotalPrice ] = useState<number>(0)
 
     const params = useParams()
-    const { orders } = useAppSelector((state: State) => state.feed)
+    const location = useLocation()
+    const dispatch = useAppDispatch()
+    const updatedOrdersData = useAppSelector(getUpdatedOrders)
+
+    const socketStatus = useAppSelector(getStatus)
+    const socketOrders = useAppSelector(getOrders)
+    const ingredientsList = useAppSelector(getIngredientsList)
 
     function compare(element: IIngredientWithUUID, list: Array<ICountedIngredient>): { includes: boolean; id: number } {
         let includes = false;
@@ -44,11 +62,7 @@ const OrderInfo = (): React.JSX.Element => {
             if (compared.includes) {
                 result[compared.id].count++;
             } else {
-                if (item.type === "bun") {
-                    result.push({  ...item, count: 2 });
-                } else {
-                    result.push({ ...item, count: 1 });
-                }
+                result.push({ ...item, count: 1 });
             }
         });
         setCountedIngredients(result);
@@ -62,14 +76,35 @@ const OrderInfo = (): React.JSX.Element => {
     }
 
     useEffect(() => {
-        function handleState() {
-            const order = orders.find(item => item._id === params.id)
-            console.log(orders)
+        // console.log(socketOrders.success, ingredientsList)
+        if (socketOrders.success === true && ingredientsList.length > 0) {
+            const updatedData = updateOrdersData(socketOrders, ingredientsList)
+            const order = updatedData.orders.find(item => item.number === Number(params.id))
             setOrder(order)
             if (order?.status === "done") setStatus(true)
+            // console.log(updatedData)
         }
-        handleState()
-    }, [orders])
+    }, [socketOrders, ingredientsList])
+
+    useEffect(() => {
+        function handleState(data: IOrdersData | null) {
+            if (location.state?.background && data !== null) {
+                console.log('here')
+                const order = data.orders.find(item => item.number === Number(params.id))
+                console.log(order)
+                setOrder(order)
+                if (order?.status === "done") setStatus(true)
+            } else {
+                dispatch(wsConnect('wss://norma.nomoreparties.space/orders/all'))
+            }
+        }
+        handleState(updatedOrdersData)
+        return () => {
+            if (socketStatus === "ONLINE") {
+                dispatch(wsDisconnect())
+            }
+        }
+    }, [updatedOrdersData])
 
     useEffect(() => {
         if (order) {
@@ -84,8 +119,8 @@ const OrderInfo = (): React.JSX.Element => {
     }, [countedIngredients])
 
     return (
-        <div className={styles.container}>
-            <p className={styles.orderId}>{`#${order?._id}`}</p>
+        <div className={styles.container} style={location.state?.background ? {} : { marginTop: "80px" }}>
+            <p className={styles.orderId}>{`#${order?.number}`}</p>
             <p className="text text_type_main-medium mb-3">{order?.name}</p>
             <p className="text text_type_main-small mb-15 " style={status ? { color: "rgba(0, 204, 204, 1)" } : {}}>{status ? "Выполнен" : "Готовится"}</p>
             <p className="text text_type_main-medium mb-6">Состав:</p>
