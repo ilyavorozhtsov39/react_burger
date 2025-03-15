@@ -1,16 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IFeedUpdatedOrder } from '../utils/types';
+import { IFeedUpdatedOrder, IOrdersData } from '../utils/types';
 
-const initialState: { orders: Array<IFeedUpdatedOrder> } = {
-    orders: []
+const initialState: { data: IOrdersData } = {
+    data: {
+        orders: [],
+        total: "",
+        totalToday: "",
+        ready: [],
+        working: []
+    }
 }
 
 const feedSlice = createSlice({
     name: "feed",
     initialState,
     reducers: {
-        setOrders(state, action: PayloadAction<Array<IFeedUpdatedOrder>>) {
-            state.orders = action.payload;
+        setOrders(state, action: PayloadAction<IOrdersData>) {
+            state.data = action.payload;
         }
     }
 })

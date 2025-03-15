@@ -90,7 +90,7 @@ const IngredientImage = ({ image, index, length }: { image: string, index: numbe
   }
   , [])
   
-  if (index === 5) {
+  if (index === 5 && length > 6) {
     return (
       <div className={styles.imageContainer} style={{
         zIndex: 0,

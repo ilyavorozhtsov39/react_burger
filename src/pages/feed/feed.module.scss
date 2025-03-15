@@ -7,6 +7,7 @@
     display: flex;
     flex-direction: column;
     width: 608px;
+    max-height: 800px;
     margin-right: 60px;
     overflow-y: scroll;
     scrollbar-color: #8585AD #2F2F37;
@@ -47,6 +48,12 @@
 .ordersReady p {
     color: rgba(0, 204, 204, 1);
 }
+
+.ordersReady {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2px;
+  }
 
 .working {
     width: 272px;

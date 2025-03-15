@@ -42,4 +42,12 @@ interface IFeedUpdatedOrder extends IFeedOrder {
     date: string
 }
 
-export type { IIngredient, IIngredientWithUUID, IUser, IFeedOrder, IFeedUpdatedOrder }
+interface IOrdersData {
+    orders: Array<IFeedUpdatedOrder>,
+    total: string,
+    totalToday: string,
+    working: Array<number> ,
+    ready: Array<number>
+}
+
+export type { IIngredient, IIngredientWithUUID, IUser, IFeedOrder, IFeedUpdatedOrder, IOrdersData }

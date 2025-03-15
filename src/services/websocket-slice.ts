@@ -13,12 +13,14 @@ enum WebsocketStatus {
 export type Store = {
     status: WebsocketStatus;
     orders: any;
+    profileOrders: any,
     error: string | null;
 }
 
 export const initialState: Store = {
     status: WebsocketStatus.OFFLINE,
     orders: {},
+    profileOrders: {},
     error: null,
 };
 
@@ -40,8 +42,8 @@ export const websocketSlice = createSlice({
             state.error = action.payload;
         },
         wsMessage: (state, action: PayloadAction<Action>) => {
-            console.log("action", action);
-            // state.table = liveTableUpdate(state.table, action.payload);
+            // console.log("action", action.payload);
+            state.orders = action.payload
         }
     },
     selectors: {

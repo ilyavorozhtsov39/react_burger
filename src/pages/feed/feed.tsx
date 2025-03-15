@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styles from './feed.module.scss'
 import FeedOrder from '../../components/feed-order/feed-order';
-import type { IIngredientWithUUID, IFeedOrder, IFeedUpdatedOrder } from '../../utils/types';
+import type { IIngredientWithUUID, IFeedOrder, IFeedUpdatedOrder, IOrdersData } from '../../utils/types';
 import data from '../../data.json'
 import { setOrders } from '../../services/feed-slice'
 import { useAppDispatch, useAppSelector } from '../../components/app/app';
@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from '../../components/app/app';
 import { wsConnect, wsDisconnect } from '../../services/actions';
 import { wsMessage } from '../../services/websocket-slice';
 import { getStatus, getOrders } from '../../services/websocket-slice';
+
+import { updateOrdersData } from '../../services/helpers/feed'
 
 type TFeedProps = {
     ingredientsList: Array<IIngredientWithUUID> | []
@@ -21,91 +23,13 @@ type TStatus = {
 
 const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
 
-    const [ ordersInfo, setOrdersInfo ] = useState<IFeedUpdatedOrder[]>([])
+    const [ ordersData, setOrdersData ] = useState<IOrdersData>()
     const [ status, setStatus ] = useState<TStatus>()
-    const [ totalOrders, setTotalOrders ] = useState<{ total: string, totalToday: string }>()
 
     const dispatch = useAppDispatch();
 
-    function updateIngredients(orders: Array<IFeedOrder>) {
-        const updatedOrders = orders.map((order: IFeedOrder) => {
-            const updatedIngredients = order.ingredients.map((ingredient: string) => {
-                const updatedIngredient = ingredientsList.find((el: IIngredientWithUUID) => el._id === ingredient);
-                return updatedIngredient
-            }) as Array<IIngredientWithUUID>
-            const price = updatedIngredients.reduce((acc: number, ingredient: IIngredientWithUUID) => {
-                return acc + ingredient.price
-            }, 0)
-            const date = getDateInfo(order.createdAt)
-            return {
-                ...order,
-                price,
-                updatedIngredients,
-                date
-            }
-        })
-        setOrdersInfo(updatedOrders)
-        dispatch(setOrders(updatedOrders))
-    }
-
-    function getDateInfo(dateString: string) {
-        const givenDate = new Date(dateString);
-        const options: Intl.DateTimeFormatOptions = {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false,
-        };
-        const time = givenDate.toLocaleTimeString([], options);
-    
-    
-        const currentDate = new Date();
-        const differenceInMilliseconds = currentDate.getTime() - givenDate.getTime();
-        const millisecondsInADay = 1000 * 60 * 60 * 24;
-        const daysPassed = Math.floor(differenceInMilliseconds / millisecondsInADay);
-        const info = daysPassed === 0 ? `Сегодня` :
-                     daysPassed === 1 ? `Вчера` :
-                     daysPassed < 5 ? `${daysPassed} дня назад` : `${daysPassed} дней назад`;
-        return `${info}, ${time}`
-      }
-
-    function formatNumberWithSpace(number: number): string {
-        return new Intl.NumberFormat('en-US', {
-          useGrouping: true,
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 0,
-        }).format(number).replace(/,/g, ' ');
-    }
-
-    function handleTotalOrders(total: number, totalToday: number) {
-        let totalCopy = ''
-        let totalTodayCopy = ''
-        if (String(total).length > 3) {
-            totalCopy = formatNumberWithSpace(total)
-        } else {
-            totalCopy = String(total)
-        }
-        if (String(totalToday).length > 3) {
-            totalTodayCopy = formatNumberWithSpace(totalToday)
-        } else {
-            totalTodayCopy = String(totalToday)
-        }
-        setTotalOrders({
-            total: totalCopy,
-            totalToday: totalTodayCopy
-        })
-    }
-
-    useEffect(() => {
-        const { orders } = data;
-        setStatus({ working: data.working, ready: data.ready })
-        if (ingredientsList.length > 0) {
-            updateIngredients(orders)
-        }
-        handleTotalOrders(data.total, data.totalToday)
-    }, [ingredientsList])
-
-
     const socketStatus = useAppSelector(getStatus)
+    const socketOrders = useAppSelector(getOrders)
 
     useEffect(() => {
         dispatch(wsConnect('wss://norma.nomoreparties.space/orders/all'))
@@ -114,9 +38,16 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
         }, 5000)
     }, [])
 
+
     useEffect(() => {
         console.log(socketStatus)
-    }, [socketStatus])
+        if (socketOrders.success === true) {
+            // console.log(socketOrders)
+            const updatedData = updateOrdersData(socketOrders, ingredientsList)
+            setOrdersData(updatedData)
+            console.log(updatedData)
+        }
+    }, [socketOrders])
 
     return (
         <div className={styles.feed}>
@@ -124,7 +55,7 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
             <div className={styles.container}>
                 <section className={styles.columnLeft}>
                     <div className={styles.ordersFeed}>
-                        {ordersInfo.map((order: any, index: number) => {
+                        {ordersData?.orders.map((order: any, index: number) => {
                             return <FeedOrder key={index} order={order} />
                         })}
                     </div>
@@ -134,7 +65,7 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
                         <div className={styles.ready}>
                             <h2 className="text text_type_main-medium mb-6">Готовы:</h2>
                             <div className={styles.ordersReady}>
-                                {status && status.ready.map((order: string, index: number) => {
+                                {ordersData && ordersData.ready.map((order: number, index: number) => {
                                     return <p key={index} className="text text_type_digits-default mb-2">{order}</p>
                                 })}
                             </div>
@@ -142,7 +73,7 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
                         <div className={styles.working}>
                             <h2 className="text text_type_main-medium mb-6">В работе:</h2>
                             <div className={styles.ordersWorking}>
-                                {status && status.working.map((order: string, index: number) => {
+                                {ordersData && ordersData.working.map((order: number, index: number) => {
                                     return <p key={index} className="text text_type_digits-default mb-2">{order}</p>
                                 })}
                             </div>
@@ -150,11 +81,11 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
                     </div>
                     <div className={styles.total}>
                         <p className="text text_type_main-medium mt-15">Выполнено за все время:</p>
-                        <p className={styles.digits}>{totalOrders?.total}</p>
+                        { <p className={styles.digits}>{ordersData?.total}</p> }
                     </div>
                     <div className={styles.totalToday}>
                         <p className="text text_type_main-medium mt-15">Выполнено за сегодня:</p>
-                        <p className={styles.digits}>{totalOrders?.totalToday}</p>
+                        { <p className={styles.digits}>{ordersData?.totalToday}</p> }
                     </div>
                 </section>
             </div>
