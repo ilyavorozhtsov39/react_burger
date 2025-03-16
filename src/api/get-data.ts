@@ -12,7 +12,6 @@ async function getData() {
 }
 
 async function sendOrder(data: Ingredients, token: string) {
-    console.log('order: ', data)
     return fetch(`${BASE_URL}/orders`, {
         body: JSON.stringify(data),
         method: "POST",

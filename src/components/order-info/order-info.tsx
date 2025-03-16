@@ -77,7 +77,7 @@ const OrderInfo = (): React.JSX.Element => {
     }
 
     useEffect(() => {
-        if (socketOrders.success === true && ingredientsList.length > 0) {
+        if (socketOrders && socketOrders.success === true && ingredientsList.length > 0) {
             const updatedData = updateOrdersData(socketOrders, ingredientsList)
             const order = updatedData.orders.find(item => item.number === Number(params.id))
             setOrder(order)

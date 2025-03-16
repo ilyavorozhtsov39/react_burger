@@ -1,20 +1,11 @@
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import styles from './profile.module.scss';
-import { useAppSelector, useAppDispatch } from "../../components/app/app"
-import { logoutUser, modifyUser } from "../../services/user-slice"
+import { useAppDispatch } from "../../components/app/app"
+import { logoutUser } from "../../services/user-slice"
 import { useNavigate, useLocation } from 'react-router-dom';
 import ProfileForm from '../../components/profile-form/profile-form'
-import { refreshToken } from '../../api/user'
-import { getToken } from '../../services/cookies';
-import { wsConnect, wsDisconnect } from '../../services/actions';
-import { getOrders, getStatus } from '../../services/websocket-slice'
-import { IFeedOrder, IFeedUpdatedOrder } from '../../utils/types'
-import { getIngredientsList } from '../../services/ingredients-slice'
-import { updateOrdersData } from '../../services/helpers/feed'
-import FeedOrder from '../../components/feed-order/feed-order'
-import { wsClearOrders } from '../../services/websocket-slice'
-import { setPersonalOrders, getPersonalOrders, clearPersonalOrders } from '../../services/feed-slice'
-import { SOCKET_URL } from '../../utils/constants';
+import { IFeedOrder } from '../../utils/types'
+import ProfileOrders from '../../components/profile-orders/profile-orders'
 
 type RequestResult = {
     payload: {
@@ -78,64 +69,10 @@ const Profile = (): React.JSX.Element => {
                     <p className={styles.text}>В этом разделе вы можете изменить свои персональные данные</p>
                 </div>
                 {
-                    !ordersModal ? <ProfileForm /> : <Orders />
+                    !ordersModal ? <ProfileForm /> : <ProfileOrders />
                 }
             </div>
         </main>
-    )
-}
-
-const Orders = () => {
-
-    const [ orders, setOrders ] = useState<Array<IFeedUpdatedOrder>>([])
-    const [ accessToken, setAccessToken ] = useState<string | undefined>()
-
-    const dispatch = useAppDispatch()
-    const ingredientList = useAppSelector(getIngredientsList)
-    const ordersData = useAppSelector(getOrders)
-    const personalOrders = useAppSelector(getPersonalOrders)
-    const socketStatus = useAppSelector(getStatus)
-
-    async function getAccessToken() {
-        const token = await getToken()
-        const tokenValue = token ? token.split(" ")[1] : undefined
-        setAccessToken(tokenValue)
-    }
-
-    useEffect(() => {
-        getAccessToken()
-        return () => {
-            dispatch(clearPersonalOrders())
-            dispatch(wsClearOrders())
-            dispatch(wsDisconnect())
-        }
-    }, [])
-
-    useEffect(() => {
-        if (typeof accessToken === 'string') {
-            dispatch(wsConnect(`${SOCKET_URL}?token=${accessToken}`))
-        }
-    }, [accessToken])
-
-    useEffect(() => {
-        if (ordersData.success === true && ingredientList.length > 0) {
-            const updatedData = updateOrdersData(ordersData, ingredientList)
-            dispatch(setPersonalOrders(updatedData))
-        }
-    }, [ingredientList, ordersData])
-
-    useEffect(() => {
-        if (personalOrders) {
-            setOrders(personalOrders.orders)
-        }
-    }, [personalOrders])
-
-    return (
-        <div className={styles.ordersContainer}>
-           <div className={styles.orders}>
-                {orders && orders.map((item, index) => <FeedOrder order={item} key={item.uniqueId} page="profile/orders" />)}
-            </div> 
-        </div>
     )
 }
 

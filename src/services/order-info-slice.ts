@@ -26,13 +26,11 @@ type TState = {
     }
 }
 
-const sendOrgerInfo = createAsyncThunk<TResponse, TData>(
+const sendOrderInfo = createAsyncThunk<TResponse, TData>(
     "order/sendOrgerInfo", 
     async (data: TData) => {
         const token = await getToken()
-        // поправить
         const result = await sendOrder(data, token as string);
-        console.log("ORDER RESULT: ", result)
         return result;
     }
 )
@@ -61,7 +59,7 @@ const orderSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(sendOrgerInfo.fulfilled, (state, action) => {
+        builder.addCase(sendOrderInfo.fulfilled, (state, action) => {
             state.orderInfo = action.payload; 
         })
     }
@@ -70,4 +68,4 @@ const orderSlice = createSlice({
 const { updatePrice, updateIdList } = orderSlice.actions
 
 
-export { updatePrice, orderSlice, updateIdList, sendOrgerInfo }
+export { updatePrice, orderSlice, updateIdList, sendOrderInfo }

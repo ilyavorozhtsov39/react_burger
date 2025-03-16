@@ -26,7 +26,6 @@ const burgerSlice = createSlice({
                     state.bunSelected = true
                 } else {
                     state.burgerList.push(action.payload)
-                    console.log(action.payload)
                 }
             },
             prepare: (item) => {
@@ -47,7 +46,7 @@ const burgerSlice = createSlice({
             const filtered = copy.filter(item => item !== "placeholder") as Array<IIngredientWithUUID>
             state.burgerList = filtered
         }
-    },
+    }
 })
 
 const { addIngredient, removeIngredient, sortIngredients } = burgerSlice.actions;

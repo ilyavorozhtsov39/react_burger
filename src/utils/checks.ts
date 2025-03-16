@@ -1,4 +1,4 @@
-export function checkResponse(response: any) {
+export function checkResponse(response: Response): Promise<any> {
     if (response.ok) {
         return response.json();
     } else {

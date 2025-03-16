@@ -7,7 +7,7 @@ import { useDrop } from "react-dnd";
 import { useAppSelector, useAppDispatch } from "../app/app"
 import { addIngredient, removeIngredient } from "../../services/burger-slice"
 import ConstructorItem from "../constructor-item/constructor-item"
-import { updatePrice, updateIdList, sendOrgerInfo } from "../../services/order-info-slice" 
+import { updatePrice, updateIdList, sendOrderInfo } from "../../services/order-info-slice" 
 import { setUser } from "../../services/user-slice"
 import { useNavigate } from "react-router-dom"
 import { FC } from "react"
@@ -82,7 +82,7 @@ const BurgerConstructor = ({ data }: TBurgerConstructorProps): React.JSX.Element
       navigate("/login")
     } else {
       setModalVisible(true)
-      dispatch(sendOrgerInfo({ ingredients: idList }))
+      dispatch(sendOrderInfo({ ingredients: idList }))
     }
   }
 

@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction, Action } from "@reduxjs/toolkit";
-// import { LiveTable, LiveTableActions, WebsocketStatus } from "../../types/live-table"
-// import { liveTableUpdate } from "./live-table-update";
+import { ISocketOrdersData } from '../utils/types'
 
 //
 enum WebsocketStatus {
@@ -12,13 +11,13 @@ enum WebsocketStatus {
 
 export type Store = {
     status: WebsocketStatus;
-    orders: any;
+    orders: ISocketOrdersData | null;
     error: string | null;
 }
 
 export const initialState: Store = {
     status: WebsocketStatus.OFFLINE,
-    orders: {},
+    orders: null,
     error: null,
 };
 
@@ -39,11 +38,11 @@ export const websocketSlice = createSlice({
         wsError: (state, action: PayloadAction<string>) => {
             state.error = action.payload;
         },
-        wsMessage: (state, action: PayloadAction<Action>) => {
+        wsMessage: (state, action: PayloadAction<ISocketOrdersData>) => {
             state.orders = action.payload
         },
         wsClearOrders: (state) => {
-            state.orders = {}
+            state.orders = null
         }
     },
     selectors: {

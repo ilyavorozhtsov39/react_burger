@@ -8,6 +8,7 @@ import { SOCKET_URL } from '../../utils/constants';
 import { wsConnect, wsDisconnect } from '../../services/actions';
 import { getStatus, getOrders, wsClearOrders } from '../../services/websocket-slice';
 import { updateOrdersData } from '../../services/helpers/feed'
+import { ISocketOrdersData } from '../../utils/types'
 
 type TFeedProps = {
     ingredientsList: Array<IIngredientWithUUID> | []
@@ -44,8 +45,9 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
 
 
     useEffect(() => {
-        if (socketOrders.success === true && statuses > 0) {
-            const updatedData = updateOrdersData(socketOrders, ingredientsList)
+        if (socketOrders && socketOrders.success === true && statuses > 0) {
+            const orders = socketOrders as ISocketOrdersData;
+            const updatedData = updateOrdersData(orders, ingredientsList)
             dispatch(setOrders(updatedData))
         }
     }, [socketOrders])
@@ -62,7 +64,7 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
             <div className={styles.container}>
                 <section className={styles.columnLeft}>
                     <div className={styles.ordersFeed}>
-                        {ordersData?.orders.map((order: any, index: number) => {
+                        {ordersData?.orders.map((order: IFeedUpdatedOrder, index: number) => {
                             return <FeedOrder key={order.uniqueId} order={order} page="feed" />
                         })}
                     </div>

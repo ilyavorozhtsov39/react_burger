@@ -36,6 +36,13 @@ interface IFeedOrder {
     _id: string
 }
 
+interface ISocketOrdersData {
+    orders: Array<IFeedOrder>,
+    total: number,
+    totalToday: number,
+    success: boolean
+}
+
 interface IFeedUpdatedOrder extends IFeedOrder {
     updatedIngredients: Array<IIngredientWithUUID>,
     price: number,
@@ -52,4 +59,4 @@ interface IOrdersData {
     success: boolean
 }
 
-export type { IIngredient, IIngredientWithUUID, IUser, IFeedOrder, IFeedUpdatedOrder, IOrdersData }
+export type { IIngredient, IIngredientWithUUID, IUser, IFeedOrder, IFeedUpdatedOrder, IOrdersData, ISocketOrdersData }
