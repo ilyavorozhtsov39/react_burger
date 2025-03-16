@@ -47,9 +47,9 @@ const AppHeader = (): React.JSX.Element => {
                 <div className={styles.container} onClick={() => switchPage("/profile")}>
                     <HeaderMenuItem
                         text="Личный кабинет"
-                        type={activePage === "/profile" ? "primary" : "secondary"}
+                        type={activePage === "/profile" ? "primary" : activePage === "/profile/orders" ? "primary" : "secondary"}
                     >
-                        <ProfileIcon type={activePage === "/profile" ? "primary" : "secondary"} />
+                        <ProfileIcon type={activePage === "/profile" ? "primary" : activePage === "/profile/orders" ? "primary" : "secondary"} />
                     </HeaderMenuItem>
                 </div>
             </div>    

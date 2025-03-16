@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styles from './feed.module.scss'
 import FeedOrder from '../../components/feed-order/feed-order';
 import type { IIngredientWithUUID, IFeedOrder, IFeedUpdatedOrder, IOrdersData } from '../../utils/types';
-import { setOrders, getUpdatedOrders } from '../../services/feed-slice'
+import { setOrders, getUpdatedOrders, clearOrders } from '../../services/feed-slice'
 import { useAppDispatch, useAppSelector } from '../../components/app/app';
 import { SOCKET_URL } from '../../utils/constants';
 import { wsConnect, wsDisconnect } from '../../services/actions';
@@ -32,6 +32,7 @@ const Feed = ({ ingredientsList }: TFeedProps): React.JSX.Element => {
     useEffect(() => {
         dispatch(wsConnect(`${SOCKET_URL}/all`))
         return () => {
+            dispatch(clearOrders())
             dispatch(wsClearOrders())
             dispatch(wsDisconnect())
         }

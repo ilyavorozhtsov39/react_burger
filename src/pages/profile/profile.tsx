@@ -13,7 +13,7 @@ import { getIngredientsList } from '../../services/ingredients-slice'
 import { updateOrdersData } from '../../services/helpers/feed'
 import FeedOrder from '../../components/feed-order/feed-order'
 import { wsClearOrders } from '../../services/websocket-slice'
-import { setPersonalOrders, getPersonalOrders } from '../../services/feed-slice'
+import { setPersonalOrders, getPersonalOrders, clearPersonalOrders } from '../../services/feed-slice'
 import { SOCKET_URL } from '../../utils/constants';
 
 type RequestResult = {
@@ -37,7 +37,6 @@ type TData = {
 const Profile = (): React.JSX.Element => {
 
     const [ ordersModal, setOrdersModal ] = useState<boolean>(false)
-    const [ accessToken, setAccessToken ] = useState<string | undefined>()
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -50,12 +49,6 @@ const Profile = (): React.JSX.Element => {
         }
     }
 
-    async function getAccessToken() {
-        const token = await getToken()
-        const tokenValue = token ? token.split(" ")[1] : undefined
-        setAccessToken(tokenValue)
-    }
-
     function openOrders() {
         navigate("/profile/orders")
     }
@@ -63,20 +56,6 @@ const Profile = (): React.JSX.Element => {
     function openProfile() {
         navigate("/profile")
     }
-
-    useEffect(() => {
-        getAccessToken()
-        return () => {
-            dispatch(wsClearOrders())
-            dispatch(wsDisconnect())
-        }
-    }, [])
-
-    useEffect(() => {
-        if (typeof accessToken === 'string') {
-            dispatch(wsConnect(`${SOCKET_URL}?token=${accessToken}`))
-        }
-    }, [accessToken])
 
     useEffect(() => {
         if (location.pathname === "/profile/orders") {
@@ -109,11 +88,34 @@ const Profile = (): React.JSX.Element => {
 const Orders = () => {
 
     const [ orders, setOrders ] = useState<Array<IFeedUpdatedOrder>>([])
+    const [ accessToken, setAccessToken ] = useState<string | undefined>()
 
     const dispatch = useAppDispatch()
     const ingredientList = useAppSelector(getIngredientsList)
     const ordersData = useAppSelector(getOrders)
     const personalOrders = useAppSelector(getPersonalOrders)
+    const socketStatus = useAppSelector(getStatus)
+
+    async function getAccessToken() {
+        const token = await getToken()
+        const tokenValue = token ? token.split(" ")[1] : undefined
+        setAccessToken(tokenValue)
+    }
+
+    useEffect(() => {
+        getAccessToken()
+        return () => {
+            dispatch(clearPersonalOrders())
+            dispatch(wsClearOrders())
+            dispatch(wsDisconnect())
+        }
+    }, [])
+
+    useEffect(() => {
+        if (typeof accessToken === 'string') {
+            dispatch(wsConnect(`${SOCKET_URL}?token=${accessToken}`))
+        }
+    }, [accessToken])
 
     useEffect(() => {
         if (ordersData.success === true && ingredientList.length > 0) {

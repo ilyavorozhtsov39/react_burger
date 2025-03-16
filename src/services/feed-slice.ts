@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IFeedUpdatedOrder, IOrdersData } from '../utils/types';
+import { stat } from 'fs';
 
 type FeedState = {
     ordersData: IOrdersData | null,
@@ -15,14 +16,17 @@ const feedSlice = createSlice({
     name: "feed",
     initialState,
     reducers: {
-        setOrders(state, action: PayloadAction<IOrdersData>) {
+        setOrders: (state, action: PayloadAction<IOrdersData>) => {
             state.ordersData = action.payload;
         },
-        setPersonalOrders(state, action: PayloadAction<IOrdersData>) {
+        setPersonalOrders: (state, action: PayloadAction<IOrdersData>) => {
             state.personalOrdersData = action.payload;
         },
-        clearOrders(state) {
+        clearOrders: (state) => {
             state.ordersData = null
+        },
+        clearPersonalOrders: (state) => {
+            state.personalOrdersData = null
         }
     },
     selectors: {
@@ -31,7 +35,7 @@ const feedSlice = createSlice({
     }
 })
 
-const { setOrders, setPersonalOrders, clearOrders } = feedSlice.actions;
+const { setOrders, setPersonalOrders, clearOrders, clearPersonalOrders } = feedSlice.actions;
 const { getUpdatedOrders, getPersonalOrders } = feedSlice.selectors;
 
-export {  feedSlice, setOrders, getUpdatedOrders, clearOrders, getPersonalOrders, setPersonalOrders }
+export {  feedSlice, setOrders, getUpdatedOrders, clearOrders, getPersonalOrders, setPersonalOrders, clearPersonalOrders }
