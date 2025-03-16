@@ -1,0 +1,75 @@
+{
+    "success": true,
+    "orders": [
+      {
+        "ingredients": [
+          "643d69a5c3f7b9001cfa093c",
+          "643d69a5c3f7b9001cfa0940",
+          "643d69a5c3f7b9001cfa0944",
+          "643d69a5c3f7b9001cfa0947",
+          "643d69a5c3f7b9001cfa0949",
+          "643d69a5c3f7b9001cfa0940",
+          "643d69a5c3f7b9001cfa0947"
+        ],
+        "_id": "034533",
+        "status": "done",
+        "number": 216,
+        "name": "Interstellar Burger",
+        "createdAt": "2025-03-11T20:11:01.403Z",
+        "updatedAt": "2025-03-11T20:11:01.406Z"
+      },
+      {
+        "ingredients": [
+          "643d69a5c3f7b9001cfa0944",
+          "643d69a5c3f7b9001cfa0947"
+        ],
+        "_id": "034534",
+        "status": "done",
+        "number": 215,
+        "name": "Burger",
+        "createdAt": "2025-03-10T20:13:23.654Z",
+        "updatedAt": "2025-03-10T20:13:23.657Z"
+      },
+      {
+        "ingredients": [
+          "643d69a5c3f7b9001cfa093c",
+          "643d69a5c3f7b9001cfa0940",
+          "643d69a5c3f7b9001cfa0944",
+          "643d69a5c3f7b9001cfa0947",
+          "643d69a5c3f7b9001cfa0949"
+        ],
+        "_id": "034535",
+        "status": "working",
+        "number": 214,
+        "name": "Burger",
+        "createdAt": "2025-03-09T20:11:01.403Z",
+        "updatedAt": "2025-03-09T20:11:01.406Z"
+      },
+      {
+        "ingredients": [
+          "643d69a5c3f7b9001cfa0944",
+          "643d69a5c3f7b9001cfa0947"
+        ],
+        "_id": "034536",
+        "status": "done",
+        "number": 213,
+        "name": "Burger",
+        "createdAt": "2025-03-04T20:13:23.654Z",
+        "updatedAt": "2025-03-04T20:13:23.657Z"
+      }
+    ],
+    "working": [
+      "034215",
+      "034214",
+      "034213"
+    ],
+    "ready": [
+      "034210",
+      "034209",
+      "034208",
+      "034207",
+      "034206"
+    ],
+    "total": 28752,
+    "totalToday": 138
+  }
