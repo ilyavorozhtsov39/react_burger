@@ -12,12 +12,11 @@ const getIngredients = createAsyncThunk<Array<IIngredient>>(
     "ingredients/getIngredients", 
     async () => {
         const data = await getData();
-        // console.log(data)
         return data;
     }
 )
 
-const initialState: TIngredients = {
+export const initialState: TIngredients = {
     ingredientsList: []
 }
 

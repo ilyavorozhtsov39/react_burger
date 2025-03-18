@@ -6,7 +6,7 @@ type TIngredient = {
     infoStored: boolean
 }
 
-const initialState: TIngredient = {
+export const initialState: TIngredient = {
     ingredientInfo: {},
     infoStored: false,
 }
