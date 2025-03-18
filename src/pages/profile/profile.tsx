@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import styles from './profile.module.scss';
 import { useAppDispatch } from "../../components/app/app"
-import { logoutUser } from "../../services/user-slice"
+import { logoutUser } from "../../services/reducers/user-slice"
 import { useNavigate, useLocation } from 'react-router-dom';
 import ProfileForm from '../../components/profile-form/profile-form'
 import { IFeedOrder } from '../../utils/types'

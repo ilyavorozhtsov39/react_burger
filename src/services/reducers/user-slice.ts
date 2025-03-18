@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { login, logout, register, getUserInfo, refreshToken, changeUserInfo } from "../api/user"
-import { setCookie, getCookie, deleteCookie } from './cookies';
+import { login, logout, register, getUserInfo, refreshToken, changeUserInfo } from "../../api/user"
+import { setCookie, getCookie, deleteCookie } from '../cookies';
 
 type TLogin = {
     email: string,

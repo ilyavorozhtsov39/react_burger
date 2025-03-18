@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, Action } from "@reduxjs/toolkit";
-import { ISocketOrdersData } from '../utils/types'
+import { ISocketOrdersData } from '../../utils/types'
 
 //
 enum WebsocketStatus {

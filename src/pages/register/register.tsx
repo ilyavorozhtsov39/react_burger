@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./register.module.scss";
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { useAppDispatch } from "../../components/app/app"
-import { registerUser } from "../../services/user-slice"
+import { registerUser } from "../../services/reducers/user-slice"
 
 type RequestResult = {
     payload: {

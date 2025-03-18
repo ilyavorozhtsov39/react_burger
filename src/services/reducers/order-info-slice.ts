@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { sendOrder } from "../api/get-data"
-import { getToken } from './cookies'
+import { sendOrder } from "../../api/get-data"
+import { getToken } from '../cookies'
 
 type TData = {
     ingredients: Array<{ [name: number]: string }>,

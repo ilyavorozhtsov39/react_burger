@@ -3,13 +3,13 @@ import styles from './profile-orders.module.scss';
 import { useAppSelector, useAppDispatch } from "../../components/app/app"
 import { getToken } from '../../services/cookies';
 import { wsConnect, wsDisconnect } from '../../services/actions';
-import { getOrders, getStatus } from '../../services/websocket-slice'
+import { getOrders, getStatus } from '../../services/reducers/websocket-slice'
 import { IFeedUpdatedOrder } from '../../utils/types'
-import { getIngredientsList } from '../../services/ingredients-slice'
+import { getIngredientsList } from '../../services/reducers/ingredients-slice'
 import { updateOrdersData } from '../../services/helpers/feed'
 import FeedOrder from '../../components/feed-order/feed-order'
-import { wsClearOrders } from '../../services/websocket-slice'
-import { setPersonalOrders, getPersonalOrders, clearPersonalOrders } from '../../services/feed-slice'
+import { wsClearOrders } from '../../services/reducers/websocket-slice'
+import { setPersonalOrders, getPersonalOrders, clearPersonalOrders } from '../../services/reducers/feed-slice'
 import { SOCKET_URL } from '../../utils/constants';
 
 const ProfileOrders = () => {

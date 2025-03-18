@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IFeedUpdatedOrder, IOrdersData } from '../utils/types';
+import { IFeedUpdatedOrder, IOrdersData } from '../../utils/types';
 import { stat } from 'fs';
 
 type FeedState = {

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IIngredientWithUUID } from '../utils/types';
+import { IIngredientWithUUID } from '../../utils/types';
 
 type TIngredient = {
     ingredientInfo: IIngredientWithUUID | {},

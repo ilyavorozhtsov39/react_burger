@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { getData } from "../api/get-data"
+import { getData } from "../../api/get-data"
 import { v4 as uuidv4 } from 'uuid';
-import { IIngredient, IIngredientWithUUID } from '../utils/types';
+import { IIngredient, IIngredientWithUUID } from '../../utils/types';
 
 
 type TIngredients = {

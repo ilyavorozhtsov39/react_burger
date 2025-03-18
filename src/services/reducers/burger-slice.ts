@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid';
-import { IIngredientWithUUID } from '../utils/types';
+import { IIngredientWithUUID } from '../../utils/types';
 
 type TBurger = {
     burgerList: Array<IIngredientWithUUID>,
@@ -9,7 +9,7 @@ type TBurger = {
 }
 
 
-const initialState: TBurger = {
+export const initialState: TBurger = {
     burgerList: [],
     bunSelected: false,
     bun: {},

@@ -5,10 +5,10 @@ import Modal from "../modal/modal"
 import OrderDetails from "../order-details/order-details"
 import { useDrop } from "react-dnd";
 import { useAppSelector, useAppDispatch } from "../app/app"
-import { addIngredient, removeIngredient } from "../../services/burger-slice"
+import { addIngredient, removeIngredient } from "../../services/reducers/burger-slice"
 import ConstructorItem from "../constructor-item/constructor-item"
-import { updatePrice, updateIdList, sendOrderInfo } from "../../services/order-info-slice" 
-import { setUser } from "../../services/user-slice"
+import { updatePrice, updateIdList, sendOrderInfo } from "../../services/reducers/order-info-slice" 
+import { setUser } from "../../services/reducers/user-slice"
 import { useNavigate } from "react-router-dom"
 import { FC } from "react"
 import type { IIngredientWithUUID } from '../../utils/types';
@@ -113,6 +113,10 @@ const BurgerConstructor = ({ data }: TBurgerConstructorProps): React.JSX.Element
       setSelectedBun(typedBun)
     }
   }, [burgerList, bun ])
+
+  useEffect(() => {
+    console.log("ORDER INFO: ", orderInfo)
+  }, [orderInfo])
 
 
   return (

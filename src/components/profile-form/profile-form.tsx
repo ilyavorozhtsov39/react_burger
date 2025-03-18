@@ -2,8 +2,8 @@ import styles from './profile-form.module.scss'
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from "../app/app"
-import { setUser } from "../../services/user-slice"
-import { modifyUser } from "../../services/user-slice"
+import { setUser } from "../../services/reducers/user-slice"
+import { modifyUser } from "../../services/reducers/user-slice"
 import type { IUser } from '../../utils/types'
 
 type State = {

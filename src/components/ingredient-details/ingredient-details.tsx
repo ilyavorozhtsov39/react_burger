@@ -59,18 +59,3 @@ const InfoBlock = ({ text, number }: TInfoBlock): React.JSX.Element => {
 }
 
 export default IngredientDetails;
-
-    // function sortIngredients(originalArray: Array<IIngredientWithUUID>): Array<ICountedIngredient> {
-    //     const grouped = originalArray.reduce((acc: { [key: string]: number }, obj: IIngredientWithUUID) => {
-    //       acc[obj._id] = (acc[obj._id] || 0) + 1;
-    //       return acc;
-    //     }, {});
-      
-    //     return Object.keys(grouped).map(_id => {
-    //       const originalElement = originalArray.find(obj => obj._id === _id);
-    //       if (originalElement) {
-    //         return { ...originalElement, count: grouped[_id] };
-    //       }
-    //       return null;
-    //     }).filter((element): element is ICountedIngredient => element !== null);
-    //   }

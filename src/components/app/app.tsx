@@ -15,14 +15,14 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import ProtectedPage from '../protected-page/protected-page';
 import  { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux"
-import { setUser } from "../../services/user-slice"
-import { getIngredients, saveIngredients } from "../../services/ingredients-slice"
+import { setUser } from "../../services/reducers/user-slice"
+import { getIngredients, saveIngredients } from "../../services/reducers/ingredients-slice"
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import IngredientPage from '../../pages/ingredient/ingredient';
 import type { IIngredient, IIngredientWithUUID } from '../../utils/types';
 import type { RootState } from '../../services/index';
-import { wsConnecting, wsClose, wsError, wsMessage, wsOpen } from '../../services/websocket-slice';
+import { wsConnecting, wsClose, wsError, wsMessage, wsOpen } from '../../services/reducers/websocket-slice';
 import { socketMiddleware } from '../../services/middleware';
 import { wsConnect, wsConnectProfile, wsDisconnect } from '../../services/actions';
 

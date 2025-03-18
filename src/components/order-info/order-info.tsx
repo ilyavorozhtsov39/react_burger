@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import styles from './order-info.module.scss'
 import { useParams, useLocation } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from "../app/app"
-import { getUpdatedOrders } from '../../services/feed-slice'
+import { getUpdatedOrders } from '../../services/reducers/feed-slice'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import type { IFeedUpdatedOrder, IIngredientWithUUID, IFeedOrder, IOrdersData } from '../../utils/types'
 import { wsConnect, wsDisconnect } from '../../services/actions';
-import { getStatus, getOrders } from '../../services/websocket-slice';
+import { getStatus, getOrders } from '../../services/reducers/websocket-slice';
 import { updateOrdersData } from '../../services/helpers/feed'
-import { getIngredientsList } from '../../services/ingredients-slice'
+import { getIngredientsList } from '../../services/reducers/ingredients-slice'
 import { SOCKET_URL } from '../../utils/constants'
 
 type TData = {

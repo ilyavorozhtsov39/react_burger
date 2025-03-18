@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import styles from './feed.module.scss'
 import FeedOrder from '../../components/feed-order/feed-order';
-import type { IIngredientWithUUID, IFeedOrder, IFeedUpdatedOrder, IOrdersData } from '../../utils/types';
-import { setOrders, getUpdatedOrders, clearOrders } from '../../services/feed-slice'
+import type { IIngredientWithUUID, IFeedUpdatedOrder, IOrdersData } from '../../utils/types';
+import { setOrders, getUpdatedOrders, clearOrders } from '../../services/reducers/feed-slice'
 import { useAppDispatch, useAppSelector } from '../../components/app/app';
 import { SOCKET_URL } from '../../utils/constants';
 import { wsConnect, wsDisconnect } from '../../services/actions';
-import { getStatus, getOrders, wsClearOrders } from '../../services/websocket-slice';
+import { getStatus, getOrders, wsClearOrders } from '../../services/reducers/websocket-slice';
 import { updateOrdersData } from '../../services/helpers/feed'
 import { ISocketOrdersData } from '../../utils/types'
 

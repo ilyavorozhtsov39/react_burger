@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "./login.module.scss";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useAppDispatch } from "../../components/app/app"
-import { loginUser, setUser } from "../../services/user-slice"
+import { loginUser, setUser } from "../../services/reducers/user-slice"
 import { useNavigate, useLocation } from "react-router-dom";
 
 type RequestResult = {
