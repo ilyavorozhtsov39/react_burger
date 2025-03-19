@@ -43,5 +43,6 @@ describe('dragging and modals test', () => {
 
     cy.get('@orderButton').click()
     cy.get('[data-id="modal"]').contains('71620')
+    cy.get('[data-id="close-modal"]').click()
   })
 })
