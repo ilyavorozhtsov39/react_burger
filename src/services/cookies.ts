@@ -17,6 +17,10 @@ function setCookie(name: string, value: string, props: TSetCookieProps) {
     if (exp && exp.toUTCString) {
         props.expires = exp.toUTCString();
     }
+    if (value === "" && props.expires === -1) {
+        document.cookie = `${name}=; Max-Age=0; path=${props.path || "/"}`;
+        return;
+    }
     value = encodeURIComponent(value);
     let updatedCookie = name + "=" + value;
     for (let propName in props) {

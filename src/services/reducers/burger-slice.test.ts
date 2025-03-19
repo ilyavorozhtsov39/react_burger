@@ -6,6 +6,10 @@ jest.mock('uuid', () => ({
 }));
 
 describe('redux store and actions', () => {
+    it('check initialization', () => {
+        const state = burgerSlice.reducer(undefined, { type: '' })
+        expect(state).toEqual(initialState)
+    }),
     it('should return state with added bun', () => {
         expect(burgerSlice.reducer(initialState, {type: addIngredient.type, payload: {...ingredientMock, type: "bun"}})).toEqual({
             ...initialState, bunSelected: true, bun: {...ingredientMock, type: "bun"}

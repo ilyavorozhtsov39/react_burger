@@ -2,6 +2,10 @@ import { initialState, ingredientInfoSlice, addIngredientInfo, removeIngredientI
 import { ingredientMock } from './mocks'
 
 describe('ingredient-info-slice', () => {
+    it('check initialization', () => {
+        const state = ingredientInfoSlice.reducer(undefined, { type: '' })
+        expect(state).toEqual(initialState)
+    }),
     it('should add ingredient info to state', () => {
         expect(ingredientInfoSlice.reducer(initialState, { type: addIngredientInfo.type, payload: ingredientMock })).toEqual({
             ingredientInfo: ingredientMock, infoStored: true
