@@ -38,6 +38,7 @@ const Ingredient = ({ id, counter, dataId, name, image, price, showModal }: TIng
       style={(id === 1 || id === 2) ? {marginTop: "24px"} : {}}
       onClick={() => showModal(dataId)}
       ref={dragTargetRef}
+      data-id="drag-element"
     >
       {counter > 0 ? <Counter count={counter} size="default" extraClass={styles.counter} /> : null}
       <img src={image} alt={name} className={styles.image} />

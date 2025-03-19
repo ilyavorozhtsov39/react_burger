@@ -120,7 +120,7 @@ const BurgerConstructor = ({ data }: TBurgerConstructorProps): React.JSX.Element
 
 
   return (
-    <section className={styles.section} ref={dropTargetRef}>
+    <section className={styles.section} ref={dropTargetRef} data-id="drop-container">
       {
         modalVisible && orderInfo.success &&
         <Modal closeModal={closeModal}>

@@ -1,6 +1,6 @@
 const config = {
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',
   },

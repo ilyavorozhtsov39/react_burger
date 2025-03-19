@@ -12,7 +12,7 @@ const HeaderMenuItem = ({text, stylesModifier = {}, type, children}: THeaderMenu
     return (
         <div className={styles.item} style={stylesModifier}>
             {children}
-            <p className={type === "primary" ? styles.text : styles.textInactive}>{text}</p>
+            <p data-id="header-menu-item" className={type === "primary" ? styles.text : styles.textInactive}>{text}</p>
         </div>
     );
 }

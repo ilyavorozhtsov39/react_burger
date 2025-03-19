@@ -1,4 +1,4 @@
-import type { IIngredient, IIngredientWithUUID, IOrdersData } from "../../utils/types"
+import type { IIngredient, IIngredientWithUUID, IOrdersData, ISocketOrdersData } from "../../utils/types"
 
 export const ingredientMock: IIngredientWithUUID = {
     _id: "123",
@@ -38,4 +38,19 @@ export const ordersData: IOrdersData = {
     working: [1 ,2],
     ready: [1, 2],
     success: true
+}
+
+export const socketOrdersData = {
+    total: 12,
+    totalToday: 12,
+    success: true,
+    orders: [{
+        createdAt: '12',
+        ingredients: ['1', '2', '3'],
+        number: 1,
+        status: 'done',
+        updatedAt: '115',
+        name: 'name',
+        _id: '1'
+    }]
 }

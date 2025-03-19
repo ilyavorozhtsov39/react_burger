@@ -34,8 +34,8 @@ const Modal = ({ closeModal, children }: TModalProps): React.JSX.Element => {
     return ReactDom.createPortal(
         (
             <ModalOverlay closeModal={closeModal}>
-                <section className={styles.modal}>
-                    <button className={styles.close} onClick={handleCloseButton}>
+                <section className={styles.modal} data-id="modal">
+                    <button className={styles.close} onClick={handleCloseButton} data-id="close-modal">
                         <CloseIcon type="primary" />
                     </button>
                     {children}

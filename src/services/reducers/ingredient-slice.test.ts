@@ -6,7 +6,7 @@ jest.mock('uuid', () => ({
 }));
   
 
-describe('check ingredients in store', () => {
+describe('redux store and actions', () => {
     it('should set ingredients to store', () => {
         expect(ingredientsSlice.reducer(initialState, { type: saveIngredients.type, payload: [ingredientMock] })).toEqual({
             ingredientsList: [ingredientMock],

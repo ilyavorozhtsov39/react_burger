@@ -27,7 +27,7 @@ type TState = {
 }
 
 const sendOrderInfo = createAsyncThunk<TResponse, TData>(
-    "order/sendOrgerInfo", 
+    "order/sendOrderInfo", 
     async (data: TData) => {
         const token = await getToken()
         const result = await sendOrder(data, token as string);
@@ -35,7 +35,7 @@ const sendOrderInfo = createAsyncThunk<TResponse, TData>(
     }
 )
 
-const initialState: TState = {
+export const initialState: TState = {
     price: 0,
     idList: [],
     bunId: "",
@@ -55,6 +55,7 @@ const orderSlice = createSlice({
             state.price = action.payload
         },
         updateIdList: (state, action: PayloadAction<Array<string>>) => {
+            console.log("ORDER DATA: ", action.payload)
             state.idList = action.payload
         }
     },

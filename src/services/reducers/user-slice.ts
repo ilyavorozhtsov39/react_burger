@@ -114,7 +114,7 @@ const logoutUser = createAsyncThunk<{ success: boolean }>(
     }
 )
 
-const initialState: TState = {
+export const initialState: TState = {
     user: {
         email: "",
         name: ""
@@ -140,7 +140,7 @@ const userSlice = createSlice({
         builder.addCase(setUser.fulfilled, (state, action: PayloadAction<TGetUserResponse>) => {
             state.loaded = true
             if (action.payload.success) {
-                console.log("User found")
+                console.log("User found: ")
                 state.user = action.payload.user;
                 state.isAuth = true;
             } else {
