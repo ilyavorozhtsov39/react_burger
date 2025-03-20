@@ -1,14 +1,14 @@
 # Скрипты:
 
-`npm run start` - запукск development-режима;
+`npm run start` - запуск development-режима;
 
-`npm run build` - сборка прокекта;
+`npm run build` - сборка проекта;
 
 `npm run deploy` - деплой сборки в Github Pages;
 
 `npm run test` - запуск тестов Jest;
 
-`npm run cypress` - запуск текстов Cypress;
+`npm run cypress` - запуск тестов Cypress;
 
 # Ссылка на страницу проекта в Github Pages:
 
