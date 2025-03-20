@@ -12,7 +12,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { rootReducer } from '../../services/index';
 import { Provider } from "react-redux"
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import ProtectedPage from '../protected-page/protected-page';
 import  { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux"
 import { setUser } from "../../services/reducers/user-slice"

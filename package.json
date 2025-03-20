@@ -1,6 +1,7 @@
 {
   "name": "react-burger",
   "version": "0.1.0",
+  "homepage": "https://github.com/ilyavorozhtsov39/react_burger",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
@@ -30,6 +31,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
@@ -58,6 +61,7 @@
     "@testing-library/react": "^16.2.0",
     "cypress": "^14.2.0",
     "fetch-mock": "^12.5.2",
+    "gh-pages": "^6.3.0",
     "jest": "^27.5.1",
     "react-test-renderer": "^19.0.0",
     "redux-mock-store": "^1.5.5",
