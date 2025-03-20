@@ -35,7 +35,7 @@
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "npx jest",
     "cypress": "./node_modules/.bin/cypress open",
     "eject": "react-scripts eject"
   },
