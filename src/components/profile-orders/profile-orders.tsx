@@ -54,7 +54,9 @@ const ProfileOrders = () => {
 
     useEffect(() => {
         if (personalOrders) {
-            setOrders(personalOrders.orders)
+            let profileOrders = [ ...personalOrders.orders ];
+            const newOrder = profileOrders.reverse()
+            setOrders(newOrder)
         }
     }, [personalOrders])
 
